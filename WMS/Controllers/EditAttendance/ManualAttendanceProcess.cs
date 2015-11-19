@@ -464,7 +464,7 @@ namespace WMS.Controllers.EditAttendance
                 {
                     if (attendanceRecord.TimeOut != null && attendanceRecord.TimeIn != null)
                     {
-                        attendanceRecord.Remarks = "";
+                        attendanceRecord.Remarks = "[Manual]";
                         TimeSpan mins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
                         //Check if GZ holiday then place all WorkMin in GZOTMin
                         if (attendanceRecord.StatusGZ == true)
