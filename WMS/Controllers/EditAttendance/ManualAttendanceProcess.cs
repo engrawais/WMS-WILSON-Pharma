@@ -163,6 +163,14 @@ namespace WMS.Controllers.EditAttendance
 
         private void CalculateInEqualToOut(AttData attendanceRecord)
         {
+            attendanceRecord.Remarks.Replace("[LI]", "");
+            attendanceRecord.Remarks.Replace("[EI]", "");
+            attendanceRecord.Remarks.Replace("[EO]", "");
+            attendanceRecord.Remarks.Replace("[LO]", "");
+            attendanceRecord.Remarks.Replace("[G-OT]", "");
+            attendanceRecord.Remarks.Replace("[R-OT]", "");
+            attendanceRecord.Remarks.Replace("[N-OT]", "");
+            attendanceRecord.Remarks.Replace("[Manual]", "");
             switch (attendanceRecord.DutyCode)
             {
                 case "G":
@@ -178,7 +186,7 @@ namespace WMS.Controllers.EditAttendance
                     attendanceRecord.StatusGZOT = false;
                     attendanceRecord.TimeIn = null;
                     attendanceRecord.TimeOut = null;
-                    attendanceRecord.Remarks = "[GZ][Manual]";
+                    attendanceRecord.Remarks = attendanceRecord.Remarks+"[GZ][Manual]";
                     break;
                 case "R":
                     attendanceRecord.StatusAB = false;
@@ -194,7 +202,7 @@ namespace WMS.Controllers.EditAttendance
                     attendanceRecord.TimeIn = null;
                     attendanceRecord.TimeOut = null;
                     attendanceRecord.StatusDO = true;
-                    attendanceRecord.Remarks = "[DO][Manual]";
+                    attendanceRecord.Remarks = attendanceRecord.Remarks+"[DO][Manual]";
                     break;
                 case "D":
                     attendanceRecord.StatusAB = true;
@@ -211,7 +219,7 @@ namespace WMS.Controllers.EditAttendance
                     attendanceRecord.TimeOut = null;
                     attendanceRecord.StatusDO = false;
                     attendanceRecord.StatusP = false;
-                    attendanceRecord.Remarks = "[Absent][Manual]";
+                    attendanceRecord.Remarks = attendanceRecord.Remarks+"[Absent][Manual]";
                     break;
             }
         }
@@ -459,12 +467,21 @@ namespace WMS.Controllers.EditAttendance
         {
             try
             {
+
                 //Calculate WorkMin
                 if (attendanceRecord != null)
                 {
+                    attendanceRecord.Remarks.Replace("[LI]", "");
+                    attendanceRecord.Remarks.Replace("[EI]", "");
+                    attendanceRecord.Remarks.Replace("[EO]", "");
+                    attendanceRecord.Remarks.Replace("[LO]", "");
+                    attendanceRecord.Remarks.Replace("[G-OT]", "");
+                    attendanceRecord.Remarks.Replace("[R-OT]", "");
+                    attendanceRecord.Remarks.Replace("[N-OT]", "");
+                    attendanceRecord.Remarks.Replace("[Manual]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
                     if (attendanceRecord.TimeOut != null && attendanceRecord.TimeIn != null)
                     {
-                        attendanceRecord.Remarks = "[Manual]";
                         TimeSpan mins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
                         //Check if GZ holiday then place all WorkMin in GZOTMin
                         if (attendanceRecord.StatusGZ == true)
