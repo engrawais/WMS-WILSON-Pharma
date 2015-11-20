@@ -26,9 +26,11 @@ namespace WMS.Models
         public string Criteria { get; set; }
         public Nullable<bool> ProcessCat { get; set; }
         public Nullable<int> UserID { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Company Company { get; set; }
         public virtual Location Location { get; set; }
+        public virtual User User { get; set; }
     }
 }

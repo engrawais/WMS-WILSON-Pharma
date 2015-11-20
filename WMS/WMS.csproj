@@ -1314,6 +1314,7 @@
     <EmbeddedResource Include="Reports\RDLC\DROverTime.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRPresent.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRShortLeave.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\DSConsolidated.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\EmpAttSummary.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\EmpAttSummaryNew.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\Employee.rdlc" />

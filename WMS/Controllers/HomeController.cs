@@ -208,21 +208,21 @@ namespace WMS.Controllers
                           }
                       }
                   //}
-                  //else
-                  //{
-                  //    int LoginCount = 0;
-                  //    bool successOnConversion = int.TryParse(Session["LoginCount"] as string, out LoginCount);
-                  //    if (successOnConversion == true)
-                  //    {
-                  //        LoginCount++;
-                  //        Session["LoginCount"] = LoginCount + "";
-                  //    }
-                  //    else
-                  //    {
-                  //        Session["LoginCount"] = "1";
-                  //    }
+                  else
+                  {
+                      int LoginCount = 0;
+                      bool successOnConversion = int.TryParse(Session["LoginCount"] as string, out LoginCount);
+                      if (successOnConversion == true)
+                      {
+                          LoginCount++;
+                          Session["LoginCount"] = LoginCount + "";
+                      }
+                      else
+                      {
+                          Session["LoginCount"] = "1";
+                      }
 
-                  //}
+                  }
                   return RedirectToAction("index");
 
                 //}

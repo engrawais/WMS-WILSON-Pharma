@@ -46,6 +46,18 @@
               @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CatSortParm })
     
         </th>
+        <th>
+             Status
+    
+        </th>
+        <th>
+             Created Date
+    
+        </th>
+        <th>
+             Created By
+    
+        </th>
 @*<th style="width:90px">Edit|View|Delete</th>*@
     </tr>
 
@@ -63,10 +75,10 @@
                 </div>}
         </td>
         <td>
-			@String.Format("{0:g}", item.DateFrom)
+			@item.DateFrom.ToString("dd-MMM-yyyy")
         </td>
         <td>
-			@String.Format("{0:g}", item.DateTo)
+			@item.DateTo.ToString("dd-MMM-yyyy")
         </td>
           <td>
 			@if(item.Criteria=="L")
@@ -88,6 +100,18 @@
 			@item.Category.CatName}
             else
             {<div>All</div>}
+        </td>
+        <td>
+            @if(item.ProcessingDone==true)
+            {<div>Completed</div>}
+            else
+            {<div>In Progress</div>}
+        </td>
+         <td>
+            @item.CreatedDate.Value.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @item.User.Name
         </td>
 @* <td>
           @Html.ActionLink(" ", "Edit", new { id=item.AttProcesserSchedulerID} , new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm btn-EditViewDelete" })

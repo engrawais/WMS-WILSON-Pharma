@@ -4117,7 +4117,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Parameters!Title.Value</Value>
+                  <Value>=Parameters!Header.Value</Value>
                   <Style>
                     <FontFamily>Segoe UI</FontFamily>
                     <FontSize>12pt</FontSize>
@@ -4506,7 +4506,7 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="Title">
+    <ReportParameter Name="Header">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

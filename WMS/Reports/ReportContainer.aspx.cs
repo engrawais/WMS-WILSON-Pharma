@@ -59,15 +59,19 @@ namespace WMS.Reports
                         LoadReport(PathString, AttDeptdummy, _dateFrom + " TO " + _dateTo);
 
                         break;
-                    case "Employee_Att_Summary_New_report":
-                        AttDeptdummy = new List<TASReportDataSet.SummarizedMonthlyReportDataTable>().ToList();
+                    case "Employee_Att_Summary_New_report": DataTable dt4  = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1" + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
+                        List<ViewAttData> ListOfAttDate = new List<ViewAttData>();
+                        List<ViewAttData> TempList = new List<ViewAttData>();
                         title = "Employee Attendace Summary New";
                         if (GlobalVariables.DeploymentType == false)
                             PathString = "/Reports/RDLC/EmpAttSummaryNew.rdlc";
                         else
                             PathString = "/WMS/Reports/RDLC/EmpAttSummaryNew.rdlc";
-
-                        LoadReport(PathString, AttDeptdummy, _dateFrom + " TO " + _dateTo);
+                        ListOfAttDate = dt4.ToList<ViewAttData>();
+                        TempList = new List<ViewAttData>();
+                        
+                        LoadReport(PathString, ReportsFilterImplementation(fm, TempList, ListOfAttDate), _dateFrom + " TO " + _dateTo);
+                        
 
                         break;
                     case "department_attendance_summary": HRReportsMaker hrm = new HRReportsMaker();
@@ -164,9 +168,9 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList3, _ViewList3), _dateFrom + " TO " + _dateTo);
 
                         break;
-                    case "present": DataTable dt4 = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
+                    case "present": DataTable datatable = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
                                                      + _dateTo + "'" + " )" + " and StatusP = 1 ");
-                        List<ViewAttData> _ViewList4 = dt4.ToList<ViewAttData>();
+                        List<ViewAttData> _ViewList4 = datatable.ToList<ViewAttData>();
                         List<ViewAttData> _TempViewList4 = new List<ViewAttData>();
                         title = "Present Employee Report";
                         if (GlobalVariables.DeploymentType == false)

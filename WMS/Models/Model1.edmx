@@ -1852,6 +1852,10 @@
             <End Role="Location" EntitySet="Location" />
             <End Role="AttProcessorScheduler" EntitySet="AttProcessorScheduler" />
           </AssociationSet>
+          <AssociationSet Name="FK_AttProcessorScheduler_User" Association="TAS2013Model.Store.FK_AttProcessorScheduler_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="AttProcessorScheduler" EntitySet="AttProcessorScheduler" />
+          </AssociationSet>
           <AssociationSet Name="FK_AuditLog_User" Association="TAS2013Model.Store.FK_AuditLog_User">
             <End Role="User" EntitySet="User" />
             <End Role="AuditLog" EntitySet="AuditLog" />
@@ -2426,6 +2430,7 @@
           <Property Name="Criteria" Type="nvarchar" MaxLength="50" />
           <Property Name="ProcessCat" Type="bit" />
           <Property Name="UserID" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="AuditForm">
           <Key>
@@ -5403,6 +5408,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AttProcessorScheduler_User">
+          <End Role="User" Type="TAS2013Model.Store.User" Multiplicity="0..1" />
+          <End Role="AttProcessorScheduler" Type="TAS2013Model.Store.AttProcessorScheduler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AttProcessorScheduler">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AuditLog_User">
           <End Role="User" Type="TAS2013Model.Store.User" Multiplicity="0..1" />
           <End Role="AuditLog" Type="TAS2013Model.Store.AuditLog" Multiplicity="*" />
@@ -6265,6 +6282,10 @@
             <End Role="Location" EntitySet="Locations" />
             <End Role="AttProcessorScheduler" EntitySet="AttProcessorSchedulers" />
           </AssociationSet>
+          <AssociationSet Name="FK_AttProcessorScheduler_User" Association="TAS2013Model.FK_AttProcessorScheduler_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AttProcessorScheduler" EntitySet="AttProcessorSchedulers" />
+          </AssociationSet>
           <AssociationSet Name="FK_AuditLog_User" Association="TAS2013Model.FK_AuditLog_User">
             <End Role="User" EntitySet="Users" />
             <End Role="AuditLog" EntitySet="AuditLogs" />
@@ -6840,9 +6861,11 @@
           <Property Type="String" Name="Criteria" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="ProcessCat" />
           <Property Type="Int32" Name="UserID" />
+          <Property Type="DateTime" Name="CreatedDate" Precision="3" />
           <NavigationProperty Name="Category" Relationship="TAS2013Model.FK_AttProcessorScheduler_Category" FromRole="AttProcessorScheduler" ToRole="Category" />
           <NavigationProperty Name="Company" Relationship="TAS2013Model.FK_AttProcessorScheduler_Company" FromRole="AttProcessorScheduler" ToRole="Company" />
           <NavigationProperty Name="Location" Relationship="TAS2013Model.FK_AttProcessorScheduler_Location" FromRole="AttProcessorScheduler" ToRole="Location" />
+          <NavigationProperty Name="User" Relationship="TAS2013Model.FK_AttProcessorScheduler_User" FromRole="AttProcessorScheduler" ToRole="User" />
         </EntityType>
         <EntityType Name="AuditForm">
           <Key>
@@ -7856,6 +7879,7 @@
           <Property Type="Boolean" Name="MRoster" />
           <Property Type="Boolean" Name="MProcess" />
           <NavigationProperty Name="AttDataManEdits" Relationship="TAS2013Model.FK_AttDataManEdit_User" FromRole="User" ToRole="AttDataManEdit" />
+          <NavigationProperty Name="AttProcessorSchedulers" Relationship="TAS2013Model.FK_AttProcessorScheduler_User" FromRole="User" ToRole="AttProcessorScheduler" />
           <NavigationProperty Name="AuditLogs" Relationship="TAS2013Model.FK_AuditLog_User" FromRole="User" ToRole="AuditLog" />
           <NavigationProperty Name="LvApplications" Relationship="TAS2013Model.FK_LvApplication_User" FromRole="User" ToRole="LvApplication" />
           <NavigationProperty Name="UserRole" Relationship="TAS2013Model.FK_User_UserRole1" FromRole="User" ToRole="UserRole" />
@@ -9840,6 +9864,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AttProcessorScheduler_User">
+          <End Type="TAS2013Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="TAS2013Model.AttProcessorScheduler" Role="AttProcessorScheduler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AttProcessorScheduler">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AuditLog_User">
           <End Type="TAS2013Model.User" Role="User" Multiplicity="0..1" />
           <End Type="TAS2013Model.AuditLog" Role="AuditLog" Multiplicity="*" />
@@ -10841,6 +10877,7 @@
           <EntitySetMapping Name="AttProcessorSchedulers">
             <EntityTypeMapping TypeName="TAS2013Model.AttProcessorScheduler">
               <MappingFragment StoreEntitySet="AttProcessorScheduler">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ProcessCat" ColumnName="ProcessCat" />
                 <ScalarProperty Name="Criteria" ColumnName="Criteria" />

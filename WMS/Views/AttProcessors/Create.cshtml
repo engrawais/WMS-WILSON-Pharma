@@ -26,7 +26,7 @@
          </div>
      <div id="company">
 	<div class="form-group" >
-            <div class="control-label col-md-2">Value</div>
+            <div class="control-label col-md-2">Company</div>
             <div class="col-md-10">
               @Html.DropDownList("CompanyID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
                         @Html.ValidationMessageFor(model => model.CompanyID)
@@ -35,7 +35,7 @@
          </div>
      <div id="location">
      <div class="form-group" >
-            <div class="control-label col-md-2">Value</div>
+            <div class="control-label col-md-2">Location</div>
             <div class="col-md-10">
               @Html.DropDownList("LocationID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
                     @Html.ValidationMessageFor(model => model.Location.LocID)
