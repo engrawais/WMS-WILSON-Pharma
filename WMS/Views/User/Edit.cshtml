@@ -250,8 +250,8 @@
                     <div class="control-label col-md-6">Process</div>
                     <div class="col-md-6">
                         @Html.DropDownList("MProcess", new List<SelectListItem>
-                        { new SelectListItem { Text = "No", Value = "0", Selected=true},
-                            new SelectListItem { Text = "Yes", Value = "1"}
+                        { new SelectListItem { Text = "No", Value = "false", Selected=true},
+                            new SelectListItem { Text = "Yes", Value = "true"}
                             },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidthSmall"}) 
                     </div>
                 </div>

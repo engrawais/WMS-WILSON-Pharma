@@ -16,11 +16,11 @@
     // init function
     $scope.initFunction = function (ID) {
         //console.log(UserID);
-        $http.get('/WMS/User/UserLocationList/').success(function (res) {
+        $http.get('/User/UserLocationList/').success(function (res) {
             $scope.AllLocations = res;
             console.log(res);
         });
-        $http.get('/WMS/User/SelectedUserLocList/' + ID).success(function (res) {
+        $http.get('/User/SelectedUserLocList/' + ID).success(function (res) {
             $scope.locations = [];
             for (i = 0 ; i < res.length; i++) {
                 $scope.locations.push({ name: res[i].Text });

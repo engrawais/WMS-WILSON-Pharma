@@ -174,12 +174,10 @@ namespace WMS.Controllers
             User LoggedInUser = Session["LoggedUser"] as User;
             List<UserLocation> uloc = new List<UserLocation>();
             uloc = db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList();
-            if (uloc.Where(aa => aa.LocationID == LoggedInUser.LocationID).Count() > 0)
-            {
+            short locID = (short)emps.First().LocID;
+            if (uloc.Where(aa => aa.LocationID == locID).Count() > 0)
                 check = true;
-            }
             return check;
-
         }
         #endregion
         //
