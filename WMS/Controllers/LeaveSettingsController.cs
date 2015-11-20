@@ -176,11 +176,8 @@ namespace WMS.Controllers
             uloc = db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList();
             short empLocID = (short)emps.FirstOrDefault().LocID;
             if (uloc.Where(aa => aa.LocationID == empLocID).Count() > 0)
-            {
                 check = true;
-            }
             return check;
-
         }
         #endregion
         //

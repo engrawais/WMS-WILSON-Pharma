@@ -53,15 +53,19 @@ namespace WMS.Controllers
             {
                 List<LvConsumed> _lvConsumed = new List<LvConsumed>();
                 string empLvType = _lvapp.EmpID.ToString() + _lvapp.LvType;
-                _lvConsumed = ctx.LvConsumeds.Where(aa => aa.EmpLvType == empLvType).ToList();
-                RemainingLeaves = (decimal)_lvConsumed.FirstOrDefault().YearRemaining;
-                if ((RemainingLeaves - Convert.ToDecimal(_lvapp.NoOfDays)) >= 0)
+                if (ctx.LvTypes.Where(aa => aa.LvType1 == _lvapp.LvType).FirstOrDefault().UpdateBalance == true)
                 {
-                    balance= true;
+                    _lvConsumed = ctx.LvConsumeds.Where(aa => aa.EmpLvType == empLvType).ToList();
+                    RemainingLeaves = (decimal)_lvConsumed.FirstOrDefault().YearRemaining;
+                    if ((RemainingLeaves - Convert.ToDecimal(_lvapp.NoOfDays)) >= 0)
+                    {
+                        balance = true;
+                    }
+                    else
+                        balance = false;
                 }
                 else
-                    balance= false;
-
+                    balance = true;
             }
 
             return balance;
@@ -165,20 +169,24 @@ namespace WMS.Controllers
                 List<LvConsumed> _lvConsumed = new List<LvConsumed>();
                 string empLvType = lvappl.EmpID.ToString() + lvappl.LvType;
                 _lvConsumed = ctx.LvConsumeds.Where(aa => aa.EmpLvType == empLvType).ToList();
-                float _NoOfDays = lvappl.NoOfDays;
-                if (_lvConsumed.Count > 0)
+                if (ctx.LvTypes.Where(aa => aa.LvType1 == lvappl.LvType).FirstOrDefault().UpdateBalance == true)
                 {
-                    _lvConsumed.FirstOrDefault().YearRemaining = (float)(_lvConsumed.FirstOrDefault().YearRemaining - _NoOfDays);
-                    _lvConsumed.FirstOrDefault().GrandTotalRemaining = (float)(_lvConsumed.FirstOrDefault().GrandTotalRemaining - _NoOfDays);
-                    if (lvappl.IsHalf == true)
+                    float _NoOfDays = lvappl.NoOfDays;
+
+                    if (_lvConsumed.Count > 0)
                     {
-                        AddHalfLeaveBalancceMonthQuota(_lvConsumed, lvappl);
-                    }
-                    else
-                    {
-                        AddBalancceMonthQuota(_lvConsumed, lvappl);
-                    }
+                        _lvConsumed.FirstOrDefault().YearRemaining = (float)(_lvConsumed.FirstOrDefault().YearRemaining - _NoOfDays);
+                        _lvConsumed.FirstOrDefault().GrandTotalRemaining = (float)(_lvConsumed.FirstOrDefault().GrandTotalRemaining - _NoOfDays);
+                        if (lvappl.IsHalf == true)
+                        {
+                            AddHalfLeaveBalancceMonthQuota(_lvConsumed, lvappl);
+                        }
+                        else
+                        {
+                            AddBalancceMonthQuota(_lvConsumed, lvappl);
+                        }
                         ctx.SaveChanges();
+                    }
                 }
                 ctx.Dispose();
             }

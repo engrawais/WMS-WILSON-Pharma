@@ -186,6 +186,7 @@ namespace WMS.Controllers
                                   else
                                       Session["MGraph"] = "0";
                                   HelperClass.MyHelper.SaveAuditLog(v.UserID, (byte)MyEnums.FormName.LogIn, (byte)MyEnums.Operation.LogIn, DateTime.Now);
+
                                   return RedirectToAction("AfterLogin");
                               }
                               else
