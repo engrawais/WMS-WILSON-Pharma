@@ -2385,6 +2385,7 @@ namespace WMS.Reports
             return MYLeaveSummaryDT;
         }
         DataTable MYLeaveSummaryDT = new DataTable();
+        
         public void CreateDataTable()
         {
             MYLeaveSummaryDT.Columns.Add("EmpID", typeof(int));
@@ -2689,7 +2690,108 @@ namespace WMS.Reports
 
         #endregion
 
+        DataTable FlexyMonthlyReportDT = new DataTable();
 
+        public void CreateFlexyMonthlyDataTable()
+        {
+            FlexyMonthlyReportDT.Columns.Add("Period", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("EmpMonth", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("StartDate", typeof(DateTime));
+            FlexyMonthlyReportDT.Columns.Add("EndDate", typeof(DateTime));
+            FlexyMonthlyReportDT.Columns.Add("EmpNo", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("EmpID", typeof(int));
+            FlexyMonthlyReportDT.Columns.Add("EmpName", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("SectionName", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("DeptName", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("TypeName", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("LocName", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("ShiftName", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D21", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D22", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D23", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D24", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D25", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D26", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D27", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D28", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D29", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D30", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D31", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D1", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D2", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D3", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D4", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D5", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D6", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D7", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D8", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D9", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D10", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D11", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D12", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D13", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D14", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D15", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D16", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D17", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D18", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D19", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("D20", typeof(string));
+            FlexyMonthlyReportDT.Columns.Add("TotalDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("WorkDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("PreDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("AbDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("RestDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("GZDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("LeaveDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OfficialDutyDays", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TEarlyIn", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TEarlyOut", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TLateIn", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TLateOut", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TWorkTime", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TNOT", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("TGZOT", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("ExpectedWrkTime", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT1", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT2", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT3", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT4", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT5", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT6", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT7", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT8", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT9", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT10", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT11", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT12", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT13", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT14", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT15", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT16", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT17", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT18", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT19", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT20", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT21", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT22", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT23", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT24", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT25", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT26", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT27", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT28", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT29", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT30", typeof(Int16));
+            FlexyMonthlyReportDT.Columns.Add("OT31", typeof(Int16));
 
+        }
+
+        public void AddDataToMonthlyDataAtable(string Period,string EmpMonth,DateTime  StartDate,DateTime  EndDate,string EmpNo,int  EmpID,string EmpName,string D21,string D22,string D23,string D24,string D25,string D26,string D27,string D28,string D29,string D30,string D31,string D1,string D2,string D3,string D4,string D5,string D6,string D7,string D8,string D9,string D10,string D11,string D12,string D13,string D14,string D15,string D16,string D17,string D18,string D19,string D20,Int16 TotalDays,Int16 WorkDays,Int16 PreDays,Int16 AbDays,Int16 RestDays,Int16 GZDays,Int16 LeaveDays,Int16 OfficialDutyDays,Int16 TEarlyIn,Int16 TEarlyOut,Int16 TLateIn,Int16 TLateOut,Int16 TWorkTime,Int16 TNOT,Int16 TGZOT,Int16 ExpectedWrkTime,Int16 OT1,Int16 OT2,Int16 OT3,Int16 OT4,Int16 OT5,Int16 OT6,Int16 OT7,Int16 OT8,Int16 OT9,Int16 OT10,Int16 OT11,Int16 OT12,Int16 OT13,Int16 OT14,Int16 OT15,Int16 OT16,Int16 OT17,Int16 OT18,Int16 OT19,Int16 OT20,Int16 OT21,Int16 OT22,Int16 OT23,Int16 OT24,Int16 OT25,Int16 OT26,Int16 OT27,Int16 OT28,Int16 OT29,Int16 OT30,Int16 OT31)
+        {
+            FlexyMonthlyReportDT.Rows.Add(Period,EmpMonth,StartDate,EndDate,EmpNo,EmpID,EmpName,D21,D22,D23,D24,D25,D26,D27,D28,D29,D30,D31,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,D12,D13,D14,D15,D16,D17,D18,D19,D20,TotalDays,WorkDays,PreDays,AbDays,RestDays,GZDays,LeaveDays,OfficialDutyDays,TEarlyIn,TEarlyOut,TLateIn,TLateOut,TWorkTime,TNOT,TGZOT,ExpectedWrkTime,OT1,OT2,OT3,OT4,OT5,OT6,OT7,OT8,OT9,OT10,OT11,OT12,OT13,OT14,OT15,OT16,OT17,OT18,OT19,OT20,OT21,OT22,OT23,OT24,OT25,OT26,OT27,OT28,OT29,OT30,
+);
+
+        }
     }
 }
