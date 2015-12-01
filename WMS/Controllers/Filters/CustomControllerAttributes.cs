@@ -119,6 +119,10 @@ namespace WMS.Controllers.Filters
                         if (CheckAttEditPermision(_User))
                             HavePermission = true;
                         break;
+                    case "Roster":
+                        if (CheckRosterPermision(_User))
+                            HavePermission = true;
+                        break;
                 }
                 if (HavePermission == false)
                 {
@@ -133,6 +137,21 @@ namespace WMS.Controllers.Filters
                 filterContext.Result.ExecuteResult(filterContext.Controller.ControllerContext);
             }
             
+        }
+
+        private bool CheckRosterPermision(User _User)
+        {
+            try
+            {
+                if (_User.MRoster == true)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private bool CheckAttEditPermision(User _User)

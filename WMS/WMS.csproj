@@ -385,6 +385,7 @@
     <Content Include="Views\AttProcessors\_CreateOrEdit.cshtml" />
     <Content Include="Views\Graph\Index.cshtml" />
     <Content Include="Views\LeaveSettings\AdjustLeaves.cshtml" />
+    <Content Include="Views\Roster\RosterEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
