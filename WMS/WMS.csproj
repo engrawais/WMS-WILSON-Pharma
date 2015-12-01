@@ -216,6 +216,7 @@
     <Content Include="Scripts\angular\UserController.js" />
     <Content Include="Scripts\angular\UserEditController.js" />
     <Content Include="Scripts\bootstrap-select.js" />
+    <Content Include="Scripts\CPLLeaves\CPLLeavesJS.js" />
     <Content Include="Scripts\EditAttendance.js" />
     <Content Include="Scripts\Employee\catEmpTypeCompanyCreate.js" />
     <Content Include="Scripts\Employee\companyGradeCreate.js" />
@@ -295,6 +296,7 @@
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\a.pubxml" />
     <None Include="Properties\PublishProfiles\as.pubxml" />
+    <None Include="Properties\PublishProfiles\FatimaPublish.pubxml" />
     <None Include="Properties\PublishProfiles\FatimaWMS.pubxml" />
     <None Include="Properties\PublishProfiles\WMSFatima.pubxml" />
     <Content Include="ReportingEngine.Master" />
