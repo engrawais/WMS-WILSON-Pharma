@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WMS.Models;
 using PagedList;
+using System.Globalization;
 namespace WMS.Controllers
 {
     public class LeaveSettingsController : Controller
@@ -27,9 +28,12 @@ namespace WMS.Controllers
         [HttpPost]
         public ActionResult CreateLeaveQuota()
         {
-            int AL = Convert.ToInt32(Request.Form["ALeaves"].ToString());
-            int CL = Convert.ToInt32(Request.Form["CLeaves"].ToString());
-            int SL = Convert.ToInt32(Request.Form["SLeaves"].ToString());
+           
+            float AL = float.Parse(Request.Form["ALeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            float CL = float.Parse(Request.Form["CLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            float SL = float.Parse(Request.Form["SLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            float CPL = float.Parse(Request.Form["CPLLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+
             List<Emp> _Emp = new List<Emp>();
             List<LvType> _lvType = new List<LvType>();
             byte catID = Convert.ToByte(Request.Form["CatID"].ToString());
@@ -55,7 +59,7 @@ namespace WMS.Controllers
             if (_Emp.Count > 0)
             {
                 _lvType = db.LvTypes.Where(aa => aa.Enable == true).ToList();
-                GenerateLeaveQuotaAttributes(_Emp, _lvType, AL, CL, SL);
+                GenerateLeaveQuotaAttributes(_Emp, _lvType, AL, CL, SL, CPL);
                 ViewBag.CMessage = "Leave Balance is created";
             }
             else
@@ -111,6 +115,9 @@ namespace WMS.Controllers
                                 case "C"://SL
                                     lvModel.SL = (float)lv.YearRemaining;
                                     break;
+                                case "E"://CPL
+                                    lvModel.CPL = (float)lv.YearRemaining;
+                                    break;
                             }
                         }
                         return View("AdjustLeaves", lvModel); 
@@ -134,9 +141,12 @@ namespace WMS.Controllers
         }
         public ActionResult AdjustLeaves(FormCollection collection)
         {
-            int AL = Convert.ToInt32(Request.Form["ALeaves"].ToString());
-            int CL = Convert.ToInt32(Request.Form["CLeaves"].ToString());
-            int SL = Convert.ToInt32(Request.Form["SLeaves"].ToString());
+            
+            float AL = float.Parse(Request.Form["ALeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            float CL = float.Parse(Request.Form["CLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            float SL = float.Parse(Request.Form["SLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            float CPL = float.Parse(Request.Form["CPLLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            
             int EmpID = Convert.ToInt32(Request.Form["EmpID"].ToString());
             var lvType = db.LvConsumeds.Where(aa => aa.EmpID == EmpID).ToList();
             if (lvType.Count > 0)
@@ -156,6 +166,10 @@ namespace WMS.Controllers
                         case "C"://SL
                             lv.YearRemaining = (float)SL;
                             lv.GrandTotalRemaining = (float)SL;
+                            break;
+                        case "E"://CPL
+                            lv.YearRemaining = (float)CPL;
+                            lv.GrandTotalRemaining = (float)CPL;
                             break;
                     }
                     db.SaveChanges();
@@ -269,7 +283,7 @@ namespace WMS.Controllers
             return View("Index");
         }
 
-        public void GenerateLeaveQuotaAttributes(List<Emp> _emp, List<LvType> _lvType,int AL,int CL,int SL)
+        public void GenerateLeaveQuotaAttributes(List<Emp> _emp, List<LvType> _lvType, float AL, float CL, float SL, float CPL)
         {
             using (var ctx = new TAS2013Entities())
             {
@@ -319,6 +333,12 @@ namespace WMS.Controllers
                                     lvConsumed.YearRemaining = SL;
                                     lvConsumed.GrandTotal = SL;
                                     lvConsumed.GrandTotalRemaining = SL;
+                                    break;
+                                case "E"://CPL
+                                    lvConsumed.TotalForYear = CPL;
+                                    lvConsumed.YearRemaining = CPL;
+                                    lvConsumed.GrandTotal = CPL;
+                                    lvConsumed.GrandTotalRemaining = CPL;
                                     break;
                             }
                             ctx.LvConsumeds.Add(lvConsumed);
@@ -468,7 +488,27 @@ namespace WMS.Controllers
             return View(_leavesQuotaModel.ToPagedList(pageNumber, pageSize));
             //return View(_leavesQuotaModel);
         }
+        public ActionResult CPLList()
+        {
+            User LoggedInUser = Session["LoggedUser"] as User;
+
+            if (LoggedInUser.CompanyID == 9)
+            {
+                return Json(new { foo = "Found" }, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+                return Json(new { foo = "Not Found" }, JsonRequestBehavior.AllowGet);
+
+            }
+            
+           
+        }
     }
+
+
+
     public class LeaveQuotaModel
     {
         public int EmpID { get; set; }
@@ -478,5 +518,6 @@ namespace WMS.Controllers
         public float AL { get; set; }
         public float CL { get; set; }
         public float SL { get; set; }
+        public float CPL { get; set; }
     }
 }
