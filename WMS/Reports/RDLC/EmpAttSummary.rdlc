@@ -1983,7 +1983,7 @@
             <TablixMember>
               <Group Name="EmpName">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!EmpName.Value</GroupExpression>
+                  <GroupExpression>=Fields!EmpID.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
@@ -2031,6 +2031,7 @@
                       <PaddingBottom>2pt</PaddingBottom>
                     </Style>
                   </Textbox>
+                  <rd:Selected>true</rd:Selected>
                 </CellContents>
               </TablixHeader>
               <TablixMembers>

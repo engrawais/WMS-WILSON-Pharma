@@ -441,6 +441,7 @@
     <Compile Include="CustomClass\CriteriaFoAngular.cs" />
     <Compile Include="CustomClass\CustomFunc.cs" />
     <Compile Include="CustomClass\DatatableToList.cs" />
+    <Compile Include="CustomClass\PermanentMonthly.cs" />
     <Compile Include="CustomClass\ValueForAngular.cs" />
     <Compile Include="ErrorPages\ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
@@ -1300,6 +1301,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\RDLC\AttDepartmentSummary.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\BadliReport.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\MRFlexyDetailExcelP.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DetailedAbsent.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRAbsent.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRAttendance.rdlc" />
