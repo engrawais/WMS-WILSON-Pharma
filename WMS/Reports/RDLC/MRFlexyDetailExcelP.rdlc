@@ -5862,8 +5862,8 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox90</rd:DefaultName>
-              <Top>0.41667in</Top>
-              <Left>0.05in</Left>
+              <Top>0.075in</Top>
+              <Left>0.06875in</Left>
               <Height>0.25in</Height>
               <Width>5.47917in</Width>
               <Style>
@@ -5892,6 +5892,40 @@
                 </Border>
               </Style>
             </Image>
+            <Textbox Name="Textbox91">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!StartDate.Value, "DataSet1") + " TO "+ First(Fields!EndDate.Value, "DataSet1")</Value>
+                      <Style>
+                        <FontWeight>Bold</FontWeight>
+                        <Format>dd-MMM-yyyy</Format>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox90</rd:DefaultName>
+              <Top>0.36042in</Top>
+              <Left>0.06875in</Left>
+              <Height>0.25in</Height>
+              <Width>5.47917in</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
           </ReportItems>
           <Style>
             <Border>
