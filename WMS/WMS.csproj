@@ -40,6 +40,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=15.1.4.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.15.1.4.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
@@ -295,12 +299,9 @@
     </Content>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\a.pubxml" />
-    <None Include="Properties\PublishProfiles\as.pubxml" />
     <None Include="Properties\PublishProfiles\FatimaPublish.pubxml" />
-    <None Include="Properties\PublishProfiles\FatimaWMS.pubxml" />
     <None Include="Properties\PublishProfiles\WMSFatima.pubxml" />
     <Content Include="ReportingEngine.Master" />
-    <None Include="Properties\PublishProfiles\WMSProfile1.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
@@ -700,6 +701,10 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TASReportDataSet.cs">
+      <DependentUpon>TASReportDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\TestView.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -814,6 +819,7 @@
     <Compile Include="Models\ZTable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomClass\EmpMonthlyProductivityEntity.cs" />
     <Compile Include="Reports\Filters\SummaryReports.aspx.cs">
       <DependentUpon>SummaryReports.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1303,6 +1309,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\RDLC\AttDepartmentSummary.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\BadliReport.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\MonthlyProductivityEmployees.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\MRFlexyDetailExcelP.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DetailedAbsent.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRAbsent.rdlc" />

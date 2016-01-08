@@ -19,6 +19,7 @@ namespace WMS.CustomClass
             using (SqlCommand cmdd = Conn.CreateCommand())
             using (SqlDataAdapter sda = new SqlDataAdapter(cmdd))
             {
+                cmdd.CommandTimeout = 0;
                 cmdd.CommandText = query;
                 cmdd.CommandType = CommandType.Text;
                 Conn.Open();

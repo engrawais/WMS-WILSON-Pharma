@@ -1464,22 +1464,6 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Image Name="Image1">
-          <Source>Database</Source>
-          <Value>=First(Fields!EmpPic.Value, "DataSet2")</Value>
-          <MIMEType>image/jpeg</MIMEType>
-          <Sizing>FitProportional</Sizing>
-          <Top>0.16944in</Top>
-          <Left>7.25306in</Left>
-          <Height>0.5807in</Height>
-          <Width>1.36458in</Width>
-          <ZIndex>2</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-          </Style>
-        </Image>
       </ReportItems>
       <Style>
         <Border>

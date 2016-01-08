@@ -1063,7 +1063,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>TASReportDataSet</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\CNS\Working Projects\WMS General\WMS\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\CNS\Working Projects\Fatima Group\WMS App\WMS\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
         <rd:TableName>EmpView</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>

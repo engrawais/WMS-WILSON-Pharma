@@ -59,12 +59,6 @@
             <TablixColumn>
               <Width>0.375in</Width>
             </TablixColumn>
-            <TablixColumn>
-              <Width>0.57292in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.5625in</Width>
-            </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
@@ -332,44 +326,6 @@
                 <TablixCell />
                 <TablixCell />
                 <TablixCell />
-                <TablixCell />
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox227">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Average Entry</Value>
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox227</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                    <ColSpan>2</ColSpan>
-                  </CellContents>
-                </TablixCell>
                 <TablixCell />
               </TablixCells>
             </TablixRow>
@@ -984,78 +940,6 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox228">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>IN</Value>
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox228</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox224">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>OUT</Value>
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox224</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -1096,11 +980,9 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>20</ColSpan>
+                    <ColSpan>18</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
-                <TablixCell />
                 <TablixCell />
                 <TablixCell />
                 <TablixCell />
@@ -1809,82 +1691,6 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>LOMins2</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>White</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>White</Color>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="AvgTimeIn">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!AvgTimeIn.Value</Value>
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>AvgTimeIn</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>White</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>White</Color>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="AvgTimeOut">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!AvgTimeOut.Value</Value>
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>AvgTimeOut</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2621,92 +2427,12 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox29">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox29</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>White</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>White</Color>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox30">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Segoe UI</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox30</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>White</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>White</Color>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
               </TablixCells>
             </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
-            <TablixMember />
-            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -2763,7 +2489,6 @@
                       <PaddingBottom>2pt</PaddingBottom>
                     </Style>
                   </Textbox>
-                  <rd:Selected>true</rd:Selected>
                 </CellContents>
               </TablixHeader>
               <TablixMembers>
@@ -2875,7 +2600,7 @@
         <Top>0.04667in</Top>
         <Left>0.0375in</Left>
         <Height>1.23333in</Height>
-        <Width>10.1937in</Width>
+        <Width>9.05828in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2886,24 +2611,23 @@
     <Height>1.45708in</Height>
     <Style />
   </Body>
-  <Width>11.36662in</Width>
+  <Width>9.15828in</Width>
   <Page>
     <PageHeader>
       <Height>0.68625in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
-        <Textbox Name="Textbox323">
+        <Textbox Name="Textbox97">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Parameters!CompanyName.Value</Value>
+                  <Value>=Parameters!Header.Value</Value>
                   <Style>
-                    <FontFamily>Segoe UI</FontFamily>
-                    <FontSize>11pt</FontSize>
+                    <FontSize>12pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -2911,11 +2635,11 @@
               <Style />
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox323</rd:DefaultName>
-          <Top>0.0625in</Top>
-          <Left>0.0625in</Left>
-          <Height>0.27778in</Height>
-          <Width>3.30208in</Width>
+          <rd:DefaultName>Textbox90</rd:DefaultName>
+          <Top>0.08441in</Top>
+          <Left>0.05623in</Left>
+          <Height>0.25in</Height>
+          <Width>5.69792in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -2926,18 +2650,16 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox324">
+        <Textbox Name="Textbox98">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Parameters!Title.Value</Value>
+                  <Value>=Parameters!Date.Value</Value>
                   <Style>
-                    <FontFamily>Segoe UI</FontFamily>
-                    <FontSize>12pt</FontSize>
-                    <FontWeight>Normal</FontWeight>
+                    <FontWeight>Bold</FontWeight>
                     <Color>DimGray</Color>
                   </Style>
                 </TextRun>
@@ -2945,11 +2667,11 @@
               <Style />
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox324</rd:DefaultName>
-          <Top>0.34444in</Top>
-          <Left>0.0625in</Left>
-          <Height>0.29167in</Height>
-          <Width>4.79167in</Width>
+          <rd:DefaultName>Textbox90</rd:DefaultName>
+          <Top>0.37608in</Top>
+          <Left>0.05623in</Left>
+          <Height>0.25in</Height>
+          <Width>2.34375in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -2961,42 +2683,22 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox325">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=Parameters!Date.Value</Value>
-                  <Style>
-                    <FontFamily>segoe ui</FontFamily>
-                    <FontWeight>Bold</FontWeight>
-                    <Color>Gray</Color>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Right</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox325</rd:DefaultName>
-          <Top>0.34444in</Top>
-          <Left>7.72912in</Left>
-          <Height>0.27236in</Height>
-          <Width>2.50208in</Width>
+        <Image Name="Image1">
+          <Source>Database</Source>
+          <Value>=First(Fields!EmpPic.Value, "DataSet2")</Value>
+          <MIMEType>image/jpeg</MIMEType>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.05153in</Top>
+          <Left>7.70884in</Left>
+          <Height>0.57916in</Height>
+          <Width>1.38694in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
             </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
           </Style>
-        </Textbox>
+        </Image>
       </ReportItems>
       <Style>
         <Border>
@@ -3062,8 +2764,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox90</rd:DefaultName>
-          <Top>0.1125in</Top>
-          <Left>9.37703in</Left>
+          <Top>0.09722in</Top>
+          <Left>8.24161in</Left>
           <Height>0.25in</Height>
           <Width>0.85417in</Width>
           <ZIndex>1</ZIndex>
@@ -3115,7 +2817,7 @@
           <Top>0.05555in</Top>
           <Left>0.06875in</Left>
           <Height>0in</Height>
-          <Width>10.16245in</Width>
+          <Width>9.02703in</Width>
           <ZIndex>3</ZIndex>
           <Style>
             <Border>
@@ -3166,18 +2868,6 @@
           <DataField>SummaryDateCriteria</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Criteria">
-          <DataField>Criteria</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CriteriaValue">
-          <DataField>CriteriaValue</DataField>
-          <rd:TypeName>System.Int16</rd:TypeName>
-        </Field>
-        <Field Name="CriteriaName">
-          <DataField>CriteriaName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Date">
           <DataField>Date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -3210,6 +2900,10 @@
           <DataField>LIEmps</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
+        <Field Name="DayOffEmps">
+          <DataField>DayOffEmps</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
         <Field Name="LOEmps">
           <DataField>LOEmps</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
@@ -3228,10 +2922,6 @@
         </Field>
         <Field Name="OnTimeEmps">
           <DataField>OnTimeEmps</DataField>
-          <rd:TypeName>System.Int16</rd:TypeName>
-        </Field>
-        <Field Name="DayOffEmps">
-          <DataField>DayOffEmps</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
         <Field Name="LIMins">
@@ -3298,39 +2988,73 @@
           <DataField>ALossMins</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
-        <Field Name="AvgTimeIn">
-          <DataField>AvgTimeIn</DataField>
+        <Field Name="Criteria">
+          <DataField>Criteria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CriteriaValue">
+          <DataField>CriteriaValue</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="CriteriaName">
+          <DataField>CriteriaName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AverageTimeIn">
+          <DataField>AverageTimeIn</DataField>
           <rd:TypeName>System.TimeSpan</rd:TypeName>
         </Field>
-        <Field Name="AvgTimeOut">
-          <DataField>AvgTimeOut</DataField>
+        <Field Name="AverageTimeOut">
+          <DataField>AverageTimeOut</DataField>
           <rd:TypeName>System.TimeSpan</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>TASReportDataSet</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\inven\Development\NHA WMS\WMSNHA\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\CNS\Working Projects\Fatima Group\WMS App\WMS\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
         <rd:TableName>DailySummary</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
         <rd:TableAdapterName>DailySummaryTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
+    <DataSet Name="DataSet2">
+      <Query>
+        <DataSourceName>TASReportDataSet</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PhotoID">
+          <DataField>PhotoID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="EmpPic">
+          <DataField>EmpPic</DataField>
+          <rd:TypeName>System.Byte[]</rd:TypeName>
+        </Field>
+        <Field Name="EmpID">
+          <DataField>EmpID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>TASReportDataSet</rd:DataSetName>
+        <rd:SchemaPath>D:\Projects\CNS\Working Projects\Fatima Group\WMS App\WMS\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
+        <rd:TableName>EmpPhoto</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>EmpPhotoTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
   </DataSets>
   <ReportParameters>
-    <ReportParameter Name="CompanyName">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Title">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Date">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Header">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

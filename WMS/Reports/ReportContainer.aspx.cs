@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WMS.CustomClass;
+using WMS.HelperClass;
 using WMS.Models;
 using WMSLibrary;
 
@@ -17,6 +18,7 @@ namespace WMS.Reports
         String title = "";
         string _dateFrom = "";
         List<EmpPhoto> companyimage = new List<EmpPhoto>();
+        FiltersModel fm;
         protected void Page_Load(object sender, EventArgs e)
         {
             String reportName = Request.QueryString["reportname"];
@@ -24,7 +26,8 @@ namespace WMS.Reports
             if (!Page.IsPostBack)
             {
                 List<string> list = Session["ReportSession"] as List<string>;
-                FiltersModel fm = Session["FiltersModel"] as FiltersModel;
+                fm = new FiltersModel();
+                fm = Session["FiltersModel"] as FiltersModel;
                 CreateDataTable();
                 CreateFlexyMonthlyDataTable();
                 User LoggedInUser = HttpContext.Current.Session["LoggedUser"] as User;
@@ -37,6 +40,10 @@ namespace WMS.Reports
                 string consolidatedMonth = "";
                 switch (reportName)
                 {
+                    case "monthly_productivity":
+                        monthlyProductivityProcess(_dateFrom,_dateTo,query);
+
+                           break;
                     case "badli_report":
                         DataTable badlidt = qb.GetValuesfromDB("select * from ViewBadli where (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
                         List<ViewBadli> _BadliList = badlidt.ToList<ViewBadli>();
@@ -688,6 +695,80 @@ namespace WMS.Reports
                 }
 
             }
+        }
+
+        private void monthlyProductivityProcess(String _dateFrom,String _dateTo,String query)
+        {
+            QueryBuilder qb = new QueryBuilder();
+            string PathString = "";
+          DataTable dt4  = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1" + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
+            List<ViewAttData> ListOfAttDate = new List<ViewAttData>();
+            List<ViewAttData> TempList = new List<ViewAttData>();
+            List<ViewAttData> finalOutput = new List<ViewAttData>();
+            title = "Employee Attendace Summary New";
+            if (GlobalVariables.DeploymentType == false)
+                PathString = "/Reports/RDLC/MonthlyProductivityEmployees.rdlc";
+            else
+                PathString = "/WMS/Reports/RDLC/MonthlyProductivityEmployees.rdlc";
+            ListOfAttDate = dt4.ToList<ViewAttData>();
+            TempList = new List<ViewAttData>();
+
+          finalOutput =  ReportsFilterImplementation(fm, TempList, ListOfAttDate);
+           List<EmpMonthlyProductivityEntity> empe = new List<EmpMonthlyProductivityEntity>();
+            empe = EmpMonthlyProductivityEntity.ProcessAttendence(finalOutput, _dateFrom, _dateTo);
+            LoadReport(empe,PathString,_dateFrom,_dateTo);
+
+
+
+        }
+
+        private void LoadReport(List<EmpMonthlyProductivityEntity> empe, string PathString, string _dateFrom, string _dateTo)
+        {
+            string Header = "Monthly Productivity Sheet";
+            this.ReportViewer1.LocalReport.DisplayName = "Monthly Productivity Sheet";
+            this.ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            string Month =  Convert.ToDateTime(_dateFrom).Date.ToString("MMMM-yyyy");
+            Month = "For the Month of " + Month;
+            this.ReportViewer1.LocalReport.ReportPath = Server.MapPath(PathString);
+            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            this.ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            IEnumerable<EmpMonthlyProductivityEntity> ie;
+            ie = empe.AsQueryable();
+            IEnumerable<EmpPhoto> companyImage;
+            companyImage = companyimage.AsQueryable();
+
+            ReportDataSource datasource1 = new ReportDataSource("DataSet2", companyImage);
+            ReportDataSource datasource2 = new ReportDataSource("DataSet1", ie);
+
+            this.ReportViewer1.LocalReport.DataSources.Clear();
+           ReportViewer1.LocalReport.EnableExternalImages = true;
+          this.ReportViewer1.LocalReport.DataSources.Add(datasource1);
+           ReportViewer1.LocalReport.DataSources.Add(datasource2);
+          ReportParameter rp = new ReportParameter("Date", Month, false);
+           ReportParameter rp1 = new ReportParameter("Header", Header, false);
+           this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp1, rp });
+            this.ReportViewer1.LocalReport.Refresh();
+
+
+            //this.ReportViewer1.LocalReport.DisplayName = title;
+            //ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            //ReportViewer1.LocalReport.ReportPath = Server.MapPath(PathString);
+            //System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            //ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            //IEnumerable<DailySummary> ie;
+            //ie = list.AsQueryable();
+            //IEnumerable<EmpPhoto> companyImage;
+            //companyImage = companyimage.AsQueryable();
+            //ReportDataSource datasource1 = new ReportDataSource("DataSet1", ie);
+            //ReportDataSource datasource2 = new ReportDataSource("DataSet2", companyImage);
+            //ReportViewer1.LocalReport.DataSources.Clear();
+            //ReportViewer1.LocalReport.EnableExternalImages = true;
+            //ReportViewer1.LocalReport.DataSources.Add(datasource1);
+            //ReportViewer1.LocalReport.DataSources.Add(datasource2);
+            //ReportParameter rp = new ReportParameter("Date", p, false);
+            //ReportParameter rp1 = new ReportParameter("Header", Header, false);
+            //this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp1, rp });
+            //ReportViewer1.LocalReport.Refresh();
         }
 
         private void LoadReport(DataTable dataTable, string PathString, string p)

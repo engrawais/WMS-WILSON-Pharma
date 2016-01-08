@@ -2032,14 +2032,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="PresentEmps1">
+                    <Textbox Name="Textbox471">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!PresentEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2052,7 +2052,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>PresentEmps1</rd:DefaultName>
+                      <rd:DefaultName>Textbox471</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2064,7 +2064,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2105,14 +2104,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="AEOMins">
+                    <Textbox Name="Textbox473">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!DayOffEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2125,7 +2124,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>AEOMins</rd:DefaultName>
+                      <rd:DefaultName>Textbox473</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2177,14 +2176,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="AbsentEmps1">
+                    <Textbox Name="Textbox475">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!AbsentEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2197,7 +2196,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>AbsentEmps1</rd:DefaultName>
+                      <rd:DefaultName>Textbox475</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2249,14 +2248,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="LvEmps1">
+                    <Textbox Name="Textbox477">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LvEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2269,7 +2268,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>LvEmps1</rd:DefaultName>
+                      <rd:DefaultName>Textbox477</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2321,14 +2320,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="OTEmps">
+                    <Textbox Name="Textbox479">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!OTEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2341,7 +2340,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>OTEmps</rd:DefaultName>
+                      <rd:DefaultName>Textbox479</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2393,14 +2392,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="EIEmps">
+                    <Textbox Name="Textbox481">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!EIEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2413,7 +2412,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>EIEmps</rd:DefaultName>
+                      <rd:DefaultName>Textbox481</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2465,14 +2464,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="EOEmps">
+                    <Textbox Name="Textbox483">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!EOEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2485,7 +2484,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>EOEmps</rd:DefaultName>
+                      <rd:DefaultName>Textbox483</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2537,14 +2536,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="LIEmps">
+                    <Textbox Name="Textbox485">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LIEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2557,7 +2556,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>LIEmps</rd:DefaultName>
+                      <rd:DefaultName>Textbox485</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2609,14 +2608,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="LOEmps">
+                    <Textbox Name="Textbox487">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LOEmps.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2629,7 +2628,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>LOEmps</rd:DefaultName>
+                      <rd:DefaultName>Textbox487</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>White</Color>
@@ -2860,8 +2859,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>0.04667in</Top>
-        <Left>0.0375in</Left>
+        <Top>0.05709in</Top>
+        <Left>0.05411in</Left>
         <Height>1.26458in</Height>
         <Width>7.17713in</Width>
         <Style>
@@ -2874,24 +2873,23 @@
     <Height>1.80083in</Height>
     <Style />
   </Body>
-  <Width>7.26666in</Width>
+  <Width>7.31458in</Width>
   <Page>
     <PageHeader>
-      <Height>0.68625in</Height>
+      <Height>0.70514in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
-        <Textbox Name="Textbox323">
+        <Textbox Name="Textbox97">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Parameters!CompanyName.Value</Value>
+                  <Value>=Parameters!Header.Value</Value>
                   <Style>
-                    <FontFamily>Segoe UI</FontFamily>
-                    <FontSize>11pt</FontSize>
+                    <FontSize>12pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -2899,11 +2897,10 @@
               <Style />
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox323</rd:DefaultName>
-          <Top>0.0625in</Top>
-          <Left>0.0625in</Left>
-          <Height>0.27778in</Height>
-          <Width>3.30208in</Width>
+          <rd:DefaultName>Textbox90</rd:DefaultName>
+          <Top>0.04692in</Top>
+          <Height>0.25in</Height>
+          <Width>4.95834in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -2914,18 +2911,16 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox324">
+        <Textbox Name="Textbox98">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Parameters!Title.Value</Value>
+                  <Value>=Parameters!Date.Value</Value>
                   <Style>
-                    <FontFamily>Segoe UI</FontFamily>
-                    <FontSize>12pt</FontSize>
-                    <FontWeight>Normal</FontWeight>
+                    <FontWeight>Bold</FontWeight>
                     <Color>DimGray</Color>
                   </Style>
                 </TextRun>
@@ -2933,11 +2928,10 @@
               <Style />
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox324</rd:DefaultName>
-          <Top>0.34444in</Top>
-          <Left>0.0625in</Left>
-          <Height>0.29167in</Height>
-          <Width>4.10417in</Width>
+          <rd:DefaultName>Textbox90</rd:DefaultName>
+          <Top>0.33858in</Top>
+          <Height>0.25in</Height>
+          <Width>2.34375in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -2949,40 +2943,22 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox325">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=Parameters!Date.Value</Value>
-                  <Style>
-                    <FontFamily>segoe ui</FontFamily>
-                    <FontWeight>Bold</FontWeight>
-                    <Color>Gray</Color>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox325</rd:DefaultName>
-          <Top>0.34444in</Top>
-          <Left>4.71255in</Left>
-          <Height>0.27236in</Height>
-          <Width>2.50208in</Width>
+        <Image Name="Image1">
+          <Source>Database</Source>
+          <Value>=First(Fields!EmpPic.Value, "DataSet2")</Value>
+          <MIMEType>image/jpeg</MIMEType>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.07043in</Top>
+          <Left>5.8443in</Left>
+          <Height>0.57916in</Height>
+          <Width>1.38694in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
             </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
           </Style>
-        </Textbox>
+        </Image>
       </ReportItems>
       <Style>
         <Border>
@@ -2991,7 +2967,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.38541in</Height>
+      <Height>0.37499in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -3014,7 +2990,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox326</rd:DefaultName>
           <Top>0.04167in</Top>
-          <Left>0.0375in</Left>
+          <Left>0.08536in</Left>
           <Height>0.26042in</Height>
           <Width>2.90625in</Width>
           <Style>
@@ -3049,7 +3025,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox90</rd:DefaultName>
           <Top>0.05209in</Top>
-          <Left>6.36046in</Left>
+          <Left>6.37707in</Left>
           <Height>0.25in</Height>
           <Width>0.85417in</Width>
           <ZIndex>1</ZIndex>
@@ -3106,18 +3082,6 @@
           <DataField>SummaryDateCriteria</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Criteria">
-          <DataField>Criteria</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CriteriaValue">
-          <DataField>CriteriaValue</DataField>
-          <rd:TypeName>System.Int16</rd:TypeName>
-        </Field>
-        <Field Name="CriteriaName">
-          <DataField>CriteriaName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Date">
           <DataField>Date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -3150,6 +3114,10 @@
           <DataField>LIEmps</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
+        <Field Name="DayOffEmps">
+          <DataField>DayOffEmps</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
         <Field Name="LOEmps">
           <DataField>LOEmps</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
@@ -3168,10 +3136,6 @@
         </Field>
         <Field Name="OnTimeEmps">
           <DataField>OnTimeEmps</DataField>
-          <rd:TypeName>System.Int16</rd:TypeName>
-        </Field>
-        <Field Name="DayOffEmps">
-          <DataField>DayOffEmps</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
         <Field Name="LIMins">
@@ -3238,39 +3202,73 @@
           <DataField>ALossMins</DataField>
           <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
-        <Field Name="AvgTimeIn">
-          <DataField>AvgTimeIn</DataField>
+        <Field Name="Criteria">
+          <DataField>Criteria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CriteriaValue">
+          <DataField>CriteriaValue</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="CriteriaName">
+          <DataField>CriteriaName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AverageTimeIn">
+          <DataField>AverageTimeIn</DataField>
           <rd:TypeName>System.TimeSpan</rd:TypeName>
         </Field>
-        <Field Name="AvgTimeOut">
-          <DataField>AvgTimeOut</DataField>
+        <Field Name="AverageTimeOut">
+          <DataField>AverageTimeOut</DataField>
           <rd:TypeName>System.TimeSpan</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>TASReportDataSet</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\inven\Development\NHA WMS\WMSNHA\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\CNS\Working Projects\Fatima Group\WMS App\WMS\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
         <rd:TableName>DailySummary</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
         <rd:TableAdapterName>DailySummaryTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
+    <DataSet Name="DataSet2">
+      <Query>
+        <DataSourceName>TASReportDataSet</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PhotoID">
+          <DataField>PhotoID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="EmpPic">
+          <DataField>EmpPic</DataField>
+          <rd:TypeName>System.Byte[]</rd:TypeName>
+        </Field>
+        <Field Name="EmpID">
+          <DataField>EmpID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>TASReportDataSet</rd:DataSetName>
+        <rd:SchemaPath>D:\Projects\CNS\Working Projects\Fatima Group\WMS App\WMS\WMS\Models\TASReportDataSet.xsd</rd:SchemaPath>
+        <rd:TableName>EmpPhoto</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>EmpPhotoTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
   </DataSets>
   <ReportParameters>
-    <ReportParameter Name="CompanyName">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Title">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Date">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Header">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

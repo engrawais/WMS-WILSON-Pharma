@@ -85,6 +85,7 @@
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_1-31_consolidated">Monthly Consolidated (1st to 31th)</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_21-20_consolidated">Monthly Consolidated (21th to 20th)(Excel)</a></li>
                                          <li><a href="../ReportContainer.aspx?reportname=monthly_21-20_flexy">Monthly Flexy (21th to 20th)(Excel)</a></li>
+                                        <li><a href="../ReportContainer.aspx?reportname=monthly_productivity">Monthly Productivity</a></li>
                                     </ul>
                                 </li>
                                 <li>
