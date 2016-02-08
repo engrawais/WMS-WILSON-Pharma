@@ -106,6 +106,7 @@ namespace WMS.Controllers
             {
                 new SelectListItem { Selected = true, Text = "Company", Value = "C"},
                 new SelectListItem { Selected = false, Text = "Location", Value = "L"},
+                new SelectListItem { Selected = false, Text = "Employee", Value = "E"},
 
             }, "Value", "Text", 1);
             ViewBag.ProcessCats = new SelectList(new List<SelectListItem>
@@ -115,6 +116,7 @@ namespace WMS.Controllers
 
             }, "Value", "Text", 1);
             ViewBag.CompanyID = new SelectList(db.Companies.Where(query).OrderBy(s=>s.CompName), "CompID", "CompName");
+            ViewBag.CompanyIDForEmp = new SelectList(db.Companies.Where(query).OrderBy(s => s.CompName), "CompID", "CompName");
             query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
             ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s=>s.LocName), "LocID", "LocName");
             
@@ -136,6 +138,21 @@ namespace WMS.Controllers
                     break;
                 case "L": attprocessor.Criteria = "L"; break;
                 case "A": attprocessor.Criteria = "A"; break;
+                case "E":
+                    {
+                        attprocessor.Criteria = "E";
+                        attprocessor.ProcessCat = false;
+                        string ee = Request.Form["EmpNo"].ToString();
+                         int cc = Convert.ToInt16(Request.Form["CompanyIDForEmp"].ToString());
+                         List<Emp> empss = new List<Emp>();
+                         empss = context.Emps.Where(aa => aa.EmpNo == ee && aa.CompanyID == cc).ToList();
+                         if (empss.Count() > 0)
+                         {
+                             attprocessor.EmpID = empss.First().EmpID;
+                             attprocessor.EmpNo = empss.First().EmpNo;
+                         }
+                    }
+                    break;
             }
             int a = Convert.ToInt16(Request.Form["ProcessCats"].ToString());
             if (a == 1)
@@ -144,6 +161,7 @@ namespace WMS.Controllers
                 attprocessor.ProcessCat = false;
             attprocessor.ProcessingDone = false;
             attprocessor.WhenToProcess = DateTime.Today;
+            attprocessor.CreatedDate = DateTime.Today;
             int _userID = Convert.ToInt32(Session["LogedUserID"].ToString());
             if (ModelState.IsValid)
             {
@@ -199,7 +217,27 @@ namespace WMS.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult GetEmpInfo(string ID)
+        {
+            string[] words = ID.Split('w');
+            int companyID = Convert.ToInt16(words[1]);
+            string EmpNo = words[0];
+            List<Emp> emp = context.Emps.Where(aa => aa.CompanyID == companyID && aa.EmpNo == EmpNo).ToList();
+            if (emp.Count > 0)
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                    return Json(emp.FirstOrDefault().EmpName + "@" + emp.FirstOrDefault().Designation.DesignationName + "@" + emp.FirstOrDefault().Section.SectionName
+                           , JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                    return Json("NotFound"
+                           , JsonRequestBehavior.AllowGet);
+            }
 
+            return RedirectToAction("Index");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

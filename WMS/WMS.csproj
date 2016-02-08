@@ -222,6 +222,9 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\CPLLeaves\CPLLeavesJS.js" />
     <Content Include="Scripts\EditAttendance.js" />
+    <Content Include="Scripts\EmpInfoEditAtt.js" />
+    <Content Include="Scripts\EmpInfoLvApp.js" />
+    <Content Include="Scripts\EmpInfoLvSetting.js" />
     <Content Include="Scripts\Employee\catEmpTypeCompanyCreate.js" />
     <Content Include="Scripts\Employee\companyGradeCreate.js" />
     <Content Include="Scripts\Employee\crewCompany.js" />
@@ -363,6 +366,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.vi.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Scripts\LvSettingJS.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\ProcessAtt\CriteriaValueAttProcessor.js" />
     <Content Include="Scripts\respond.js" />
@@ -387,6 +391,11 @@
     <Content Include="Views\Graph\Index.cshtml" />
     <Content Include="Views\LeaveSettings\AdjustLeaves.cshtml" />
     <Content Include="Views\Roster\RosterEdit.cshtml" />
+    <Content Include="Views\Payroll\Create.cshtml" />
+    <Content Include="Views\Payroll\Delete.cshtml" />
+    <Content Include="Views\Payroll\Details.cshtml" />
+    <Content Include="Views\Payroll\Edit.cshtml" />
+    <Content Include="Views\Payroll\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -431,6 +440,7 @@
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LvAppController.cs" />
     <Compile Include="Controllers\LvShortController.cs" />
+    <Compile Include="Controllers\PayrollController.cs" />
     <Compile Include="Controllers\ReaderController.cs" />
     <Compile Include="Controllers\ReaderTypeController.cs" />
     <Compile Include="Controllers\RosterController.cs" />
@@ -539,6 +549,9 @@
     <Compile Include="Models\DutyTime.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmailEntryForm.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Emergency.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -546,6 +559,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmergencyDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmergencyEmail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmergencyView.cs">
@@ -638,6 +654,9 @@
     <Compile Include="Models\Option.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PayRollPrimary.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PollData.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -704,6 +723,9 @@
     <Compile Include="Models\TASReportDataSet.cs">
       <DependentUpon>TASReportDataSet.xsd</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Models\TestPollData.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TestView.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -1309,6 +1331,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\RDLC\AttDepartmentSummary.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\BadliReport.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\DRCPLLeave.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\DRLWOPLeave.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\DRPresentFather.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\MonthlyProductivityEmployees.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\MRFlexyDetailExcelP.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DetailedAbsent.rdlc" />

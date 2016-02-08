@@ -1,0 +1,190 @@
+﻿@model IEnumerable<WMS.Models.PayRollPrimary>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EarnedDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RestDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AbsentDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SickLeaveDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnualLeaveDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CasualDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OtherLeaveDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LateInMins)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverTimeMins)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnualLVEncashmentDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BadliPNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BadliCompanyID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BadliDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PreparedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PreparedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEdited)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransferedToOracle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransferedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EarnedDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AbsentDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SickLeaveDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnnualLeaveDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CasualDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OtherLeaveDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LateInMins)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverTimeMins)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnnualLVEncashmentDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BadliPNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BadliCompanyID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BadliDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PreparedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PreparedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsEdited)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransferedToOracle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransferedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EmpMonthYear }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EmpMonthYear }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EmpMonthYear })
+        </td>
+    </tr>
+}
+
+</table>

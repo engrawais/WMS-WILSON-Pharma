@@ -32,7 +32,7 @@ namespace WMS.Controllers
             float AL = float.Parse(Request.Form["ALeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
             float CL = float.Parse(Request.Form["CLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
             float SL = float.Parse(Request.Form["SLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
-            float CPL = float.Parse(Request.Form["CPLLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+            //float CPL = float.Parse(Request.Form["CPLLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
 
             List<Emp> _Emp = new List<Emp>();
             List<LvType> _lvType = new List<LvType>();
@@ -58,8 +58,8 @@ namespace WMS.Controllers
             User LoggedInUser = Session["LoggedUser"] as User;
             if (_Emp.Count > 0)
             {
-                _lvType = db.LvTypes.Where(aa => aa.Enable == true).ToList();
-                GenerateLeaveQuotaAttributes(_Emp, _lvType, AL, CL, SL, CPL);
+                _lvType = db.LvTypes.Where(aa => aa.UpdateBalance == true).ToList();
+                GenerateLeaveQuotaAttributes(_Emp, _lvType, AL, CL, SL);
                 ViewBag.CMessage = "Leave Balance is created";
             }
             else
@@ -93,7 +93,8 @@ namespace WMS.Controllers
                 if (CheckEmpValidation(emp))
                 {
                     int EmpID = emp.FirstOrDefault().EmpID;
-                    var lvType = db.LvConsumeds.Where(aa => aa.EmpID == EmpID).ToList();
+                    string year = DateTime.Today.Year.ToString();
+                    var lvType = db.LvConsumeds.Where(aa => aa.EmpID == EmpID && aa.Year == year).ToList();
                     if (lvType.Count > 0)
                     {
                         //go to next page
@@ -148,7 +149,8 @@ namespace WMS.Controllers
             float CPL = float.Parse(Request.Form["CPLLeaves"].ToString(), CultureInfo.InvariantCulture.NumberFormat);
             
             int EmpID = Convert.ToInt32(Request.Form["EmpID"].ToString());
-            var lvType = db.LvConsumeds.Where(aa => aa.EmpID == EmpID).ToList();
+            string year = DateTime.Today.Year.ToString();
+            var lvType = db.LvConsumeds.Where(aa => aa.EmpID == EmpID && aa.Year==year).ToList();
             if (lvType.Count > 0)
             {
                 foreach (var lv in lvType)
@@ -283,7 +285,7 @@ namespace WMS.Controllers
             return View("Index");
         }
 
-        public void GenerateLeaveQuotaAttributes(List<Emp> _emp, List<LvType> _lvType, float AL, float CL, float SL, float CPL)
+        public void GenerateLeaveQuotaAttributes(List<Emp> _emp, List<LvType> _lvType, float AL, float CL, float SL)
         {
             using (var ctx = new TAS2013Entities())
             {
@@ -292,13 +294,15 @@ namespace WMS.Controllers
                     List<LvConsumed> lvcon = ctx.LvConsumeds.Where(aa => aa.EmpID == emp.EmpID).ToList();
                     foreach (var lvType in _lvType)
                     {
-                        string empLvType = emp.EmpID.ToString()+lvType.LvType1;
+                        string empLvType = emp.EmpID.ToString() + lvType.LvType1 + DateTime.Today.Year.ToString();
                         List<LvConsumed> lvConsumedlvType = new List<LvConsumed>();
-                        if (lvcon.Where(aa => aa.EmpLvType == empLvType).Count() == 0)
+                        if (lvcon.Where(aa => aa.EmpLvTypeYear == empLvType).Count() == 0)
                         {
                             string empType = emp.EmpID.ToString() + lvType.LvType1;
                             LvConsumed lvConsumed = new LvConsumed();
                             lvConsumed.EmpLvType = empType;
+                            lvConsumed.EmpLvTypeYear = empType + DateTime.Today.Year.ToString();
+                            lvConsumed.Year = DateTime.Today.Year.ToString();
                             lvConsumed.EmpID = emp.EmpID;
                             lvConsumed.LeaveType = lvType.LvType1;
                             lvConsumed.JanConsumed = 0;
@@ -334,12 +338,12 @@ namespace WMS.Controllers
                                     lvConsumed.GrandTotal = SL;
                                     lvConsumed.GrandTotalRemaining = SL;
                                     break;
-                                case "E"://CPL
-                                    lvConsumed.TotalForYear = CPL;
-                                    lvConsumed.YearRemaining = CPL;
-                                    lvConsumed.GrandTotal = CPL;
-                                    lvConsumed.GrandTotalRemaining = CPL;
-                                    break;
+                                //case "E"://CPL
+                                //    lvConsumed.TotalForYear = CPL;
+                                //    lvConsumed.YearRemaining = CPL;
+                                //    lvConsumed.GrandTotal = CPL;
+                                //    lvConsumed.GrandTotalRemaining = CPL;
+                                //    break;
                             }
                             ctx.LvConsumeds.Add(lvConsumed);
                             ctx.SaveChanges();
@@ -427,24 +431,27 @@ namespace WMS.Controllers
             {
                 searchString = currentFilter;
             }
+            string year = DateTime.Today.Year.ToString();
             List<LvConsumed> LeavesQuota = new List<LvConsumed>();
-            LeavesQuota = db.LvConsumeds.ToList();
+            LeavesQuota = db.LvConsumeds.Where(aa => aa.Year == year).ToList();
             List<LeaveQuotaModel> _leavesQuotaModel = new List<LeaveQuotaModel>();
             foreach (var item in LeavesQuota)
             {
                 if (_leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).Count() > 0)
                 {
-                    switch (item.LeaveType)
                     {
-                        case "A"://casual
-                            _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().CL = (float)item.YearRemaining;
-                            break;
-                        case "B"://anual
-                            _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().AL = (float)item.YearRemaining;
-                            break;
-                        case "C"://sick
-                            _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().SL = (float)item.YearRemaining;
-                            break;
+                        switch (item.LeaveType)
+                        {
+                            case "A"://casual
+                                _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().CL = (float)item.YearRemaining;
+                                break;
+                            case "B"://anual
+                                _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().AL = (float)item.YearRemaining;
+                                break;
+                            case "C"://sick
+                                _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().SL = (float)item.YearRemaining;
+                                break;
+                        } 
                     }
                 }
                 else

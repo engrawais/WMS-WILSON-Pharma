@@ -1,0 +1,235 @@
+﻿@model WMS.Models.PayRollPrimary
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PayRollPrimary</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EarnedDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EarnedDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RestDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RestDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AbsentDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AbsentDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SickLeaveDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SickLeaveDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnnualLeaveDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualLeaveDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CasualDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CasualDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OtherLeaveDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OtherLeaveDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LateInMins)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LateInMins)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OverTimeMins)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverTimeMins)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnnualLVEncashmentDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualLVEncashmentDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BadliPNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BadliPNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BadliCompanyID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BadliCompanyID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BadliDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BadliDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreparedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreparedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreparedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreparedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsEdited)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsEdited)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransferedToOracle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransferedToOracle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransferedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransferedDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EmpMonthYear }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

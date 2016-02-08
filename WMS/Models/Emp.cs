@@ -11,7 +11,6 @@ namespace WMS.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Emp
     {
@@ -47,21 +46,11 @@ namespace WMS.Models
         public string NicNo { get; set; }
         public string FatherName { get; set; }
         public string BloodGroup { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> BirthDate { get; set; }
         public string MarStatus { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> JoinDate { get; set; }
-        [DataType(DataType.Date)]
-       [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> ValidDate { get; set; }
-        [DataType(DataType.Date)]
-         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> IssueDate { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> ResignDate { get; set; }
         public string HomeAdd { get; set; }
         public bool ProcessAtt { get; set; }
@@ -79,8 +68,6 @@ namespace WMS.Models
         public Nullable<short> CompanyID { get; set; }
         public Nullable<bool> Presence { get; set; }
         public Nullable<short> ReaderID { get; set; }
-        [DataType(DataType.Date)]
-       [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> LastEntryDateTime { get; set; }
         public Nullable<bool> IsSafe { get; set; }
         public Nullable<short> CompID { get; set; }

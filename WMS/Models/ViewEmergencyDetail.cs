@@ -44,5 +44,10 @@ namespace WMS.Models
         public Nullable<int> TotalSaved { get; set; }
         public string EmgName { get; set; }
         public Nullable<int> Expr1 { get; set; }
+        public short RdrID { get; set; }
+        public string RdrName { get; set; }
+        public Nullable<bool> isSafe { get; set; }
+        public Nullable<System.DateTime> EntryDateTime { get; set; }
+        public string CardNo { get; set; }
     }
 }

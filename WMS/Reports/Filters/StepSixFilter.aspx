@@ -59,8 +59,11 @@
                                          <li><a href="../ReportContainer.aspx?reportname=detailed_att">Detailed Attendance</a></li>
                                          <li><a href="../ReportContainer.aspx?reportname=consolidated_att">Consolidated Attendance</a></li>
                                          <li><a href="../ReportContainer.aspx?reportname=present">Present</a></li>
+                                        <li><a href="../ReportContainer.aspx?reportname=presentFather">Present (With Father's Name)</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=absent">Absent</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=lv_application">Leave Application</a></li>
+                                        <li><a href="../ReportContainer.aspx?reportname=lv_applicationCPL">Leave Application (CPL)</a></li>
+                                        <li><a href="../ReportContainer.aspx?reportname=lv_applicationLWOP">Leave Application (LWOP)</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=short_lv">Short Leave</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=late_in">Late In</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=late_out">Late Out</a></li>

@@ -42,7 +42,7 @@ namespace WMS.CustomClass
            // }
             TAS2013Entities db=  new TAS2013Entities();
             List<UserLocation> ulocs = new List<UserLocation>();
-           ulocs = db.UserLocations.Where(aa => aa.UserID == _user.UserID).ToList();
+          ulocs = db.UserLocations.Where(aa => aa.UserID == _user.UserID).ToList();
             foreach (var uloc in ulocs)
             {
                 _CriteriaForOrLoc.Add(" LocID = " + uloc.LocationID + " ");

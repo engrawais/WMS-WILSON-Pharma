@@ -53,9 +53,11 @@ namespace WMS.Models
         public DbSet<DownloadTime> DownloadTimes { get; set; }
         public DbSet<DutyCode> DutyCodes { get; set; }
         public DbSet<DutyTime> DutyTimes { get; set; }
+        public DbSet<EmailEntryForm> EmailEntryForms { get; set; }
         public DbSet<Emergency> Emergencies { get; set; }
         public DbSet<EmergencyAuto> EmergencyAutoes { get; set; }
         public DbSet<EmergencyDetail> EmergencyDetails { get; set; }
+        public DbSet<EmergencyEmail> EmergencyEmails { get; set; }
         public DbSet<Emp> Emps { get; set; }
         public DbSet<EmpAccess> EmpAccesses { get; set; }
         public DbSet<EmpFace> EmpFaces { get; set; }
@@ -79,6 +81,7 @@ namespace WMS.Models
         public DbSet<LvShort> LvShorts { get; set; }
         public DbSet<LvType> LvTypes { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<PayRollPrimary> PayRollPrimaries { get; set; }
         public DbSet<PollData> PollDatas { get; set; }
         public DbSet<PollDataError> PollDataErrors { get; set; }
         public DbSet<RdrDutyCode> RdrDutyCodes { get; set; }
@@ -108,6 +111,7 @@ namespace WMS.Models
         public DbSet<ZTable> ZTables { get; set; }
         public DbSet<EmergencyView> EmergencyViews { get; set; }
         public DbSet<EmpView> EmpViews { get; set; }
+        public DbSet<TestPollData> TestPollDatas { get; set; }
         public DbSet<TestView> TestViews { get; set; }
         public DbSet<ViewAbsent> ViewAbsents { get; set; }
         public DbSet<ViewAttData> ViewAttDatas { get; set; }

@@ -16,38 +16,39 @@ $(document).ready(function () {
     $("#Option4").show();
     $("#doubleDutyDiv").hide();
     $("#BadliDiv").hide();
+    $("#EmpDetails").hide();
     $("input[name$='cars']").click(function () {
         var test = $(this).val();
         if (test == "shift") {
             $("div.desc").hide();
-            $("#Option1").show();
+            $("#Option1").show(); $("#EmpDetails").hide();
         }
         if (test == "crew") {
             $("div.desc").hide();
-            $("#Option2").show();
+            $("#Option2").show(); $("#EmpDetails").hide();
         }
         if (test == "section") {
             $("div.desc").hide();
-            $("#Option3").show();
+            $("#Option3").show(); $("#EmpDetails").hide();
         }
         if (test == "employee") {
             $("div.desc").hide();
-            $("#Option4").show();
+            $("#Option4").show(); $("#EmpDetails").hide();
         }
         if (test == "company") {
             $("div.desc").hide();
-            $("#Option5").show();
+            $("#Option5").show(); $("#EmpDetails").hide();
         }
         if (test == "location") {
             $("div.desc").hide();
-            $("#Option6").show();
+            $("#Option6").show(); $("#EmpDetails").hide();
         }
         var test = $('#JobCardType').val();
         if (test == '8') {
-            $("#doubleDutyDiv").show();
+            $("#doubleDutyDiv").show(); $("#EmpDetails").hide();
         }
         if (test == '9') {
-            $("#BadliDiv").show();
+            $("#BadliDiv").show(); $("#EmpDetails").hide();
         }
     });
     $('#JobCardType').change(function () {

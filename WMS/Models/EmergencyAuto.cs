@@ -20,5 +20,6 @@ namespace WMS.Models
         public Nullable<System.DateTime> T3 { get; set; }
         public Nullable<System.DateTime> T4 { get; set; }
         public Nullable<bool> IsEmergency { get; set; }
+        public Nullable<bool> EmailSend { get; set; }
     }
 }

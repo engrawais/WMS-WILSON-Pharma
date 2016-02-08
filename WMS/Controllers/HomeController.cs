@@ -115,13 +115,13 @@ namespace WMS.Controllers
         {
             try
             {
-                //using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "fatima-group.com"))
-                //{
-                //  //validate the credentials
-                // //bool isValid = pc.ValidateCredentials("ffl.ithelpdesk", "fatima@0202");
-                //  bool isValid = pc.ValidateCredentials(u.UserName, u.Password);
-                //  if (isValid)
-                //  {
+                using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "fatima-group.com"))
+                {
+                  //validate the credentials
+                 //bool isValid = pc.ValidateCredentials("ffl.ithelpdesk", "fatima@0202");
+                  bool isValid = pc.ValidateCredentials(u.UserName, u.Password);
+                  if (isValid)
+                  {
                       if (ModelState.IsValid) // this is check validity
                       {
                           using (TAS2013Entities dc = new TAS2013Entities())
@@ -207,7 +207,7 @@ namespace WMS.Controllers
                               }
                           }
                       }
-                  //}
+                  }
                   else
                   {
                       int LoginCount = 0;
@@ -227,27 +227,7 @@ namespace WMS.Controllers
 
                 }
 
-
-
-
-                //using (var context = new PrincipalContext(ContextType.Domain, "fatima-group.com", "ffl.ithelpdesk@fatima-group.com", "fatima@0202"))
-                //{
-                //    using (var searcher = new PrincipalSearcher(new UserPrincipal(context)))
-                //    {
-                //        foreach (var result in searcher.FindAll())
-                //        {
-                //            DirectoryEntry de = result.GetUnderlyingObject() as DirectoryEntry;
-                //            string name = result.Name;
-                //            //label1.Text += "Name:    " + result.Name;
-                //            //label1.Text += "      account name   :    " + result.UserPrincipalName;
-                //            //label1.Text += "      Server:    " + result.Context.ConnectedServer + "\r";
-
-                //        }
-                //    }
-                //}
-                // this action is for handle post (login)
-
-            //}
+            }
             catch (Exception ex)
             {
                 ViewBag.Message = "There seems to be a problem with the network. Please contact your network administrator";

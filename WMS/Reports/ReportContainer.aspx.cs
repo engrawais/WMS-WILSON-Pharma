@@ -150,6 +150,27 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListLvApp, _ViewListLvApp), _dateFrom + " TO " + _dateTo);
 
                         break;
+                    case "lv_applicationCPL": dt1 = qb.GetValuesfromDB("select * from ViewLvApplication " + query + " and ( LvType='E' and FromDate >= '" + _dateFrom + "' and ToDate <= '" + _dateTo + "' )");
+                        _ViewListLvApp = dt1.ToList<ViewLvApplication>();
+                        _TempViewListLvApp = new List<ViewLvApplication>();
+                        title = "Leave Application Report";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/DRCPLLeave.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/DRCPLLeave.rdlc";
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListLvApp, _ViewListLvApp), _dateFrom + " TO " + _dateTo);
+                        break;
+                    case "lv_applicationLWOP": dt1 = qb.GetValuesfromDB("select * from ViewLvApplication " + query + " and ( LvType='F' and FromDate >= '" + _dateFrom + "' and ToDate <= '" + _dateTo + "' )");
+                        _ViewListLvApp = dt1.ToList<ViewLvApplication>();
+                        _TempViewListLvApp = new List<ViewLvApplication>();
+                        title = "Leave Application Report";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/DRLWOPLeave.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/DRLWOPLeave.rdlc";
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListLvApp, _ViewListLvApp), _dateFrom + " TO " + _dateTo);
+
+                        break;
                     case "detailed_att": DataTable dt2 = qb.GetValuesfromDB("select * from ViewDetailAttData " + query + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
                                                      + _dateTo + "'" + " )");
                         List<ViewDetailAttData> _ViewList2 = dt2.ToList<ViewDetailAttData>();
@@ -185,6 +206,19 @@ namespace WMS.Reports
                             PathString = "/Reports/RDLC/DRPresent.rdlc";
                         else
                             PathString = "/WMS/Reports/RDLC/DRPresent.rdlc";
+
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList4, _ViewList4), _dateFrom + " TO " + _dateTo);
+
+                        break;
+                    case "presentFather": datatable = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
+                                                     + _dateTo + "'" + " )" + " and StatusP = 1 ");
+                        _ViewList4 = datatable.ToList<ViewAttData>();
+                        _TempViewList4 = new List<ViewAttData>();
+                        title = "Present Employee Report";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/DRPresentFather.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/DRPresentFather.rdlc";
 
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList4, _ViewList4), _dateFrom + " TO " + _dateTo);
 
@@ -332,7 +366,7 @@ namespace WMS.Reports
                         //int totalMonths = monthfrom < monthTo ? monthTo : monthfrom;
                         for (int ul = monthfrom > monthTo ? monthTo : monthfrom; ul <= (monthfrom < monthTo ? monthTo : monthfrom); ul++)
                         {
-                            LoadReport(PathString, GetLV(ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), monthfrom), ul);
+                            LoadReport(PathString, GetLV(ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), monthfrom, Convert.ToDateTime(_dateFrom)), ul);
 
                         }
 
@@ -538,7 +572,7 @@ namespace WMS.Reports
                             PathString = "/Reports/RDLC/MYLeaveSummary.rdlc";
                         else
                             PathString = "/WMS/Reports/RDLC/MYLeaveSummary.rdlc";
-                        LoadReport(PathString, GYL(ReportsFilterImplementation(fm, _TempViewList1, _ViewList1)));
+                        LoadReport(PathString, GYL(ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), Convert.ToDateTime(_dateFrom)));
                         // LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListMonthlyDataPer, _ViewListMonthlyDataPer), _dateFrom);
                         break;
                         /////////////////////////////////////////////////////////////   
@@ -2428,12 +2462,13 @@ namespace WMS.Reports
         }
         #endregion
 
-        private DataTable GYL(List<EmpView> _Emp)
+        private DataTable GYL(List<EmpView> _Emp,DateTime dateTimeLv)
         {
             TAS2013Entities context = new TAS2013Entities();
             List<LvConsumed> leaveQuota = new List<LvConsumed>();
             List<LvConsumed> tempLeaveQuota = new List<LvConsumed>();
-            leaveQuota = context.LvConsumeds.ToList();
+            string year = dateTimeLv.Year.ToString();
+            leaveQuota = context.LvConsumeds.Where(aa => aa.Year == year).ToList();
             foreach (var emp in _Emp)
             {
                 int EmpID=0;
@@ -2648,7 +2683,7 @@ namespace WMS.Reports
         }
 
         #region --Leave Process--
-        private DataTable GetLV(List<EmpView> _Emp, int month)
+        private DataTable GetLV(List<EmpView> _Emp, int month,DateTime dateTimeLv)
         {
             using (var ctx = new TAS2013Entities())
             {
@@ -2664,10 +2699,13 @@ namespace WMS.Reports
                     float BeforeAL = 0, UsedAL = 0, BalAL = 0;
                     string _month = "";
                     List<LvConsumed> entries = ctx.LvConsumeds.Where(aa => aa.EmpID == emp.EmpID).ToList();
-                    LvConsumed eCL = entries.FirstOrDefault(lv => lv.LeaveType == "A");
-                    LvConsumed eSL = entries.FirstOrDefault(lv => lv.LeaveType == "C");
-                    LvConsumed eAL = entries.FirstOrDefault(lv => lv.LeaveType == "B");
-                    if (entries.Count > 0)
+                    string EmpLvC = emp.EmpID.ToString() + "A" + dateTimeLv.Year.ToString();
+                    string EmpLvS = emp.EmpID.ToString() + "C" + dateTimeLv.Year.ToString();
+                    string EmpLvA = emp.EmpID.ToString() + "B" + dateTimeLv.Year.ToString();
+                    LvConsumed eCL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvC);
+                    LvConsumed eSL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvS);
+                    LvConsumed eAL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvA);
+                    if (entries.Count > 0 && eCL!=null && eSL!=null && eAL!=null)
                     {
                         switch (month)
                         {

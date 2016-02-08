@@ -17,6 +17,8 @@ namespace WMS.Models
         public int AttProcesserSchedulerID { get; set; }
         public System.DateTime WhenToProcess { get; set; }
         public string PeriodTag { get; set; }
+        public Nullable<int> EmpID { get; set; }
+        public string EmpNo { get; set; }
         public System.DateTime DateFrom { get; set; }
         public System.DateTime DateTo { get; set; }
         public short CompanyID { get; set; }

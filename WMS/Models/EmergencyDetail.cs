@@ -19,6 +19,8 @@ namespace WMS.Models
         public Nullable<int> EmgID { get; set; }
         public Nullable<bool> SafeStatus { get; set; }
         public Nullable<short> SafeLocID { get; set; }
+        public Nullable<System.DateTime> EntryDateTime { get; set; }
+        public string CardNo { get; set; }
     
         public virtual Emergency Emergency { get; set; }
         public virtual Emp Emp { get; set; }

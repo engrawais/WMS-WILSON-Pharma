@@ -15,6 +15,8 @@ namespace WMS.Models
     public partial class LvConsumed
     {
         public string EmpLvType { get; set; }
+        public string EmpLvTypeYear { get; set; }
+        public string Year { get; set; }
         public int EmpID { get; set; }
         public string LeaveType { get; set; }
         public Nullable<short> CompanyID { get; set; }

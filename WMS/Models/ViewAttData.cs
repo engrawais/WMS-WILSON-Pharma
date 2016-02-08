@@ -83,5 +83,6 @@ namespace WMS.Models
         public Nullable<bool> StatusIN { get; set; }
         public Nullable<short> CityID { get; set; }
         public Nullable<short> GradeID { get; set; }
+        public string FatherName { get; set; }
     }
 }
