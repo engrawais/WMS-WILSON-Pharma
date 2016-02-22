@@ -314,20 +314,24 @@ namespace WMS.Controllers
                 int empID = emp.First().EmpID;
                 List<LvConsumed> lvConsumed = db.LvConsumeds.Where(aa => aa.EmpID == empID && aa.Year == year).ToList();
                 string DOB = "";
-                if (emp.FirstOrDefault().BirthDate != null)
-                    DOB = emp.FirstOrDefault().BirthDate.Value.ToString("dd-MMM-yyyy");
+                if (emp.FirstOrDefault().JoinDate != null)
+                    DOB = emp.FirstOrDefault().JoinDate.Value.ToString("dd-MMM-yyyy");
                 if (lvConsumed.Count > 0)
                 {
                     string emplvTypeCL = emp.First().EmpID.ToString() + "A";
                     string emplvTypeAL = emp.First().EmpID.ToString() + "B";
                     string emplvTypeSL = emp.First().EmpID.ToString() + "C";
+                    string emplvTypeCPL = emp.First().EmpID.ToString() + "E";
                     string CL = lvConsumed.Where(aa => aa.EmpLvType == emplvTypeCL).First().YearRemaining.ToString();
                     string AL = lvConsumed.Where(aa => aa.EmpLvType == emplvTypeAL).First().YearRemaining.ToString();
                     string SL = lvConsumed.Where(aa => aa.EmpLvType == emplvTypeSL).First().YearRemaining.ToString();
-
+                    string CPL = "0";
+                    if (lvConsumed.Where(aa => aa.EmpLvType == emplvTypeCPL).Count() > 0)
+                        if (lvConsumed.Where(aa => aa.EmpLvType == emplvTypeCPL).First().YearRemaining != null)
+                            CPL = lvConsumed.Where(aa => aa.EmpLvType == emplvTypeCPL).First().YearRemaining.ToString();
                     if (HttpContext.Request.IsAjaxRequest())
                         return Json(emp.FirstOrDefault().EmpName + "@" + emp.FirstOrDefault().Designation.DesignationName + "@" +
-                            emp.FirstOrDefault().Section.SectionName + "@" + CL + "@" + AL + "@" + SL+"@"+emp.FirstOrDefault().FatherName
+                            emp.FirstOrDefault().Section.SectionName + "@" + CL + "@" + AL + "@" + SL+"@"+CPL+"@"+emp.FirstOrDefault().FatherName
                             + "@" + DOB
                            , JsonRequestBehavior.AllowGet);
                 }

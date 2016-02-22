@@ -30,15 +30,8 @@ namespace WMS.Controllers
         {
             User LoggedInUser = Session["LoggedUser"] as User;
             List<RosterApp> rosterapps = new List<RosterApp>();
-            if (LoggedInUser.RoleID == 1)
-            {
-                rosterapps = db.RosterApps.Where(aa => aa.Status == true).ToList();
-            }
-            else
-            {
-                int _UserID = Convert.ToInt32(Session["LogedUserID"].ToString());
-                rosterapps = db.RosterApps.Where(aa => aa.Status == true && aa.UserID == _UserID).ToList();
-            }
+            int _UserID = Convert.ToInt32(Session["LogedUserID"].ToString());
+            rosterapps = db.RosterApps.Where(aa => aa.Status == true && aa.UserID == _UserID).ToList();
 
             List<RosterApplication> _RosterApplicationsList = new List<RosterApplication>();
             List<Crew> Crews = db.Crews.ToList();
@@ -182,6 +175,9 @@ namespace WMS.Controllers
         private void CreateRosterEntries(Shift _selectedShift, string criteria, int criteriaValue, DateTime startDate, int noOfDays, List<RosterAttributes> rosters, int _RotaAppID)
         {
             int _userID = Convert.ToInt32(Session["LogedUserID"].ToString());
+            DateTime endDate = startDate.AddDays(noOfDays);
+            List<RosterDetail> rd = new List<RosterDetail>();
+            rd = db.RosterDetails.Where(aa => aa.RosterDate >= startDate && aa.RosterDate <= endDate).ToList();
             foreach (var roster in rosters)
             {
                 if (isRosterValueChanged(roster, _selectedShift))
@@ -211,8 +207,11 @@ namespace WMS.Controllers
                     _RotaDetail.DutyTime = roster.DutyTime;
                     _RotaDetail.WorkMin = (short)roster.WorkMin;
                     _RotaDetail.RosterDate = roster.DutyDate;
-                    db.RosterDetails.Add(_RotaDetail);
-                    db.SaveChanges();
+                    if (rd.Where(aa => aa.CriteriaValueDate == _RotaDetail.CriteriaValueDate).Count() == 0)
+                    {
+                        db.RosterDetails.Add(_RotaDetail);
+                        db.SaveChanges();
+                    }
                 }
             }
         }

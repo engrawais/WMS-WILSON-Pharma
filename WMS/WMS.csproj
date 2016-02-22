@@ -823,6 +823,9 @@
     <Compile Include="Models\ViewOverTime.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewPayrollData.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewPollData.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -1334,6 +1337,7 @@
     <EmbeddedResource Include="Reports\RDLC\DRCPLLeave.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRLWOPLeave.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRPresentFather.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\EmpSumTime.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\MonthlyProductivityEmployees.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\MRFlexyDetailExcelP.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DetailedAbsent.rdlc" />

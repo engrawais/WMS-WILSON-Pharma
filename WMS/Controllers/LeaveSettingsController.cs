@@ -108,16 +108,20 @@ namespace WMS.Controllers
                             switch (lv.LeaveType)
                             {
                                 case "A"://CL
-                                    lvModel.CL = (float)lv.YearRemaining;
+                                    if (lv.YearRemaining != null)
+                                        lvModel.CL = (float)lv.YearRemaining;
                                     break;
                                 case "B"://AL
-                                    lvModel.AL = (float)lv.YearRemaining;
+                                    if (lv.YearRemaining != null)
+                                        lvModel.AL = (float)lv.YearRemaining;
                                     break;
                                 case "C"://SL
-                                    lvModel.SL = (float)lv.YearRemaining;
+                                    if (lv.YearRemaining != null)
+                                        lvModel.SL = (float)lv.YearRemaining;
                                     break;
                                 case "E"://CPL
-                                    lvModel.CPL = (float)lv.YearRemaining;
+                                    if(lv.YearRemaining!=null)
+                                        lvModel.CPL = (float)lv.YearRemaining;
                                     break;
                             }
                         }
@@ -150,32 +154,163 @@ namespace WMS.Controllers
             
             int EmpID = Convert.ToInt32(Request.Form["EmpID"].ToString());
             string year = DateTime.Today.Year.ToString();
-            var lvType = db.LvConsumeds.Where(aa => aa.EmpID == EmpID && aa.Year==year).ToList();
-            if (lvType.Count > 0)
+
+            string EmpLvTypeYearCL=EmpID.ToString()+"A"+year;
+            string EmpLvTypeYearAL=EmpID.ToString()+"B"+year;
+            string EmpLvTypeYearSL=EmpID.ToString()+"C"+year;
+            string EmpLvTypeYearCPL=EmpID.ToString()+"E"+year;
+
+            var lvTypeAL = db.LvConsumeds.Where(aa => aa.EmpLvTypeYear == EmpLvTypeYearAL).ToList();
+            var lvTypeCL = db.LvConsumeds.Where(aa => aa.EmpLvTypeYear == EmpLvTypeYearCL).ToList();
+            var lvTypeSL = db.LvConsumeds.Where(aa => aa.EmpLvTypeYear == EmpLvTypeYearSL).ToList();
+            var lvTypeCPL = db.LvConsumeds.Where(aa => aa.EmpLvTypeYear == EmpLvTypeYearCPL).ToList();
+            //Anual
+            if (lvTypeAL.Count > 0)
             {
-                foreach (var lv in lvType)
+                foreach (var item in lvTypeAL)
                 {
-                    switch (lv.LeaveType)
-                    {
-                        case "A"://CL
-                            lv.YearRemaining = (float)CL;
-                            lv.GrandTotalRemaining = (float)CL;
-                            break;
-                        case "B"://AL
-                            lv.YearRemaining = (float)AL;
-                            lv.GrandTotalRemaining = (float)AL;
-                            break;
-                        case "C"://SL
-                            lv.YearRemaining = (float)SL;
-                            lv.GrandTotalRemaining = (float)SL;
-                            break;
-                        case "E"://CPL
-                            lv.YearRemaining = (float)CPL;
-                            lv.GrandTotalRemaining = (float)CPL;
-                            break;
-                    }
+                    item.YearRemaining = (float)AL;
+                    item.GrandTotalRemaining = (float)AL;
                     db.SaveChanges();
                 }
+            }
+            else
+            {
+                 LvConsumed lvConsumed = new LvConsumed();
+                lvConsumed.Year = DateTime.Today.Year.ToString();
+                lvConsumed.EmpID = EmpID;
+                lvConsumed.JanConsumed = 0;
+                lvConsumed.FebConsumed = 0;
+                lvConsumed.MarchConsumed = 0;
+                lvConsumed.AprConsumed = 0;
+                lvConsumed.MayConsumed = 0;
+                lvConsumed.JuneConsumed = 0;
+                lvConsumed.JulyConsumed = 0;
+                lvConsumed.AugustConsumed = 0;
+                lvConsumed.SepConsumed = 0;
+                lvConsumed.OctConsumed = 0;
+                lvConsumed.NovConsumed = 0;
+                lvConsumed.DecConsumed = 0;
+                lvConsumed.TotalForYear = AL;
+                lvConsumed.YearRemaining = AL;
+                lvConsumed.GrandTotal = AL;
+                lvConsumed.GrandTotalRemaining = AL;
+                lvConsumed.EmpLvType = EmpID.ToString()+"B";
+                lvConsumed.EmpLvTypeYear = EmpLvTypeYearAL;
+                lvConsumed.LeaveType ="B";
+                db.LvConsumeds.Add(lvConsumed);
+                db.SaveChanges();
+            }
+            //Casual
+            if (lvTypeCL.Count > 0)
+            {
+                foreach (var item in lvTypeCL)
+                {
+                    item.YearRemaining = (float)CL;
+                    item.GrandTotalRemaining = (float)CL;
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                LvConsumed lvConsumed = new LvConsumed();
+                lvConsumed.Year = DateTime.Today.Year.ToString();
+                lvConsumed.EmpID = EmpID;
+                lvConsumed.JanConsumed = 0;
+                lvConsumed.FebConsumed = 0;
+                lvConsumed.MarchConsumed = 0;
+                lvConsumed.AprConsumed = 0;
+                lvConsumed.MayConsumed = 0;
+                lvConsumed.JuneConsumed = 0;
+                lvConsumed.JulyConsumed = 0;
+                lvConsumed.AugustConsumed = 0;
+                lvConsumed.SepConsumed = 0;
+                lvConsumed.OctConsumed = 0;
+                lvConsumed.NovConsumed = 0;
+                lvConsumed.DecConsumed = 0;
+                lvConsumed.TotalForYear = AL;
+                lvConsumed.YearRemaining = AL;
+                lvConsumed.GrandTotal = AL;
+                lvConsumed.GrandTotalRemaining = AL;
+                lvConsumed.EmpLvType = EmpID.ToString() + "A";
+                lvConsumed.EmpLvTypeYear = EmpLvTypeYearAL;
+                lvConsumed.LeaveType = "A";
+                db.LvConsumeds.Add(lvConsumed);
+                db.SaveChanges();
+            }
+            //Sick
+            if (lvTypeSL.Count > 0)
+            {
+                foreach (var item in lvTypeSL)
+                {
+                    item.YearRemaining = (float)SL;
+                    item.GrandTotalRemaining = (float)SL;
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                LvConsumed lvConsumed = new LvConsumed();
+                lvConsumed.Year = DateTime.Today.Year.ToString();
+                lvConsumed.EmpID = EmpID;
+                lvConsumed.JanConsumed = 0;
+                lvConsumed.FebConsumed = 0;
+                lvConsumed.MarchConsumed = 0;
+                lvConsumed.AprConsumed = 0;
+                lvConsumed.MayConsumed = 0;
+                lvConsumed.JuneConsumed = 0;
+                lvConsumed.JulyConsumed = 0;
+                lvConsumed.AugustConsumed = 0;
+                lvConsumed.SepConsumed = 0;
+                lvConsumed.OctConsumed = 0;
+                lvConsumed.NovConsumed = 0;
+                lvConsumed.DecConsumed = 0;
+                lvConsumed.TotalForYear = AL;
+                lvConsumed.YearRemaining = AL;
+                lvConsumed.GrandTotal = AL;
+                lvConsumed.GrandTotalRemaining = AL;
+                lvConsumed.EmpLvType = EmpID.ToString() + "C";
+                lvConsumed.EmpLvTypeYear = EmpLvTypeYearAL;
+                lvConsumed.LeaveType = "C";
+                db.LvConsumeds.Add(lvConsumed);
+                db.SaveChanges();
+            }
+            //CPL
+            if (lvTypeCPL.Count > 0)
+            {
+                foreach (var item in lvTypeCPL)
+                {
+                    item.YearRemaining = (float)CPL;
+                    item.GrandTotalRemaining = (float)CPL;
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                LvConsumed lvConsumed = new LvConsumed();
+                lvConsumed.Year = DateTime.Today.Year.ToString();
+                lvConsumed.EmpID = EmpID;
+                lvConsumed.JanConsumed = 0;
+                lvConsumed.FebConsumed = 0;
+                lvConsumed.MarchConsumed = 0;
+                lvConsumed.AprConsumed = 0;
+                lvConsumed.MayConsumed = 0;
+                lvConsumed.JuneConsumed = 0;
+                lvConsumed.JulyConsumed = 0;
+                lvConsumed.AugustConsumed = 0;
+                lvConsumed.SepConsumed = 0;
+                lvConsumed.OctConsumed = 0;
+                lvConsumed.NovConsumed = 0;
+                lvConsumed.DecConsumed = 0;
+                lvConsumed.TotalForYear = AL;
+                lvConsumed.YearRemaining = AL;
+                lvConsumed.GrandTotal = AL;
+                lvConsumed.GrandTotalRemaining = AL;
+                lvConsumed.EmpLvType = EmpID.ToString() + "E";
+                lvConsumed.EmpLvTypeYear = EmpLvTypeYearAL;
+                lvConsumed.LeaveType = "E";
+                db.LvConsumeds.Add(lvConsumed);
+                db.SaveChanges();
             }
             ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName");
             ViewBag.CompanyIDEmp = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName");

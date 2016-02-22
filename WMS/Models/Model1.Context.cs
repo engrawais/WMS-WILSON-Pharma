@@ -144,5 +144,6 @@ namespace WMS.Models
         public DbSet<ViewSection> ViewSections { get; set; }
         public DbSet<ViewSLData> ViewSLDatas { get; set; }
         public DbSet<ViewSummary> ViewSummaries { get; set; }
+        public DbSet<ViewPayrollData> ViewPayrollDatas { get; set; }
     }
 }

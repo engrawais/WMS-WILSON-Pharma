@@ -1,154 +1,66 @@
-﻿@model WMS.Models.PayRollPrimary
+﻿@model WMS.Models.ViewPayrollData
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
-<h2>Details</h2>
+<div class="col-md-12" >
+ <div class="col-md-4" style="margin-top:15px">
+    
 
 <div>
-    <h4>PayRollPrimary</h4>
+    <h3>Basic Information</h3>
 	<hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MonthYear)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MonthYear)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmpNo)
+            Emp No
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.EmpNo)
         </dd>
 
+       
         <dt>
-            @Html.DisplayNameFor(model => model.TotalDays)
+           Name
+
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TotalDays)
+            @Html.DisplayFor(model => model.EmpName)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.EarnedDays)
+           Designation
+
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EarnedDays)
+            @Html.DisplayFor(model => model.DesignationName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.RestDays)
+           Section
+
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RestDays)
+            @Html.DisplayFor(model => model.SectionName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AbsentDays)
+           Company
+
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AbsentDays)
+            @Html.DisplayFor(model => model.CompName)
         </dd>
 
+        
+        
         <dt>
-            @Html.DisplayNameFor(model => model.SickLeaveDays)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SickLeaveDays)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AnnualLeaveDays)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AnnualLeaveDays)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CasualDays)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CasualDays)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OtherLeaveDays)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OtherLeaveDays)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LateInMins)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LateInMins)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OverTimeMins)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OverTimeMins)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmpID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AnnualLVEncashmentDays)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AnnualLVEncashmentDays)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BadliPNo)
+           Badli PNo
         </dt>
 
         <dd>
@@ -156,80 +68,175 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BadliCompanyID)
+            Badli Company ID
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.BadliCompanyID)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BadliDays)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BadliDays)
-        </dd>
+        
 
         <dt>
-            @Html.DisplayNameFor(model => model.PreparedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PreparedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PreparedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PreparedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Approved)
+            Approved
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Approved)
         </dd>
 
+        
+    </dl>
+</div>
+
+ </div>
+<div class="col-md-4" style="margin-top:15px">
+    
+
+<div>
+    <h3>Attendance</h3>
+	<hr />
+    <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            Start Date
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
+            @Model.StartDate.Value.ToString("dd-MMM-yyyy")
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsEdited)
+            End Date
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsEdited)
+           @Model.EndDate.Value.ToString("dd-MMM-yyyy")
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TransferedToOracle)
+            Total Days
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TransferedToOracle)
+            @Html.DisplayFor(model => model.TotalDays)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TransferedDate)
+            Earned Days
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TransferedDate)
+            @Html.DisplayFor(model => model.EarnedDays)
         </dd>
+
+        <dt>
+            Rest Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RestDays)
+        </dd>
+
+        <dt>
+           Absent Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AbsentDays)
+        </dd>
+  
+   
+        <dt>
+            Late In Mins
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LateInMins)
+        </dd>
+
+        <dt>
+            OverTime Mins
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverTimeMins)
+        </dd>
+
+
+        <dt>
+            Badli Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BadliDays)
+        </dd>
+
 
     </dl>
 </div>
-<p>
+
+</div>
+<div class="col-md-4" style="margin-top:15px">
+
+
+<div>
+    <h3>Leaves</h3>
+	<hr />
+    <dl class="dl-horizontal">
+       
+        <dt>
+           Sick Leave Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SickLeaveDays)
+        </dd>
+
+        <dt>
+            Annual Leave Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualLeaveDays)
+        </dd>
+
+        <dt>
+           Casual Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CasualDays)
+        </dd>
+
+        <dt>
+           Other Leave Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OtherLeaveDays)
+        </dd>
+
+        
+        <dt>
+           AL Encashment Days
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualLVEncashmentDays)
+        </dd>
+
+        
+
+    </dl>
+</div>
+
+</div>
+
+</div>
+<div>
+    <p>
+        @Html.ActionLink("Approved", "Approved", new { id = Model.EmpMonthYear })|
     @Html.ActionLink("Edit", "Edit", new { id = Model.EmpMonthYear }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+</div>

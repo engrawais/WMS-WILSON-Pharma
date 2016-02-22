@@ -56,10 +56,26 @@ namespace WMS.Controllers
                 if (ctx.LvTypes.Where(aa => aa.LvType1 == _lvapp.LvType).FirstOrDefault().UpdateBalance == true)
                 {
                     _lvConsumed = ctx.LvConsumeds.Where(aa => aa.EmpLvTypeYear == empLvType).ToList();
-                    RemainingLeaves = (decimal)_lvConsumed.FirstOrDefault().YearRemaining;
-                    if ((RemainingLeaves - Convert.ToDecimal(_lvapp.NoOfDays)) >= 0)
+                    if (_lvConsumed.Count > 0)
                     {
-                        balance = true;
+                        if (_lvConsumed.FirstOrDefault().YearRemaining != null)
+                        {
+                            RemainingLeaves = (decimal)_lvConsumed.FirstOrDefault().YearRemaining;
+                            if ((RemainingLeaves - Convert.ToDecimal(_lvapp.NoOfDays)) >= 0)
+                            {
+                                balance = true;
+                            }
+                            else
+                                balance = false;
+                        }
+                        else
+                        {
+                            balance = false;
+                            _lvConsumed.FirstOrDefault().YearRemaining = 0;
+                            _lvConsumed.FirstOrDefault().TotalForYear = 0;
+                            ctx.SaveChanges();
+
+                        }
                     }
                     else
                         balance = false;

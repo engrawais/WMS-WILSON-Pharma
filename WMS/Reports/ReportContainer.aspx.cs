@@ -30,6 +30,7 @@ namespace WMS.Reports
                 fm = Session["FiltersModel"] as FiltersModel;
                 CreateDataTable();
                 CreateFlexyMonthlyDataTable();
+                CreateEmpSumTimeDatatable();
                 User LoggedInUser = HttpContext.Current.Session["LoggedUser"] as User;
                 QueryBuilder qb = new QueryBuilder();
                 string query = qb.MakeCustomizeQuery(LoggedInUser);
@@ -93,6 +94,7 @@ namespace WMS.Reports
                         LoadReport(PathString, AttDept, _dateFrom + " TO " + _dateTo);
 
                         break;
+                    #region --- Employee Record ---
                     case "emp_record": DataTable dt = qb.GetValuesfromDB("select * from EmpView " + query + " and Status=1 ");
                         List<EmpView> _ViewList = dt.ToList<EmpView>();
                         List<EmpView> _TempViewList = new List<EmpView>();
@@ -139,6 +141,9 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), _dateFrom + " TO " + _dateTo);
 
                         break;
+                    #endregion
+
+                    #region -- Daily Report --
                     case "leave_application": dt1 = qb.GetValuesfromDB("select * from ViewLvApplication " + query + " and (FromDate >= '" + _dateFrom + "' and ToDate <= '" + _dateTo + "' )");
                         List<ViewLvApplication> _ViewListLvApp = dt1.ToList<ViewLvApplication>();
                         List<ViewLvApplication> _TempViewListLvApp = new List<ViewLvApplication>();
@@ -351,8 +356,9 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList9, _ViewList9), _dateFrom + " TO " + _dateTo);
 
                         break;
+                    #endregion
 
-
+                    #region -- Monthly Report --
                     case "monthly_leave_sheet": string _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
                         dt = qb.GetValuesfromDB("select * from EmpView " + query + " and Status=1 ");
                         _ViewList1 = dt.ToList<EmpView>();
@@ -539,6 +545,9 @@ namespace WMS.Reports
                             PathString = "/WMS/Reports/RDLC/MRFlexyDetailExcelP.rdlc";
                         LoadReport(LoadPermanentMonthlyDT(ReportsFilterImplementation(fm, _TempViewList, _ViewList), Convert.ToDateTime(_dateFrom), Convert.ToDateTime(_dateTo)), PathString, _dateFrom + " TO " + _dateTo);
                         break;
+                    #endregion
+
+                    #region -- Detailed Report --
                     case "emp_att": dt = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1" + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
                         title = "Employee Attendance";
                         _ViewList8 = dt.ToList<ViewAttData>();
@@ -550,7 +559,19 @@ namespace WMS.Reports
                             PathString = "/WMS/Reports/RDLC/EmpAttSummary.rdlc";
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList8, _ViewList8), _dateFrom + " TO " + _dateTo);
                         break;
-
+                    case "emp_attTime": dt = qb.GetValuesfromDB("select * from EmpView " + query + " and Status=1 ");
+                        title = "Employee Attendance";
+                        dt1 = qb.GetValuesfromDB("select * from ViewDetailAttData " + query + " and Status=1 and CompanyID=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
+                        _ViewList2 = dt1.ToList<ViewDetailAttData>();
+                         _ViewList = dt.ToList<EmpView>();
+                        _TempViewList = new List<EmpView>();
+                        //Change the Paths
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/EmpSumTime.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/EmpSumTime.rdlc";
+                        LoadReports(PathString,AddEmpSumTime(_ViewList2, ReportsFilterImplementation(fm, _TempViewList, _ViewList)), Convert.ToDateTime(_dateFrom), Convert.ToDateTime(_dateTo));
+                        break;
                     case "emp_absent":
                         _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
                         dt = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1" + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )" + " and StatusAB = 1 ");
@@ -575,7 +596,10 @@ namespace WMS.Reports
                         LoadReport(PathString, GYL(ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), Convert.ToDateTime(_dateFrom)));
                         // LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListMonthlyDataPer, _ViewListMonthlyDataPer), _dateFrom);
                         break;
-                        /////////////////////////////////////////////////////////////   
+                    #endregion
+
+                    #region ----Summary Report----
+                    /////////////////////////////////////////////////////////////   
                         /////////////////Summary Reports////////////////////////////
                         ///////////////////////////////////////////////////////////
                     case "company_consolidated":
@@ -726,11 +750,29 @@ namespace WMS.Reports
                             PathString = "/WMS/Reports/RDLC/DSWorkSummary.rdlc";
                         LoadReport(PathString, ReportsFilterImplementation(fm, _dateFrom, _dateTo, "E"), _dateFrom + " TO " + _dateTo, "Section Work Times Summary");
                         break;
+                    #endregion
                 }
 
             }
         }
-
+        private void LoadReports(string path, DataTable _Summary,DateTime? dtFrom,DateTime? dtTo)
+        {
+            string _Header = "Employee Attendance Summary";
+            this.ReportViewer1.LocalReport.DisplayName = "Employee Attendance Summary";
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            ReportViewer1.LocalReport.ReportPath = Server.MapPath(path);
+            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            ReportDataSource datasource1 = new ReportDataSource("DataSet1", _Summary);
+            ReportViewer1.LocalReport.DataSources.Clear();
+            ReportViewer1.LocalReport.EnableExternalImages = true;
+            ReportViewer1.LocalReport.DataSources.Add(datasource1);
+            ReportParameter rp = new ReportParameter("Header", _Header, false);
+            ReportParameter rp1 = new ReportParameter("Date", dtFrom.Value.ToString("dd-MMM-yyyy") + " TO" + dtTo.Value.ToString("dd-MMM-yyyy"), false);
+            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp,rp1});
+            ReportViewer1.LocalReport.Refresh();
+        }
+        #region -- AttSummaryReport--
         private void monthlyProductivityProcess(String _dateFrom,String _dateTo,String query)
         {
             QueryBuilder qb = new QueryBuilder();
@@ -756,12 +798,38 @@ namespace WMS.Reports
 
         }
 
+        private DataTable LoadPermanentMonthlyDT(List<EmpView> list, DateTime datefrom, DateTime dateto)
+        {
+            TAS2013Entities db = new TAS2013Entities();
+            List<AttData> attData = new List<AttData>();
+            List<AttData> _EmpAttData = new List<AttData>();
+            foreach (EmpView emp in list)
+            {
+                try
+                {
+                    attData = db.AttDatas.Where(aa => aa.EmpID == emp.EmpID && aa.AttDate >= datefrom && aa.AttDate <= dateto).ToList();
+                    PermanentMonthly cmp = new PermanentMonthly();
+                    _EmpAttData = attData.Where(aa => aa.EmpID == emp.EmpID).ToList();
+                    AttMnDataPer attMn = new AttMnDataPer();
+                    attMn = cmp.processPermanentMonthlyAttSingle((DateTime)datefrom, (DateTime)dateto, emp, _EmpAttData);
+                    AddDataToMonthlyDataAtable(attMn.Period.ToString(), attMn.EmpMonth.ToString(), (DateTime)attMn.StartDate, (DateTime)attMn.EndDate, attMn.EmpNo, (int)attMn.EmpID, attMn.EmpName, emp.SectionName, emp.DeptName, emp.TypeName, emp.LocName, emp.ShiftName, attMn.D21, attMn.D22, attMn.D23, attMn.D24, attMn.D25, attMn.D26, attMn.D27, attMn.D28, attMn.D29, attMn.D30, attMn.D31, attMn.D1, attMn.D2, attMn.D3, attMn.D4, attMn.D5, attMn.D6, attMn.D7, attMn.D8, attMn.D9, attMn.D10, attMn.D11, attMn.D12, attMn.D13, attMn.D14, attMn.D15, attMn.D16, attMn.D17, attMn.D18, attMn.D19, attMn.D20, (short)attMn.TotalDays, (short)attMn.WorkDays, (short)attMn.PreDays, (short)attMn.AbDays, (short)attMn.RestDays, (short)attMn.GZDays, (short)attMn.LeaveDays, (short)attMn.OfficialDutyDays, (short)attMn.TEarlyIn, (short)attMn.TEarlyOut, (short)attMn.TLateIn, (short)attMn.TLateOut, (short)attMn.TWorkTime, (short)attMn.TNOT, (short)attMn.TGZOT, (short)attMn.ExpectedWrkTime, (short)attMn.OT1, (short)attMn.OT2, (short)attMn.OT3, (short)attMn.OT4, (short)attMn.OT5, (short)attMn.OT6, (short)attMn.OT7, (short)attMn.OT8, (short)attMn.OT9, (short)attMn.OT10, (short)attMn.OT11, (short)attMn.OT12, (short)attMn.OT13, (short)attMn.OT14, (short)attMn.OT15, (short)attMn.OT16, (short)attMn.OT17, (short)attMn.OT18, (short)attMn.OT19, (short)attMn.OT20, (short)attMn.OT21, (short)attMn.OT22, (short)attMn.OT23, (short)attMn.OT24, (short)attMn.OT25, (short)attMn.OT26, (short)attMn.OT27, (short)attMn.OT28, (short)attMn.OT29, (short)attMn.OT30, (short)attMn.OT31);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return FlexyMonthlyReportDT;
+        }
+        #endregion
+
+        #region -- Load Report --
         private void LoadReport(List<EmpMonthlyProductivityEntity> empe, string PathString, string _dateFrom, string _dateTo)
         {
             string Header = "Monthly Productivity Sheet";
             this.ReportViewer1.LocalReport.DisplayName = "Monthly Productivity Sheet";
             this.ReportViewer1.ProcessingMode = ProcessingMode.Local;
-            string Month =  Convert.ToDateTime(_dateFrom).Date.ToString("MMMM-yyyy");
+            string Month = Convert.ToDateTime(_dateFrom).Date.ToString("MMMM-yyyy");
             Month = "For the Month of " + Month;
             this.ReportViewer1.LocalReport.ReportPath = Server.MapPath(PathString);
             System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
@@ -775,12 +843,12 @@ namespace WMS.Reports
             ReportDataSource datasource2 = new ReportDataSource("DataSet1", ie);
 
             this.ReportViewer1.LocalReport.DataSources.Clear();
-           ReportViewer1.LocalReport.EnableExternalImages = true;
-          this.ReportViewer1.LocalReport.DataSources.Add(datasource1);
-           ReportViewer1.LocalReport.DataSources.Add(datasource2);
-          ReportParameter rp = new ReportParameter("Date", Month, false);
-           ReportParameter rp1 = new ReportParameter("Header", Header, false);
-           this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp1, rp });
+            ReportViewer1.LocalReport.EnableExternalImages = true;
+            this.ReportViewer1.LocalReport.DataSources.Add(datasource1);
+            ReportViewer1.LocalReport.DataSources.Add(datasource2);
+            ReportParameter rp = new ReportParameter("Date", Month, false);
+            ReportParameter rp1 = new ReportParameter("Header", Header, false);
+            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp1, rp });
             this.ReportViewer1.LocalReport.Refresh();
 
 
@@ -831,33 +899,6 @@ namespace WMS.Reports
             this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp, rp1 });
             ReportViewer1.LocalReport.Refresh();
         }
-
-        private DataTable LoadPermanentMonthlyDT(List<EmpView> list, DateTime datefrom, DateTime dateto)
-        {
-            TAS2013Entities db = new TAS2013Entities();
-            List<AttData> attData = new List<AttData>();
-            List<AttData> _EmpAttData = new List<AttData>();
-            foreach (EmpView emp in list)
-            {
-                try
-                {
-                    attData = db.AttDatas.Where(aa => aa.EmpID == emp.EmpID && aa.AttDate >= datefrom && aa.AttDate <= dateto).ToList();
-                    PermanentMonthly cmp = new PermanentMonthly();
-                    _EmpAttData = attData.Where(aa => aa.EmpID == emp.EmpID).ToList();
-                    AttMnDataPer attMn = new AttMnDataPer();
-                    attMn = cmp.processPermanentMonthlyAttSingle((DateTime)datefrom, (DateTime)dateto, emp, _EmpAttData);
-                    AddDataToMonthlyDataAtable(attMn.Period.ToString(), attMn.EmpMonth.ToString(), (DateTime)attMn.StartDate, (DateTime)attMn.EndDate, attMn.EmpNo, (int)attMn.EmpID, attMn.EmpName, emp.SectionName, emp.DeptName, emp.TypeName, emp.LocName, emp.ShiftName, attMn.D21, attMn.D22, attMn.D23, attMn.D24, attMn.D25, attMn.D26, attMn.D27, attMn.D28, attMn.D29, attMn.D30, attMn.D31, attMn.D1, attMn.D2, attMn.D3, attMn.D4, attMn.D5, attMn.D6, attMn.D7, attMn.D8, attMn.D9, attMn.D10, attMn.D11, attMn.D12, attMn.D13, attMn.D14, attMn.D15, attMn.D16, attMn.D17, attMn.D18, attMn.D19, attMn.D20, (short)attMn.TotalDays, (short)attMn.WorkDays, (short)attMn.PreDays, (short)attMn.AbDays, (short)attMn.RestDays, (short)attMn.GZDays, (short)attMn.LeaveDays, (short)attMn.OfficialDutyDays, (short)attMn.TEarlyIn, (short)attMn.TEarlyOut, (short)attMn.TLateIn, (short)attMn.TLateOut, (short)attMn.TWorkTime, (short)attMn.TNOT, (short)attMn.TGZOT, (short)attMn.ExpectedWrkTime, (short)attMn.OT1, (short)attMn.OT2, (short)attMn.OT3, (short)attMn.OT4, (short)attMn.OT5, (short)attMn.OT6, (short)attMn.OT7, (short)attMn.OT8, (short)attMn.OT9, (short)attMn.OT10, (short)attMn.OT11, (short)attMn.OT12, (short)attMn.OT13, (short)attMn.OT14, (short)attMn.OT15, (short)attMn.OT16, (short)attMn.OT17, (short)attMn.OT18, (short)attMn.OT19, (short)attMn.OT20, (short)attMn.OT21, (short)attMn.OT22, (short)attMn.OT23, (short)attMn.OT24, (short)attMn.OT25, (short)attMn.OT26, (short)attMn.OT27, (short)attMn.OT28, (short)attMn.OT29, (short)attMn.OT30, (short)attMn.OT31);
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-            return FlexyMonthlyReportDT;
-        }
-
-
-        #region -- Load Report --
         private void LoadReport(string PathString, List<DailySummary> list, string p,string Header)
         {
             this.ReportViewer1.LocalReport.DisplayName = title;
@@ -2650,12 +2691,16 @@ namespace WMS.Reports
             LvSummaryMonth.Columns.Add("TotalCL", typeof(float));
             LvSummaryMonth.Columns.Add("TotalSL", typeof(float));
             LvSummaryMonth.Columns.Add("TotalAL", typeof(float));
+            LvSummaryMonth.Columns.Add("TotalCPL", typeof(float));
             LvSummaryMonth.Columns.Add("ConsumedCL", typeof(float));
             LvSummaryMonth.Columns.Add("ConsumedSL", typeof(float));
             LvSummaryMonth.Columns.Add("ConsumedAL", typeof(float));
+            LvSummaryMonth.Columns.Add("ConsumedCPL", typeof(float));
+            LvSummaryMonth.Columns.Add("ConsumedLWOP", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceCL", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceSL", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceAL", typeof(float));
+            LvSummaryMonth.Columns.Add("BalanceCPL", typeof(float));
             LvSummaryMonth.Columns.Add("Remarks", typeof(string));
             LvSummaryMonth.Columns.Add("Month", typeof(string));
         }
@@ -2690,21 +2735,26 @@ namespace WMS.Reports
 
                 List<LvConsumed> _lvConsumed = new List<LvConsumed>();
                 LvConsumed _lvTemp = new LvConsumed();
-                _lvConsumed = ctx.LvConsumeds.ToList();
+                string year = dateTimeLv.Year.ToString();
+                _lvConsumed = ctx.LvConsumeds.Where(aa=>aa.Year==year).ToList();
                 List<LvType> _lvTypes = ctx.LvTypes.ToList();
+                //List<LvData> lvData = ctx.LvDatas.Where(aa=>aa.AttDate>=)
                 foreach (var emp in _Emp)
                 {
                     float BeforeCL = 0, UsedCL = 0, BalCL = 0;
                     float BeforeSL = 0, UsedSL = 0, BalSL = 0;
                     float BeforeAL = 0, UsedAL = 0, BalAL = 0;
                     string _month = "";
-                    List<LvConsumed> entries = ctx.LvConsumeds.Where(aa => aa.EmpID == emp.EmpID).ToList();
+                    List<LvConsumed> entries = _lvConsumed.Where(aa => aa.EmpID == emp.EmpID).ToList();
                     string EmpLvC = emp.EmpID.ToString() + "A" + dateTimeLv.Year.ToString();
                     string EmpLvS = emp.EmpID.ToString() + "C" + dateTimeLv.Year.ToString();
                     string EmpLvA = emp.EmpID.ToString() + "B" + dateTimeLv.Year.ToString();
+                    string EmpLvE = emp.EmpID.ToString() + "E" + dateTimeLv.Year.ToString();
+                    //string EmpLvA = emp.EmpID.ToString() + "B" + dateTimeLv.Year.ToString();
                     LvConsumed eCL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvC);
                     LvConsumed eSL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvS);
                     LvConsumed eAL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvA);
+                    LvConsumed eCPL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvE);
                     if (entries.Count > 0 && eCL!=null && eSL!=null && eAL!=null)
                     {
                         switch (month)
@@ -2848,7 +2898,7 @@ namespace WMS.Reports
                         BalCL = (float)(BeforeCL - UsedCL);
                         BalSL = (float)(BeforeSL - UsedSL);
                         BalAL = (float)(BeforeAL - UsedAL);
-                        AddDataToDT(emp.EmpNo, emp.EmpName, emp.DesignationName, emp.SectionName, emp.DeptName, emp.TypeName, emp.CatName, emp.LocName, BeforeCL, BeforeSL, BeforeAL, UsedCL, UsedSL, UsedAL, BalCL, BalSL, BalAL, _month);
+                        //AddDataToDT(emp.EmpNo, emp.EmpName, emp.DesignationName, emp.SectionName, emp.DeptName, emp.TypeName, emp.CatName, emp.LocName, BeforeCL, BeforeSL, BeforeAL, UsedCL, UsedSL, UsedAL, BalCL, BalSL, BalAL, _month);
                     }
 
                 }
@@ -2857,13 +2907,13 @@ namespace WMS.Reports
         }
         public void AddDataToDT(string EmpNo, string EmpName, string Designation, string Section,
                                  string Department, string EmpType, string Category, string Location,
-                                 float TotalCL, float TotalSL, float TotalAL,
-                                 float ConsumedCL, float ConsumedSL, float ConsumedAL,
-                                 float BalanaceCL, float BalanaceSL, float BalananceAL, string Month)
+                                 float TotalCL, float TotalSL, float TotalAL, float TotalCPL,
+                                 float ConsumedCL, float ConsumedSL, float ConsumedAL,float ConsumedCPL,float ConsumedLWOP,
+                                 float BalanaceCL, float BalanaceSL, float BalananceAL, float BalanceCPL, string Month)
         {
             LvSummaryMonth.Rows.Add(EmpNo, EmpName, Designation, Section, Department, EmpType, Category, Location,
-                TotalCL, TotalSL, TotalAL, ConsumedCL, ConsumedSL, ConsumedAL,
-                BalanaceCL, BalanaceSL, BalananceAL, Month);
+                TotalCL, TotalSL, TotalAL,TotalCPL, ConsumedCL, ConsumedSL, ConsumedAL,ConsumedCPL,ConsumedLWOP,
+                BalanaceCL, BalanaceSL, BalananceAL,BalanceCPL, Month);
         }
         DataTable LvSummaryMonth = new DataTable();
 
@@ -2972,5 +3022,152 @@ namespace WMS.Reports
             FlexyMonthlyReportDT.Rows.Add(Period,EmpMonth,StartDate,EndDate,EmpNo,EmpID,EmpName,SectionName,DeptName,TypeName,LocName,ShiftName,D21,D22,D23,D24,D25,D26,D27,D28,D29,D30,D31,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,D12,D13,D14,D15,D16,D17,D18,D19,D20,TotalDays,WorkDays,PreDays,AbDays,RestDays,GZDays,LeaveDays,OfficialDutyDays,TEarlyIn,TEarlyOut,TLateIn,TLateOut,TWorkTime,TNOT,TGZOT,ExpectedWrkTime,OT1,OT2,OT3,OT4,OT5,OT6,OT7,OT8,OT9,OT10,OT11,OT12,OT13,OT14,OT15,OT16,OT17,OT18,OT19,OT20,OT21,OT22,OT23,OT24,OT25,OT26,OT27,OT28,OT29,OT30,OT31);
 
         }
+
+        #region -- Emp Summary Report with Time Difference --
+        DataTable EmpSummTimes = new DataTable();
+        public void CreateEmpSumTimeDatatable()
+        {
+            EmpSummTimes.Columns.Add("EmpDate", typeof(string));
+            EmpSummTimes.Columns.Add("AttDate", typeof(DateTime));
+            EmpSummTimes.Columns.Add("EmpNo", typeof(string));
+            EmpSummTimes.Columns.Add("EmpID", typeof(int));
+            EmpSummTimes.Columns.Add("EmpName", typeof(string));
+            EmpSummTimes.Columns.Add("SectionName", typeof(string));
+            EmpSummTimes.Columns.Add("DeptName", typeof(string));
+            EmpSummTimes.Columns.Add("TypeName", typeof(string));
+            EmpSummTimes.Columns.Add("LocName", typeof(string));
+            EmpSummTimes.Columns.Add("ShiftName", typeof(string));
+            EmpSummTimes.Columns.Add("Tin0", typeof(DateTime));
+            EmpSummTimes.Columns.Add("TOut0", typeof(DateTime));
+            EmpSummTimes.Columns.Add("Diff0", typeof(int));
+            EmpSummTimes.Columns.Add("Tin1", typeof(DateTime));
+            EmpSummTimes.Columns.Add("TOut1", typeof(DateTime));
+            EmpSummTimes.Columns.Add("Diff1", typeof(int));
+            EmpSummTimes.Columns.Add("Tin2", typeof(DateTime));
+            EmpSummTimes.Columns.Add("TOut2", typeof(DateTime));
+            EmpSummTimes.Columns.Add("Diff2", typeof(int));
+            EmpSummTimes.Columns.Add("Tin3", typeof(DateTime));
+            EmpSummTimes.Columns.Add("TOut3", typeof(DateTime));
+            EmpSummTimes.Columns.Add("Diff3", typeof(int));
+            EmpSummTimes.Columns.Add("Tin4", typeof(DateTime));
+            EmpSummTimes.Columns.Add("TOut4", typeof(DateTime));
+            EmpSummTimes.Columns.Add("Diff4", typeof(int));
+            EmpSummTimes.Columns.Add("Tin5", typeof(DateTime));
+            EmpSummTimes.Columns.Add("TOut5", typeof(DateTime));
+            EmpSummTimes.Columns.Add("Diff5", typeof(int));
+            EmpSummTimes.Columns.Add("WorkMin", typeof(int));
+            EmpSummTimes.Columns.Add("ShiftMin", typeof(int));
+            EmpSummTimes.Columns.Add("DutyCode", typeof(string));
+            EmpSummTimes.Columns.Add("Loss", typeof(int));
+            EmpSummTimes.Columns.Add("Extra", typeof(int));
+            EmpSummTimes.Columns.Add("Remarks", typeof(string));
+        }
+
+        public DataTable AddEmpSumTime(List<ViewDetailAttData> attDatas, List<EmpView> emps)
+        {
+            foreach (var emp in emps)
+            {
+                List<ViewDetailAttData> tempAttData = new List<ViewDetailAttData>();
+                tempAttData = attDatas.Where(aa => aa.EmpID == emp.EmpID).ToList();
+                foreach (var attdata in tempAttData)
+                {
+                    int diff0 = 0;
+                    int diff1 = 0;
+                    int diff2 = 0;
+                    int diff3 = 0;
+                    int diff4 = 0;
+                    int diff5 = 0;
+                    int WorkMins = 0;
+                    int Loss = 0;
+                    int Extra = 0;
+                    if (attdata.Tin0 != null && attdata.Tout0 != null)
+                    {
+                        TimeSpan t0 = (TimeSpan)(attdata.Tout0 - attdata.Tin0);
+                        diff0 = (int)t0.TotalMinutes;
+                    }
+                    if (attdata.Tin1 != null && attdata.Tout1 != null)
+                    {
+                        if (attdata.Tin0 == attdata.Tin1 && attdata.Tout0 == attdata.Tout1)
+                        {
+                        }
+                        else
+                        {
+                            TimeSpan t1 = (TimeSpan)(attdata.Tout1 - attdata.Tin1);
+                            diff1 = (int)t1.TotalMinutes;
+                        }
+                    }
+                    if (attdata.Tin2 != null && attdata.Tout2 != null)
+                    {
+                        if (attdata.Tin1 == attdata.Tin2 && attdata.Tout1 == attdata.Tout2)
+                        {
+                        }
+                        else
+                        {
+                            TimeSpan t2 = (TimeSpan)(attdata.Tout2 - attdata.Tin2);
+                            diff2 = (int)t2.TotalMinutes;
+                        }
+                    }
+                    if (attdata.Tin3 != null && attdata.Tout3 != null)
+                    {
+                        if (attdata.Tin2 == attdata.Tin3 && attdata.Tout2 == attdata.Tout3)
+                        {
+                        }
+                        else
+                        {
+                            TimeSpan t3 = (TimeSpan)(attdata.Tout3 - attdata.Tin3);
+                            diff3 = (int)t3.TotalMinutes;
+                        }
+                    }
+                    if (attdata.Tin4 != null && attdata.Tout4 != null)
+                    {
+                        if (attdata.Tin3 == attdata.Tin4 && attdata.Tout3 == attdata.Tout4)
+                        {
+                        }
+                        else
+                        {
+                            TimeSpan t4 = (TimeSpan)(attdata.Tout4 - attdata.Tin4);
+                            diff4 = (int)t4.TotalMinutes;
+                        }
+                    }
+                    if (attdata.Tin5 != null && attdata.Tout5 != null)
+                    {
+                        if (attdata.Tin4 == attdata.Tin5 && attdata.Tout4 == attdata.Tout5)
+                        {
+                        }
+                        else
+                        {
+                            TimeSpan t5 = (TimeSpan)(attdata.Tout5 - attdata.Tin5);
+                            diff5 = (int)t5.TotalMinutes;
+                        }
+                    }
+                    WorkMins = diff0 + diff1 + diff2 + diff3 + diff4 + diff5;
+                    if (WorkMins > attdata.ShifMin)
+                    {
+                        Extra = (int)(WorkMins - attdata.ShifMin);
+                    }
+                    else
+                    {
+                        Loss = (int)(attdata.ShifMin-WorkMins);
+                    }
+                    AddDataToSumTimeDatatable(attdata.EmpDate, attdata.AttDate, attdata.EmpNo, attdata.EmpID, emp.EmpName, emp.SectionName,
+                        emp.DeptName, emp.TypeName, emp.LocName, emp.ShiftName, attdata.Tin0, attdata.Tout0, diff0, attdata.Tin1, attdata.Tout1,
+                        diff1, attdata.Tin2, attdata.Tout2, diff2, attdata.Tin3, attdata.Tout3, diff3, attdata.Tin4, attdata.Tout4, diff4,
+                        attdata.Tin5, attdata.Tout5, diff5, WorkMins, attdata.ShifMin, attdata.DutyCode, Loss, Extra, attdata.Remarks);
+
+                }
+            }
+            return EmpSummTimes;
+        }
+        public void AddDataToSumTimeDatatable(string EmpDate, DateTime? AttDate, string EmpNo, int? EmpID, string EmpName,
+    string SectionName, string DeptName, string TypeName, string LocName, string ShiftName,
+                                      DateTime? Tin0, DateTime? Tout0, int? Diff0, DateTime? Tin1, DateTime? Tout1, int? Diff1,
+    DateTime? Tin2, DateTime? Tout2, int? Diff2, DateTime? Tin3, DateTime? Tout3, int? Diff3, DateTime? Tin4, DateTime? Tout4, int? Diff4,
+    DateTime? Tin5, DateTime? Tout5, int? Diff5, int? WorkMin, int? ShiftMin, string DutyCode, int? LossMin, int? ExtraMin, string Remarks)
+        {
+            EmpSummTimes.Rows.Add(EmpDate, AttDate, EmpNo, EmpID, EmpName, SectionName, DeptName, TypeName, LocName, ShiftName, Tin0, 
+                Tout0, Diff0,Tin1, Tout1, Diff1, Tin2, Tout2, Diff2, Tin3, Tout3, Diff3, Tin4, Tout4, Diff4, Tin5, Tout5, Diff5, 
+                WorkMin, ShiftMin, DutyCode, LossMin, ExtraMin, Remarks);
+        }
+        #endregion
     }
 }

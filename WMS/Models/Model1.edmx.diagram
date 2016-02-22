@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e4fe9d4e223d4bb195dcc19b7427e20b" Name="Diagram1" ZoomLevel="54">
+      <Diagram DiagramId="e4fe9d4e223d4bb195dcc19b7427e20b" Name="Diagram1" ZoomLevel="37">
         <EntityTypeShape EntityType="TAS2013Model.AccessEmp" Width="1.5" PointX="2.2582331924970416" PointY="14.619218892706195" />
         <EntityTypeShape EntityType="TAS2013Model.AttCode" Width="1.5" PointX="0.50028423429480018" PointY="15.23713812941552" />
         <EntityTypeShape EntityType="TAS2013Model.AttData" Width="1.5" PointX="3.1229248527078539" PointY="11.761862626188371" />
@@ -187,6 +187,8 @@
         <AssociationConnector Association="TAS2013Model.FK_RosterApp_Shift" />
         <AssociationConnector Association="TAS2013Model.FK_Shift_RosterType" />
         <AssociationConnector Association="TAS2013Model.FK_User_UserRole1" />
+        <EntityTypeShape EntityType="TAS2013Model.ViewPayrollData" Width="1.5" PointX="4.7239047534409471" PointY="5.551062556705932" />
+        <AssociationConnector Association="TAS2013Model.FK_AttMnData_Emp" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

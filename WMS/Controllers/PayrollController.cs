@@ -17,7 +17,7 @@ namespace WMS.Controllers
         // GET: /Payroll/
         public ActionResult Index()
         {
-            return View(db.PayRollPrimaries.ToList());
+            return View(db.ViewPayrollDatas.ToList());
         }
 
         // GET: /Payroll/Details/5
@@ -27,7 +27,7 @@ namespace WMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PayRollPrimary payrollprimary = db.PayRollPrimaries.Find(id);
+            ViewPayrollData payrollprimary = db.ViewPayrollDatas.First(aa=>aa.EmpMonthYear==id);
             if (payrollprimary == null)
             {
                 return HttpNotFound();
@@ -72,7 +72,22 @@ namespace WMS.Controllers
             }
             return View(payrollprimary);
         }
-
+        public ActionResult Approved(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PayRollPrimary payrollprimary = db.PayRollPrimaries.First(aa => aa.EmpMonthYear == id);
+            if (payrollprimary == null)
+            {
+                return HttpNotFound();
+            }
+            payrollprimary.Approved = true;
+            payrollprimary.ApprovedDateTime = DateTime.Now;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         // POST: /Payroll/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
