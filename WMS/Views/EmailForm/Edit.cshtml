@@ -7,107 +7,125 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>EmailEntryForm</h4>
+        
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.ID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmailAddress, new { @class = "control-label col-md-2" })
+           <div class="col-md-2">Email Address</div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmailAddress)
+                 @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EmailAddress)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CCAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">CC Address</div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CCAddress)
+                 @Html.TextBoxFor(model => model.CCAddress, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CCAddress)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyID, "CompanyID", new { @class = "control-label col-md-2" })
+                <div class="col-md-2">Company</div>
             <div class="col-md-10">
-                @Html.DropDownList("CompanyID", String.Empty)
+                @Html.DropDownList("CompanyID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
                 @Html.ValidationMessageFor(model => model.CompanyID)
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentID, "DepartmentID", new { @class = "control-label col-md-2" })
+         <div class="form-group">
+           <div class="col-md-2">Criteria</div>
             <div class="col-md-10">
-                @Html.DropDownList("DepartmentID", String.Empty)
-                @Html.ValidationMessageFor(model => model.DepartmentID)
+                 @Html.DropDownList("Criteria", new List<SelectListItem>
+                                    { 
+                                        new SelectListItem { Text = "Section", Value = "S", Selected=true},
+                                        new SelectListItem { Text = "Department", Value = "D"}
+                                    },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"}) 
+            </div>
+        </div>
+        <div id="CDept" class="form-group">
+           <div class="col-md-2">Department</div>
+            <div class="col-md-10">
+                 <select class="btn btn-default dropdown-toggle dropdown ComboBoxWidth" id="DepartmentID" name="DepartmentID"></select>
+               @Html.HiddenFor(model => model.DepartmentID , new { id = "selectedDeptHidden" })  
+            </div>
+        </div>
+
+        <div id="CSec" class="form-group">
+            <div class="col-md-2">Section</div>
+            <div class="col-md-10">
+                <select class="btn btn-default dropdown-toggle dropdown ComboBoxWidth" id="SectionID" name="SectionID"></select>
+                @Html.HiddenFor(model => model.SectionID , new { id = "selectedSecHidden" })  
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SectionID, "SectionID", new { @class = "control-label col-md-2" })
+           <div class="col-md-2">Date</div>
             <div class="col-md-10">
-                @Html.DropDownList("SectionID", String.Empty)
-                @Html.ValidationMessageFor(model => model.SectionID)
+               @Html.DropDownList("ReportCurrentDate", new List<SelectListItem>
+                                    { 
+                                        new SelectListItem { Text = "Current Date", Value = "true"},
+                                        new SelectListItem { Text = "Previous Date", Value = "False", Selected=true}
+                                    },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Criteria, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">Add Location</div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Criteria)
-                @Html.ValidationMessageFor(model => model.Criteria)
+               @Html.DropDownList("HasLoc", new List<SelectListItem>
+                                    { 
+                                        new SelectListItem { Text = "Yes", Value = "true"},
+                                        new SelectListItem { Text = "No", Value = "False", Selected=true}
+                                    },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"}) 
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReportCurrentDate, new { @class = "control-label col-md-2" })
+        <div id="CLoc"class="form-group">
+           <div class="col-md-2">Location</div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ReportCurrentDate)
-                @Html.ValidationMessageFor(model => model.ReportCurrentDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LocationID, "LocationID", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("LocationID", String.Empty)
+                @Html.DropDownList("LocationID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
                 @Html.ValidationMessageFor(model => model.LocationID)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CatID, "CatID", new { @class = "control-label col-md-2" })
+         <div class="form-group">
+            <div class="col-md-2">Add Category</div>
             <div class="col-md-10">
-                @Html.DropDownList("CatID", String.Empty)
+                @Html.DropDownList("HasCat", new List<SelectListItem>
+                                    { 
+                                        new SelectListItem { Text = "Yes", Value = "true"},
+                                        new SelectListItem { Text = "No", Value = "False", Selected=true}
+                                    },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"}) 
+            </div>
+        </div>
+
+        <div id="CCat" class="form-group">
+            <div class="col-md-2">Category</div>
+            <div class="col-md-10">
+                @Html.DropDownList("CatID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
                 @Html.ValidationMessageFor(model => model.CatID)
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.HasCat, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">Email Time</div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HasCat)
-                @Html.ValidationMessageFor(model => model.HasCat)
+                 @Html.TextBoxFor(model => model.EmailTime, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmailTime)
+                <span>e.g 13:20</span>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HasLoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HasLoc)
-                @Html.ValidationMessageFor(model => model.HasLoc)
-            </div>
-        </div>
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -116,3 +134,26 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script src="@Url.Content("~/Scripts/EmailForm/EmailFormEdit.js")"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

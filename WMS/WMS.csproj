@@ -222,6 +222,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\CPLLeaves\CPLLeavesJS.js" />
     <Content Include="Scripts\EditAttendance.js" />
+    <Content Include="Scripts\EmailForm\EmailFormEdit.js" />
     <Content Include="Scripts\EmailForm\EmailForm.js" />
     <Content Include="Scripts\EmpInfoEditAtt.js" />
     <Content Include="Scripts\EmpInfoLvApp.js" />
@@ -731,6 +732,7 @@
       <DependentUpon>TASReportDataSet.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomClass\EmpMonthlyProductivityEntity.cs" />
     <Compile Include="Models\TestPollData.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -851,7 +853,6 @@
     <Compile Include="Models\ZTable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="CustomClass\EmpMonthlyProductivityEntity.cs" />
     <Compile Include="Reports\Filters\SummaryReports.aspx.cs">
       <DependentUpon>SummaryReports.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

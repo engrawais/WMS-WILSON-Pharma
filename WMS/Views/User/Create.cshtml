@@ -250,10 +250,19 @@
                             },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidthSmall"}) 
                     </div>
                 </div>
-            <div class="form-group">
+                <div class="form-group">
                     <div class="control-label col-md-4">Process</div>
                     <div class="col-md-6">
                         @Html.DropDownList("MProcess", new List<SelectListItem>
+                        { new SelectListItem { Text = "No", Value = "0", Selected=true},
+                            new SelectListItem { Text = "Yes", Value = "1"}
+                            },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidthSmall"}) 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="control-label col-md-4">Report Email</div>
+                    <div class="col-md-6">
+                        @Html.DropDownList("MEmail", new List<SelectListItem>
                         { new SelectListItem { Text = "No", Value = "0", Selected=true},
                             new SelectListItem { Text = "Yes", Value = "1"}
                             },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidthSmall"}) 

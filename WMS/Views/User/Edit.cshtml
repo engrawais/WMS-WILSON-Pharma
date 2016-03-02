@@ -255,6 +255,15 @@
                             },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidthSmall"}) 
                     </div>
                 </div>
+        <div class="form-group">
+                    <div class="control-label col-md-6">Report Email</div>
+                    <div class="col-md-6">
+                        @Html.DropDownList("MEmail", new List<SelectListItem>
+                        { new SelectListItem { Text = "No", Value = "false", Selected=true},
+                            new SelectListItem { Text = "Yes", Value = "true"}
+                            },new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidthSmall"}) 
+                    </div>
+                </div>
             <div class="form-group">
                  <div class="control-label col-md-6">Leave</div>
                 <div class="col-md-6">

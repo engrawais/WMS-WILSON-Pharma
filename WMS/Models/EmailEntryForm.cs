@@ -26,6 +26,7 @@ namespace WMS.Models
         public Nullable<short> CatID { get; set; }
         public Nullable<bool> HasCat { get; set; }
         public Nullable<bool> HasLoc { get; set; }
+        public Nullable<System.TimeSpan> EmailTime { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Company Company { get; set; }

@@ -5,13 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div>
+      <form class ="form-inline" role="form">
+          <div class="form-group"> <h3>Email Reports</h3> </div>
+          <div class="form-group CreateBtnMargin"><p>@Html.ActionLink("Create New", "Create",null,new { @class = "btn btn-sm btn-success" })</p></div>
+          <div class="form-group pull-right SearchBtnMargin">
+              @using (Html.BeginForm("Index", "Email", FormMethod.Get))
+                {<p>Find @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control"})  
+                 <input class="btn btn-sm btn-success" type="submit" value="Search" /></p>}
+          </div> 
+      </form>  
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
+
+<table class="table table-bordered table-hover  table-condensed">
+    <tr class="table-header">
         <th>
             Email
         </th>
@@ -33,6 +41,7 @@
         <th>
             Location
         </th>
+<th>Edit|Delete</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -75,7 +84,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+           @* @Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>

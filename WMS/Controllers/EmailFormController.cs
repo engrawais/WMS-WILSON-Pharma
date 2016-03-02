@@ -52,7 +52,7 @@ namespace WMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,EmailAddress,CCAddress,CompanyID,DepartmentID,SectionID,Criteria,ReportCurrentDate,LocationID,CatID,HasCat,HasLoc")] EmailEntryForm emailentryform)
+        public ActionResult Create([Bind(Include="ID,EmailAddress,CCAddress,CompanyID,DepartmentID,SectionID,Criteria,ReportCurrentDate,LocationID,CatID,HasCat,HasLoc,EmailTime")] EmailEntryForm emailentryform)
         {
             if (ModelState.IsValid)
             {
