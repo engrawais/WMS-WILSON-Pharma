@@ -1,0 +1,107 @@
+﻿@model WMS.Models.EmailEntryForm
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmailEntryForm</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Criteria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Criteria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportCurrentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportCurrentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasCat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasCat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.CatName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CatName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.DeptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.DeptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.LocName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.LocName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Section.SectionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Section.SectionName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

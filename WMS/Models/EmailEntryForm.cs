@@ -19,9 +19,18 @@ namespace WMS.Models
         public string CCAddress { get; set; }
         public Nullable<short> CompanyID { get; set; }
         public Nullable<short> DepartmentID { get; set; }
-        public Nullable<short> LocationID1 { get; set; }
-        public Nullable<bool> ReportDateCurrent { get; set; }
-        public Nullable<short> LocationID2 { get; set; }
-        public Nullable<short> LocationID3 { get; set; }
+        public Nullable<short> SectionID { get; set; }
+        public string Criteria { get; set; }
+        public Nullable<bool> ReportCurrentDate { get; set; }
+        public Nullable<short> LocationID { get; set; }
+        public Nullable<short> CatID { get; set; }
+        public Nullable<bool> HasCat { get; set; }
+        public Nullable<bool> HasLoc { get; set; }
+    
+        public virtual Category Category { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual Department Department { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual Section Section { get; set; }
     }
 }

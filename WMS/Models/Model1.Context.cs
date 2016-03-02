@@ -139,11 +139,11 @@ namespace WMS.Models
         public DbSet<ViewMonthlyDataPer> ViewMonthlyDataPers { get; set; }
         public DbSet<ViewMultipleInOut> ViewMultipleInOuts { get; set; }
         public DbSet<ViewOverTime> ViewOverTimes { get; set; }
+        public DbSet<ViewPayrollData> ViewPayrollDatas { get; set; }
         public DbSet<ViewPollData> ViewPollDatas { get; set; }
         public DbSet<ViewPresentEmp> ViewPresentEmps { get; set; }
         public DbSet<ViewSection> ViewSections { get; set; }
         public DbSet<ViewSLData> ViewSLDatas { get; set; }
         public DbSet<ViewSummary> ViewSummaries { get; set; }
-        public DbSet<ViewPayrollData> ViewPayrollDatas { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace WMS.Models
         {
             this.AttDatas = new HashSet<AttData>();
             this.AttDataManEdits = new HashSet<AttDataManEdit>();
+            this.AttMnDatas = new HashSet<AttMnData>();
             this.AttMnDataPers = new HashSet<AttMnDataPer>();
             this.BadliRecords = new HashSet<BadliRecord>();
             this.Cards = new HashSet<Card>();
@@ -27,7 +28,6 @@ namespace WMS.Models
             this.LvApplications = new HashSet<LvApplication>();
             this.LvConsumeds = new HashSet<LvConsumed>();
             this.LvShorts = new HashSet<LvShort>();
-            this.AttMnDatas = new HashSet<AttMnData>();
         }
     
         public int EmpID { get; set; }
@@ -76,6 +76,7 @@ namespace WMS.Models
     
         public virtual ICollection<AttData> AttDatas { get; set; }
         public virtual ICollection<AttDataManEdit> AttDataManEdits { get; set; }
+        public virtual ICollection<AttMnData> AttMnDatas { get; set; }
         public virtual ICollection<AttMnDataPer> AttMnDataPers { get; set; }
         public virtual ICollection<BadliRecord> BadliRecords { get; set; }
         public virtual ICollection<Card> Cards { get; set; }
@@ -97,6 +98,5 @@ namespace WMS.Models
         public virtual ICollection<LvConsumed> LvConsumeds { get; set; }
         public virtual LvQuota LvQuota { get; set; }
         public virtual ICollection<LvShort> LvShorts { get; set; }
-        public virtual ICollection<AttMnData> AttMnDatas { get; set; }
     }
 }

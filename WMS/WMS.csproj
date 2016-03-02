@@ -222,6 +222,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\CPLLeaves\CPLLeavesJS.js" />
     <Content Include="Scripts\EditAttendance.js" />
+    <Content Include="Scripts\EmailForm\EmailForm.js" />
     <Content Include="Scripts\EmpInfoEditAtt.js" />
     <Content Include="Scripts\EmpInfoLvApp.js" />
     <Content Include="Scripts\EmpInfoLvSetting.js" />
@@ -396,6 +397,11 @@
     <Content Include="Views\Payroll\Details.cshtml" />
     <Content Include="Views\Payroll\Edit.cshtml" />
     <Content Include="Views\Payroll\Index.cshtml" />
+    <Content Include="Views\EmailForm\Create.cshtml" />
+    <Content Include="Views\EmailForm\Delete.cshtml" />
+    <Content Include="Views\EmailForm\Details.cshtml" />
+    <Content Include="Views\EmailForm\Edit.cshtml" />
+    <Content Include="Views\EmailForm\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -424,6 +430,7 @@
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\EditAttendanceController.cs" />
     <Compile Include="Controllers\EditAttendance\ManualAttendanceProcess.cs" />
+    <Compile Include="Controllers\EmailFormController.cs" />
     <Compile Include="Controllers\EmpController.cs" />
     <Compile Include="Controllers\EmpTypeController.cs" />
     <Compile Include="Controllers\Filters\CustomActionAttribute.cs" />

@@ -1,0 +1,118 @@
+﻿@model WMS.Models.EmailEntryForm
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>EmailEntryForm</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmailAddress)
+                @Html.ValidationMessageFor(model => model.EmailAddress)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CCAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCAddress)
+                @Html.ValidationMessageFor(model => model.CCAddress)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyID, "CompanyID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CompanyID", String.Empty)
+                @Html.ValidationMessageFor(model => model.CompanyID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentID, "DepartmentID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentID", String.Empty)
+                @Html.ValidationMessageFor(model => model.DepartmentID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SectionID, "SectionID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SectionID", String.Empty)
+                @Html.ValidationMessageFor(model => model.SectionID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Criteria, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Criteria)
+                @Html.ValidationMessageFor(model => model.Criteria)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReportCurrentDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReportCurrentDate)
+                @Html.ValidationMessageFor(model => model.ReportCurrentDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LocationID, "LocationID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("LocationID", String.Empty)
+                @Html.ValidationMessageFor(model => model.LocationID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CatID, "CatID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CatID", String.Empty)
+                @Html.ValidationMessageFor(model => model.CatID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HasCat, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HasCat)
+                @Html.ValidationMessageFor(model => model.HasCat)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HasLoc, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HasLoc)
+                @Html.ValidationMessageFor(model => model.HasLoc)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

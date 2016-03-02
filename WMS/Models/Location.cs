@@ -17,6 +17,7 @@ namespace WMS.Models
         public Location()
         {
             this.AttProcessorSchedulers = new HashSet<AttProcessorScheduler>();
+            this.EmailEntryForms = new HashSet<EmailEntryForm>();
             this.Emps = new HashSet<Emp>();
             this.Readers = new HashSet<Reader>();
             this.Shifts = new HashSet<Shift>();
@@ -29,6 +30,7 @@ namespace WMS.Models
     
         public virtual ICollection<AttProcessorScheduler> AttProcessorSchedulers { get; set; }
         public virtual City City { get; set; }
+        public virtual ICollection<EmailEntryForm> EmailEntryForms { get; set; }
         public virtual ICollection<Emp> Emps { get; set; }
         public virtual ICollection<Reader> Readers { get; set; }
         public virtual ICollection<Shift> Shifts { get; set; }

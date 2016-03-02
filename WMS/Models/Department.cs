@@ -16,6 +16,7 @@ namespace WMS.Models
     {
         public Department()
         {
+            this.EmailEntryForms = new HashSet<EmailEntryForm>();
             this.Sections = new HashSet<Section>();
         }
     
@@ -26,6 +27,7 @@ namespace WMS.Models
     
         public virtual Company Company { get; set; }
         public virtual Division Division { get; set; }
+        public virtual ICollection<EmailEntryForm> EmailEntryForms { get; set; }
         public virtual ICollection<Section> Sections { get; set; }
     }
 }

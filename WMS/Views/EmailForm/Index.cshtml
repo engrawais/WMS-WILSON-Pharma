@@ -1,0 +1,84 @@
+﻿@model IEnumerable<WMS.Models.EmailEntryForm>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Email
+        </th>
+        <th>
+            Company
+        </th>
+        <th>
+            Criteria
+        </th>
+        <th>
+            Value
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Location
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.CompName)
+        </td>
+        <td>
+            @if(item.Criteria=="S")
+            {<p>Section</p>}
+            else
+            {<p>Department</p>}
+        </td>
+        <td>
+            @if(item.Criteria=="S")
+            {<p>@item.Section.SectionName</p>}
+            else
+            {<p>@item.Department.DeptName</p>}
+        </td>
+        <td>
+            @if(item.ReportCurrentDate==true)
+            {<p>Today</p>}
+            else
+            {<p>Yesterday</p>}
+        </td>
+        <td>
+            @if(item.HasCat==true)
+            {<p>@item.Category.CatName</p>}
+            else
+            {<p>All</p>}
+        </td>
+        <td>
+             @if(item.HasLoc==true)
+            {<p>@item.Location.LocName</p>}
+            else
+            {<p>All</p>}
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
