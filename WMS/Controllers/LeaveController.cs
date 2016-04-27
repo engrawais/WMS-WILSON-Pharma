@@ -812,15 +812,13 @@ namespace WMS.Controllers
 
         public bool HasLeaveQuota(int empID, string lvType)
         {
-            bool check = false;
-            using (var ctx = new TAS2013Entities())
-            {
-                List<LvConsumed> lv = new List<LvConsumed>();
-                string empLvType = empID.ToString()+lvType+DateTime.Today.Year.ToString();
-                lv = ctx.LvConsumeds.Where(aa => aa.EmpLvTypeYear == empLvType).ToList();
-                if (lv.Count > 0)
-                    check = true;
-            }
+            bool check = true;
+            //using (var ctx = new TAS2013Entities())
+            //{
+            //    LvType lv = ctx.LvTypes.First(aa => aa.LvType1== lvType);
+            //    if (lv.UpdateBalance ==true)
+            //        check = true;
+            //}
             return check;
         }
     }
