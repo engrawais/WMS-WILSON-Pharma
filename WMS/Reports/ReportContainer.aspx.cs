@@ -2696,13 +2696,21 @@ namespace WMS.Reports
             LvSummaryMonth.Columns.Add("ConsumedSL", typeof(float));
             LvSummaryMonth.Columns.Add("ConsumedAL", typeof(float));
             LvSummaryMonth.Columns.Add("ConsumedCPL", typeof(float));
-            LvSummaryMonth.Columns.Add("ConsumedLWOP", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceCL", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceSL", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceAL", typeof(float));
             LvSummaryMonth.Columns.Add("BalanceCPL", typeof(float));
             LvSummaryMonth.Columns.Add("Remarks", typeof(string));
             LvSummaryMonth.Columns.Add("Month", typeof(string));
+
+            ComplteLvSummaryMonth.Columns.Add("EmpNo", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("EmpName", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("Designation", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("Section", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("Department", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("EmpType", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("Category", typeof(string));
+            ComplteLvSummaryMonth.Columns.Add("Location", typeof(string));
         }
 
 
@@ -2744,6 +2752,7 @@ namespace WMS.Reports
                     float BeforeCL = 0, UsedCL = 0, BalCL = 0;
                     float BeforeSL = 0, UsedSL = 0, BalSL = 0;
                     float BeforeAL = 0, UsedAL = 0, BalAL = 0;
+                    float BeforeCPL = 0, UsedCPL = 0, BalCPL = 0;
                     string _month = "";
                     List<LvConsumed> entries = _lvConsumed.Where(aa => aa.EmpID == emp.EmpID).ToList();
                     string EmpLvC = emp.EmpID.ToString() + "A" + dateTimeLv.Year.ToString();
@@ -2769,6 +2778,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear;
                                 UsedAL = (float)eAL.JanConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear;
+                                //UsedCPL = (float)eCPL.JanConsumed;
                                 _month = "January";
                                 break;
                             case 2:
@@ -2781,6 +2793,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - (float)eAL.JanConsumed;
                                 UsedAL = (float)eAL.FebConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - (float)eCPL.JanConsumed;
+                                //UsedCPL = (float)eCPL.FebConsumed;
                                 break;
                                 _month = "Febu";
                             case 3:
@@ -2793,6 +2808,12 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed);
                                 UsedAL = (float)eAL.MarchConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed);
+                                UsedAL = (float)eAL.MarchConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed);
+                                //UsedCPL = (float)eCPL.MarchConsumed;
                                 break;
                             case 4:
                                 // casual
@@ -2804,6 +2825,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed);
                                 UsedAL = (float)eAL.AprConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed);
+                                //UsedCPL = (float)eCPL.AprConsumed;
                                 break;
                             case 5:
                                 // casual
@@ -2815,6 +2839,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed);
                                 UsedAL = (float)eAL.MayConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed);
+                                //UsedCPL = (float)eCPL.MayConsumed;
                                 break;
                             case 6:
                                 // casual
@@ -2826,6 +2853,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed);
                                 UsedAL = (float)eAL.JuneConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed);
+                                //UsedCPL = (float)eCPL.JuneConsumed;
                                 break;
                             case 7:
                                 // casual
@@ -2837,6 +2867,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed);
                                 UsedAL = (float)eAL.JulyConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed);
+                                //UsedCPL = (float)eCPL.JulyConsumed;
                                 break;
                             case 8:
                                 // casual
@@ -2848,6 +2881,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed);
                                 UsedAL = (float)eAL.AugustConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed);
+                                //UsedCPL = (float)eCPL.AugustConsumed;
                                 break;
                             case 9:
                                 // casual
@@ -2859,6 +2895,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed);
                                 UsedAL = (float)eAL.SepConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed);
+                                //UsedCPL = (float)eCPL.SepConsumed;
                                 break;
                             case 10:
                                 // casual
@@ -2870,6 +2909,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed + (float)eAL.AugustConsumed);
                                 UsedAL = (float)eAL.SepConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed + (float)eCPL.AugustConsumed);
+                                //UsedCPL = (float)eCPL.SepConsumed;
                                 break;
                             case 11:
                                 // casual
@@ -2881,6 +2923,9 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed + (float)eAL.AugustConsumed + (float)eAL.OctConsumed);
                                 UsedAL = (float)eAL.NovConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed + (float)eCPL.AugustConsumed + (float)eCPL.OctConsumed);
+                                //UsedCPL = (float)eCPL.NovConsumed;
                                 break;
                             case 12:
                                 // casual
@@ -2892,13 +2937,19 @@ namespace WMS.Reports
                                 //Anual
                                 BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed + (float)eAL.AugustConsumed + (float)eAL.OctConsumed + (float)eAL.NovConsumed);
                                 UsedAL = (float)eAL.DecConsumed;
+                                ////CPL
+                                //BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed + (float)eAL.AugustConsumed + (float)eCPL.OctConsumed + (float)eCPL.NovConsumed);
+                                //UsedCPL = (float)eCPL.DecConsumed;
                                 break;
 
                         }
                         BalCL = (float)(BeforeCL - UsedCL);
                         BalSL = (float)(BeforeSL - UsedSL);
                         BalAL = (float)(BeforeAL - UsedAL);
-                        //AddDataToDT(emp.EmpNo, emp.EmpName, emp.DesignationName, emp.SectionName, emp.DeptName, emp.TypeName, emp.CatName, emp.LocName, BeforeCL, BeforeSL, BeforeAL, UsedCL, UsedSL, UsedAL, BalCL, BalSL, BalAL, _month);
+                        BalCPL = (float)(BeforeCPL - UsedCPL);
+                        AddDataToDT(emp.EmpNo, emp.EmpName, emp.DesignationName, emp.SectionName, 
+                            emp.DeptName, emp.TypeName, emp.CatName, emp.LocName, 
+                            BeforeCL, BeforeSL, BeforeAL, BeforeCPL,UsedCL, UsedSL, UsedAL,UsedCPL, BalCL, BalSL, BalAL,BalCPL, _month);
                     }
 
                 }
@@ -2908,11 +2959,11 @@ namespace WMS.Reports
         public void AddDataToDT(string EmpNo, string EmpName, string Designation, string Section,
                                  string Department, string EmpType, string Category, string Location,
                                  float TotalCL, float TotalSL, float TotalAL, float TotalCPL,
-                                 float ConsumedCL, float ConsumedSL, float ConsumedAL,float ConsumedCPL,float ConsumedLWOP,
+                                 float ConsumedCL, float ConsumedSL, float ConsumedAL,float ConsumedCPL,
                                  float BalanaceCL, float BalanaceSL, float BalananceAL, float BalanceCPL, string Month)
         {
             LvSummaryMonth.Rows.Add(EmpNo, EmpName, Designation, Section, Department, EmpType, Category, Location,
-                TotalCL, TotalSL, TotalAL,TotalCPL, ConsumedCL, ConsumedSL, ConsumedAL,ConsumedCPL,ConsumedLWOP,
+                TotalCL, TotalSL, TotalAL,TotalCPL, ConsumedCL, ConsumedSL, ConsumedAL,ConsumedCPL,
                 BalanaceCL, BalanaceSL, BalananceAL,BalanceCPL, Month);
         }
         DataTable LvSummaryMonth = new DataTable();
@@ -3065,6 +3116,7 @@ namespace WMS.Reports
 
         public DataTable AddEmpSumTime(List<ViewDetailAttData> attDatas, List<EmpView> emps)
         {
+            List<Shift> shift = new List<Shift>();
             foreach (var emp in emps)
             {
                 List<ViewDetailAttData> tempAttData = new List<ViewDetailAttData>();
@@ -3080,79 +3132,144 @@ namespace WMS.Reports
                     int WorkMins = 0;
                     int Loss = 0;
                     int Extra = 0;
-                    if (attdata.Tin0 != null && attdata.Tout0 != null)
+                    if (attdata.StatusMN == true)
                     {
-                        TimeSpan t0 = (TimeSpan)(attdata.Tout0 - attdata.Tin0);
-                        diff0 = (int)t0.TotalMinutes;
-                    }
-                    if (attdata.Tin1 != null && attdata.Tout1 != null)
-                    {
-                        if (attdata.Tin0 == attdata.Tin1 && attdata.Tout0 == attdata.Tout1)
+                        if (attdata.TimeIn != null && attdata.TimeOut != null)
                         {
+                            TimeSpan t0 = (TimeSpan)(attdata.TimeOut - attdata.TimeIn);
+                            diff0 = (int)t0.TotalMinutes;
+                            attdata.Tin0 = attdata.TimeIn;
+                            attdata.Tout0 = attdata.TimeOut;
                         }
-                        else
-                        {
-                            TimeSpan t1 = (TimeSpan)(attdata.Tout1 - attdata.Tin1);
-                            diff1 = (int)t1.TotalMinutes;
-                        }
-                    }
-                    if (attdata.Tin2 != null && attdata.Tout2 != null)
-                    {
-                        if (attdata.Tin1 == attdata.Tin2 && attdata.Tout1 == attdata.Tout2)
-                        {
-                        }
-                        else
-                        {
-                            TimeSpan t2 = (TimeSpan)(attdata.Tout2 - attdata.Tin2);
-                            diff2 = (int)t2.TotalMinutes;
-                        }
-                    }
-                    if (attdata.Tin3 != null && attdata.Tout3 != null)
-                    {
-                        if (attdata.Tin2 == attdata.Tin3 && attdata.Tout2 == attdata.Tout3)
-                        {
-                        }
-                        else
-                        {
-                            TimeSpan t3 = (TimeSpan)(attdata.Tout3 - attdata.Tin3);
-                            diff3 = (int)t3.TotalMinutes;
-                        }
-                    }
-                    if (attdata.Tin4 != null && attdata.Tout4 != null)
-                    {
-                        if (attdata.Tin3 == attdata.Tin4 && attdata.Tout3 == attdata.Tout4)
-                        {
-                        }
-                        else
-                        {
-                            TimeSpan t4 = (TimeSpan)(attdata.Tout4 - attdata.Tin4);
-                            diff4 = (int)t4.TotalMinutes;
-                        }
-                    }
-                    if (attdata.Tin5 != null && attdata.Tout5 != null)
-                    {
-                        if (attdata.Tin4 == attdata.Tin5 && attdata.Tout4 == attdata.Tout5)
-                        {
-                        }
-                        else
-                        {
-                            TimeSpan t5 = (TimeSpan)(attdata.Tout5 - attdata.Tin5);
-                            diff5 = (int)t5.TotalMinutes;
-                        }
-                    }
-                    WorkMins = diff0 + diff1 + diff2 + diff3 + diff4 + diff5;
-                    if (WorkMins > attdata.ShifMin)
-                    {
-                        Extra = (int)(WorkMins - attdata.ShifMin);
                     }
                     else
                     {
-                        Loss = (int)(attdata.ShifMin-WorkMins);
+                        #region -- Calculate Time Difference --
+                        if (attdata.Tin0 != null && attdata.Tout0 != null)
+                        {
+                            if (attdata.Tout0 < attdata.Tin0)
+                            {
+                                if (attdata.Tout1 != null)
+                                {
+                                    attdata.Tout0 = attdata.Tout1;
+                                }
+                            }
+                            TimeSpan t0 = (TimeSpan)(attdata.Tout0 - attdata.Tin0);
+                            diff0 = (int)t0.TotalMinutes;
+                        }
+                        if (attdata.Tin1 != null && attdata.Tout1 != null)
+                        {
+                            if (attdata.Tin0 == attdata.Tin1 && attdata.Tout0 == attdata.Tout1)
+                            {
+                                attdata.Tin1 = null;
+                                attdata.Tout1 = null;
+                            }
+                            else
+                            {
+                                TimeSpan t1 = (TimeSpan)(attdata.Tout1 - attdata.Tin1);
+                                diff1 = (int)t1.TotalMinutes;
+                            }
+                        }
+                        if (attdata.Tin2 != null && attdata.Tout2 != null)
+                        {
+                            if ((attdata.Tin1 == attdata.Tin2 || attdata.Tin2==attdata.Tin0)&&
+                                (attdata.Tout1 == attdata.Tout2 || attdata.Tout2 == attdata.Tout0))
+                            {
+                                attdata.Tin2 = null;
+                                attdata.Tout2 = null;
+                            }
+                            else
+                            {
+                                TimeSpan t2 = (TimeSpan)(attdata.Tout2 - attdata.Tin2);
+                                diff2 = (int)t2.TotalMinutes;
+                            }
+                        }
+                        if (attdata.Tin3 != null && attdata.Tout3 != null)
+                        {
+                            if ((attdata.Tin2 == attdata.Tin3 || attdata.Tin3 == attdata.Tin0) &&
+                                (attdata.Tout2 == attdata.Tout3 || attdata.Tout3 == attdata.Tout0))
+                            {
+                                attdata.Tin3 = null;
+                                attdata.Tout3 = null;
+                            }
+                            else
+                            {
+                                TimeSpan t3 = (TimeSpan)(attdata.Tout3 - attdata.Tin3);
+                                diff3 = (int)t3.TotalMinutes;
+                            }
+                        }
+                        if (attdata.Tin4 != null && attdata.Tout4 != null)
+                        {
+                            if ((attdata.Tin3 == attdata.Tin4 || attdata.Tin4 == attdata.Tin0)
+                                && (attdata.Tout3 == attdata.Tout4 || attdata.Tout4 == attdata.Tout0))
+                            {
+
+                            }
+                            else
+                            {
+                                TimeSpan t4 = (TimeSpan)(attdata.Tout4 - attdata.Tin4);
+                                diff4 = (int)t4.TotalMinutes;
+                            }
+                        }
+                        if (attdata.Tin5 != null && attdata.Tout5 != null)
+                        {
+                            if (attdata.Tin4 == attdata.Tin5 && attdata.Tout4 == attdata.Tout5)
+                            {
+                            }
+                            else
+                            {
+                                TimeSpan t5 = (TimeSpan)(attdata.Tout5 - attdata.Tin5);
+                                diff5 = (int)t5.TotalMinutes;
+                            }
+                        }
+                        #endregion
                     }
+                    WorkMins = diff0 + diff1 + diff2 + diff3 + diff4 + diff5;
+                    if (attdata.ShiftID == 1)
+                    {
+                        if (attdata.StatusMN == true)
+                        {
+                            if (WorkMins > 300)
+                                WorkMins = WorkMins - 60;
+                        }
+                        if (attdata.ShifMin > 0)
+                        {
+                            if(attdata.AttDate.Value.DayOfWeek!=DayOfWeek.Friday)
+                                attdata.ShifMin = (short)(attdata.ShifMin - 60);
+                        }
+                           
+                    }
+                    else if (attdata.ShiftID == 3)
+                    {
+                        if (attdata.DutyCode == "G")
+                        {
+                            attdata.DutyCode = "D";
+                            attdata.ShifMin = 480;
+                            attdata.Expr3 = attdata.Expr3.Replace("[GZ]", "");
+                        }
+                    }
+                    if (attdata.DutyCode != "D")
+                    {
+                        Extra = WorkMins;
+                        WorkMins = 0;
+                    }
+                    else
+                    {
+                        if (WorkMins > attdata.ShifMin)
+                        {
+                            Extra = (int)(WorkMins - attdata.ShifMin);
+                            WorkMins = WorkMins - Extra;
+                        }
+                        else
+                        {
+                            Loss = (int)(attdata.ShifMin - WorkMins);
+                        } 
+                    }
+
                     AddDataToSumTimeDatatable(attdata.EmpDate, attdata.AttDate, attdata.EmpNo, attdata.EmpID, emp.EmpName, emp.SectionName,
                         emp.DeptName, emp.TypeName, emp.LocName, emp.ShiftName, attdata.Tin0, attdata.Tout0, diff0, attdata.Tin1, attdata.Tout1,
                         diff1, attdata.Tin2, attdata.Tout2, diff2, attdata.Tin3, attdata.Tout3, diff3, attdata.Tin4, attdata.Tout4, diff4,
-                        attdata.Tin5, attdata.Tout5, diff5, WorkMins, attdata.ShifMin, attdata.DutyCode, Loss, Extra, attdata.Remarks);
+                        attdata.Tin5, attdata.Tout5, diff5, WorkMins, attdata.ShifMin, attdata.DutyCode, Loss, Extra, attdata.Expr3);
 
                 }
             }
@@ -3168,6 +3285,98 @@ namespace WMS.Reports
                 Tout0, Diff0,Tin1, Tout1, Diff1, Tin2, Tout2, Diff2, Tin3, Tout3, Diff3, Tin4, Tout4, Diff4, Tin5, Tout5, Diff5, 
                 WorkMin, ShiftMin, DutyCode, LossMin, ExtraMin, Remarks);
         }
+        #endregion
+
+        #region -Leaves Report with LWOP and CPL
+
+        private DataTable GetComplteLV(List<EmpView> _Emp, int month, DateTime startDate,DateTime EndDate)
+        {
+            using (var ctx = new TAS2013Entities())
+            {
+
+                List<LvData> _lvData = new List<LvData>();
+                _lvData = ctx.LvDatas.Where(aa => aa.AttDate >= startDate && aa.AttDate<=EndDate).ToList();
+                List<LvType> _lvTypes = ctx.LvTypes.ToList();
+                double AL = 0;
+                double CL = 0;
+                double SL = 0;
+                double Earned=0;
+                double CPL=0;
+                double LWOP=0;
+                double Maturnity=0;
+                double Accident=0;
+                double SSL=0;
+                //List<LvData> lvData = ctx.LvDatas.Where(aa=>aa.AttDate>=)
+                foreach (var emp in _Emp)
+                {
+                    foreach (var lvType in _lvTypes)
+                    {
+                        List<LvData> LvDataTemp = new List<LvData>();
+                        LvDataTemp = _lvData.Where(aa => aa.EmpID == emp.EmpID && aa.LvCode == lvType.LvType1).ToList();
+                        foreach (var item in LvDataTemp)
+                        {
+                            if(item.HalfLeave==true)
+                            {
+                                if(item.LvCode=="A")//Casual
+                                    CL = CL+0.5;
+                                if(item.LvCode=="B")//Annual
+                                    AL=AL+0.5;
+                                if(item.LvCode=="C")//Sick
+                                    SL=SL+0.5;
+                                if(item.LvCode=="D")//Earned
+                                    Earned=Earned+0.5;
+                                if(item.LvCode=="E")//CPL
+                                    CPL=CPL+0.5;
+                                if(item.LvCode=="F")//LWOP
+                                    LWOP=LWOP+0.5;
+                                if(item.LvCode=="G")//Maturnity
+                                    Maturnity=Maturnity+0.5;
+                                if(item.LvCode=="H")//Accident
+                                    Accident=Accident+0.5;
+                                if(item.LvCode=="I")//Social Security
+                                    SSL=SSL+0.5;
+                            }
+                            else
+                            {
+                                if (item.LvCode == "A")//Casual
+                                    CL = CL + 1;
+                                if (item.LvCode == "B")//Annual
+                                    AL = AL + 1;
+                                if (item.LvCode == "C")//Sick
+                                    SL = SL + 1;
+                                if (item.LvCode == "D")//Earned
+                                    Earned = Earned + 1;
+                                if (item.LvCode == "E")//CPL
+                                    CPL = CPL + 1;
+                                if (item.LvCode == "F")//LWOP
+                                    LWOP = LWOP + 1;
+                                if (item.LvCode == "G")//Maturnity
+                                    Maturnity = Maturnity + 1;
+                                if (item.LvCode == "H")//Accident
+                                    Accident = Accident + 1;
+                                if (item.LvCode == "I")//Social Security
+                                    SSL = SSL + 1;
+
+                            }
+
+                        }
+
+                    }
+                    AddCompleteLVDataToDT(emp.EmpNo, emp.EmpName, emp.DesignationName, emp.SectionName,
+                        emp.DeptName, emp.TypeName, emp.CatName, emp.LocName,AL,CL,SL,Earned,CPL,LWOP,Maturnity,Accident,SSL);
+                }
+            }
+            return ComplteLvSummaryMonth;
+        }
+        public void AddCompleteLVDataToDT(string EmpNo, string EmpName, string Designation, string Section,
+                                 string Department, string EmpType, string Category, string Location,
+                                double TotalAL, double TotalCL, double TotalSL, double TotalEarned, double TotalCPL, double TotalLWOP
+            , double TotalMaturnity, double TotalAccident, double TotalSSL)
+        {
+            ComplteLvSummaryMonth.Rows.Add(EmpNo, EmpName, Designation, Section, Department, EmpType, Category, Location,
+                TotalAL,TotalCL,TotalSL,TotalEarned,TotalCPL,TotalLWOP,TotalMaturnity,TotalAccident,TotalSSL);
+        }
+        DataTable ComplteLvSummaryMonth = new DataTable();
         #endregion
     }
 }

@@ -118,11 +118,11 @@ namespace WMS.Controllers
             {
                 //using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "fatima-group.com"))
                 //{
-                //  //validate the credentials
-                // //bool isValid = pc.ValidateCredentials("ffl.ithelpdesk", "fatima@0202");
-                //  bool isValid = pc.ValidateCredentials(u.UserName, u.Password);
-                //  if (isValid)
-                //  {
+                //    //validate the credentials
+                //    //bool isValid = pc.ValidateCredentials("ffl.ithelpdesk", "fatima@0202");
+                //    bool isValid = pc.ValidateCredentials(u.UserName, u.Password);
+                //    if (isValid)
+                //    {
                       if (ModelState.IsValid) // this is check validity
                       {
                           using (TAS2013Entities dc = new TAS2013Entities())
@@ -132,10 +132,11 @@ namespace WMS.Controllers
                               {
                                   Session["MDevice"] = "0";
                                   Session["MHR"] = "0";
-                                  Session["MDevice"] = "0";
                                   Session["MLeave"] = "0";
                                   Session["MEditAtt"] = "0";
                                   Session["MUser"] = "0";
+                                  Session["MProcess"] = "0";
+                                  Session["MEmail"] = "0";
                                   Session["LogedUserFullname"] = "";
                                   Session["UserCompany"] = "";
                                   Session["MRDailyAtt"] = "0";
@@ -211,8 +212,8 @@ namespace WMS.Controllers
 
                               }
                           }
-                      }
-                  //}
+                      //}
+                  }
                   //else
                   //{
                   //    int LoginCount = 0;
@@ -230,9 +231,9 @@ namespace WMS.Controllers
                   //}
                   return RedirectToAction("index");
 
-                }
+                //}
 
-            //}
+            }
             catch (Exception ex)
             {
                 ViewBag.Message = "There seems to be a problem with the network. Please contact your network administrator";
@@ -270,6 +271,8 @@ namespace WMS.Controllers
                 Session["MHR"] = null;
                 Session["MDevice"] = null;
                 Session["MLeave"] = null;
+                Session["MProcess"] = null;
+                Session["MEmail"] = null;
                 Session["MEditAtt"] = null;
                 Session["MUser"] = null;
                 Session["MRDailyAtt"] = null;

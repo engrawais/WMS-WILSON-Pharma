@@ -74,7 +74,7 @@ namespace WMS.Controllers
                     {
                         List<PollData> _Polls = new List<PollData>();
                         string _EmpDate = _attData.EmpID.ToString() + _AttDataFrom.Date.ToString("yyMMdd");
-                        _Polls = db.PollDatas.Where(aa => aa.EmpDate == _EmpDate).OrderBy(a => a.EntTime).ToList();
+                        _Polls = db.PollDatas.Where(aa => aa.EntDate == _AttDataFrom &&aa.EmpID==_attData.EmpID).OrderBy(a => a.EntTime).ToList();
                         ViewBag.PollsDataIn = _Polls.Where(aa => aa.RdrDuty == 1);
                         ViewBag.PollsDataOut = _Polls.Where(aa => aa.RdrDuty == 5);
                         ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo", _attData.EmpID);
@@ -168,7 +168,7 @@ namespace WMS.Controllers
                     HelperClass.MyHelper.SaveAuditLog(_UserID, (byte)MyEnums.FormName.EditAttendance, (byte)MyEnums.Operation.Edit, DateTime.Now);
                     ManualAttendanceProcess _pma = new ManualAttendanceProcess(_EmpDate, "", false, _NewTimeIn, _NewTimeOut, NewDutyCode, _UserID, _DutyTime, Remarks, ShiftMins);
                     List<PollData> _Polls = new List<PollData>();
-                    _Polls = db.PollDatas.Where(aa => aa.EmpDate == _EmpDate).OrderBy(a => a.EntTime).ToList();
+                    _Polls = db.PollDatas.Where(aa => aa.EntDate == _AttDate && aa.EmpID == _attData.EmpID).OrderBy(a => a.EntTime).ToList();
                     ViewBag.PollsDataIn = _Polls.Where(aa => aa.RdrDuty == 1);
                     ViewBag.PollsDataOut = _Polls.Where(aa => aa.RdrDuty == 5);
                     _attData = db.AttDatas.First(aa => aa.EmpDate == _EmpDate);
@@ -243,7 +243,7 @@ namespace WMS.Controllers
                         ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo", _attData.EmpID);
                         List<PollData> _Polls = new List<PollData>();
                         string _EmpDate = _attData.EmpID.ToString() + _AttDataFrom.Date.ToString("yyMMdd");
-                        _Polls = db.PollDatas.Where(aa => aa.EmpDate == _EmpDate).OrderBy(a => a.EntTime).ToList();
+                        _Polls = db.PollDatas.Where(aa => aa.EntDate == _AttDataFrom && aa.EmpID == _attData.EmpID).OrderBy(a => a.EntTime).ToList();
                         ViewBag.PollsDataIn = _Polls.Where(aa => aa.RdrDuty == 1);
                         ViewBag.PollsDataOut = _Polls.Where(aa => aa.RdrDuty == 5);
                         ViewBag.SucessMessage = "";
@@ -296,7 +296,7 @@ namespace WMS.Controllers
                         ViewBag.SucessMessage = "";
                         List<PollData> _Polls = new List<PollData>();
                         string _EmpDate = _attData.EmpID.ToString() + _AttDataFrom.Date.ToString("yyMMdd");
-                        _Polls = db.PollDatas.Where(aa => aa.EmpDate == _EmpDate).OrderBy(a => a.EntTime).ToList();
+                        _Polls = db.PollDatas.Where(aa => aa.EntDate == _AttDataFrom && aa.EmpID == _attData.EmpID).OrderBy(a => a.EntTime).ToList();
                         ViewBag.PollsDataIn = _Polls.Where(aa => aa.RdrDuty == 1);
                         ViewBag.PollsDataOut = _Polls.Where(aa => aa.RdrDuty == 5);
                         if (_attData.WorkMin != null)

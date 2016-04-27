@@ -179,6 +179,10 @@ namespace WMS.Controllers
                     user.MRLeave = true;
                 else
                     user.MRLeave = false;
+                if (Request.Form["MEmail"] == "1")
+                    user.MEmail = true;
+                else
+                    user.MEmail = false;
                 if (Request.Form["MRDailyAtt"] == "1")
                     user.MRDailyAtt = true;
                 else
@@ -347,6 +351,10 @@ namespace WMS.Controllers
                 user.MHR = true;
             else
                 user.MHR = false;
+            if (Request.Form["MEmail"].ToString() == "true")
+                user.MEmail = true;
+            else
+                user.MEmail = false;
             //if (Request.Form["MOption"].ToString() == "true")
             //    user.MOption = true;
             //else

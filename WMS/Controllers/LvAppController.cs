@@ -339,7 +339,7 @@ namespace WMS.Controllers
                 {
                     if (HttpContext.Request.IsAjaxRequest())
                         return Json(emp.FirstOrDefault().EmpName + "@" + emp.FirstOrDefault().Designation.DesignationName + "@" +
-                            emp.FirstOrDefault().Section.SectionName + "@" + "No Quota" + "@" + "No Quota" + "@" + "No Quota"
+                            emp.FirstOrDefault().Section.SectionName + "@" + "No Quota" + "@" + "No Quota" + "@" + "No Quota"+"@" + "No Quota"
                             + "@" + emp.FirstOrDefault().FatherName
                             + "@" + DOB
                            , JsonRequestBehavior.AllowGet);

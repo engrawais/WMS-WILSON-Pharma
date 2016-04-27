@@ -191,50 +191,7 @@
             <div class="col-md-4">
                 @Model.Remarks
             </div>
-        </div><hr />
-            <h4>Device Data</h4>
-            <section class="row">
-                @if (ViewBag.PollsDataIn != null)
-                {
-                <div class="col-md-4">
-                     @foreach (var item in ViewBag.PollsDataIn) {
-                        <div class="row">
-                        <div class="col-md-6">
-                            Time In:
-                        </div>
-                        <div class="col-md-6">
-                            @item.EntTime.TimeOfDay.ToString()
-                            <div class="label label-success">
-                                @item.Reader.RdrName
-                            </div>
-                        </div>
-                        </div>  
-                    }
-                    
-                </div>
-                    }
-                    @if( ViewBag.PollsDataOut != null)
-                    {
-                <div class="col-md-6">
-                    
-                    @foreach (var item in ViewBag.PollsDataOut) {
-                        <div class="row">
-                        <div class="col-md-4">
-                            Time Out:
-                        </div>
-                        <div class="col-md-8">
-                            @item.EntTime.TimeOfDay.ToString()
-                            <div class="label label-primary">
-                                @item.Reader.RdrName
-                            </div>
-                        </div>
-                        </div>  
-                    }
-                </div>
-                }
-                 
-            </section>
-           
+        </div><hr />           
         </div>
             <div class="col-md-6">
             <h4 style="margin-bottom:20px;">Enter New Time In and Out</h4>
@@ -330,6 +287,50 @@
             </div>
             <p style="color:green; font-size:15px;">@ViewBag.SucessMessage</p>
         </div>
+        </section>
+        <section class="row">
+            <h4>Device Data</h4>
+            <section class="row">
+                @if (ViewBag.PollsDataIn != null)
+                {
+                <div class="col-md-4">
+                     @foreach (var item in ViewBag.PollsDataIn) {
+                        <div class="row">
+                        <div class="col-md-3">
+                            Time In:
+                        </div>
+                        <div class="col-md-9">
+                            @item.EntTime.ToString("dd-MMM-yyyy hh:mm")
+                            <div class="label label-success">
+                                @item.Reader.RdrName
+                            </div>
+                        </div>
+                        </div>  
+                    }
+                    
+                </div>
+                    }
+                    @if( ViewBag.PollsDataOut != null)
+                    {
+                <div class="col-md-6">
+                    
+                    @foreach (var item in ViewBag.PollsDataOut) {
+                        <div class="row">
+                        <div class="col-md-3">
+                            Time Out:
+                        </div>
+                        <div class="col-md-9">
+                            @item.EntTime.ToString("dd-MMM-yyyy hh:mm")
+                            <div class="label label-primary">
+                                @item.Reader.RdrName
+                            </div>
+                        </div>
+                        </div>  
+                    }
+                </div>
+                }
+                 
+            </section>
         </section>
     </div>
     <div>

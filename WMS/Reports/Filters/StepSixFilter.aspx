@@ -96,7 +96,7 @@
                                     <ul>
                                         <li><a href="../ReportContainer.aspx?reportname=emp_att">Employee Attendance</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=emp_attTime">Employee Attendance (Time Difference)</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=emp_absent">Employee Absent</a></li>
+                                        <%--<li><a href="../ReportContainer.aspx?reportname=emp_absent">Employee Absent</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=Employee_Att_Summary_New_report">Employee AttSummary (Page Break)</a></li>
                                     </ul>
                                 </li>
@@ -104,7 +104,7 @@
                                     <h5>Yearly</h5>
                                     <ul>
                                         <li><a href="../ReportContainer.aspx?reportname=lv_quota">Leave Quota</a></li>
-                                        <li><a href="../SummaryReports.aspx?reportname=">Summary</a></li>
+                                        <%--<li><a href="../SummaryReports.aspx?reportname=">Summary</a></li>--%>
                                     </ul>
                                 </li>
                             </ul>
