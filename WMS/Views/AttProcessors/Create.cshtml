@@ -13,7 +13,7 @@
             <div class="control-label col-md-2">Process Type</div>
             <div class="col-md-10">
                @Html.DropDownList("PeriodTag",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
-    @Html.ValidationMessageFor(model => model.PeriodTag)
+
             </div>
          </div>
      <div id="CriteriaID">
@@ -29,7 +29,7 @@
             <div class="control-label col-md-2">Company</div>
             <div class="col-md-10">
               @Html.DropDownList("CompanyID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
-                        @Html.ValidationMessageFor(model => model.CompanyID)
+                       
             </div>
         </div>
          </div>
@@ -38,7 +38,7 @@
             <div class="control-label col-md-2">Location</div>
             <div class="col-md-10">
               @Html.DropDownList("LocationID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
-                    @Html.ValidationMessageFor(model => model.Location.LocID)
+                   
             </div>
         </div>
          </div>
@@ -95,7 +95,7 @@
             <div class="control-label col-md-2">Category</div>
             <div class="col-md-10">
              @Html.DropDownList("CatID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
-                    @Html.ValidationMessageFor(model => model.Category.CatID)
+                   
             </div>
         </div>
          </div>
