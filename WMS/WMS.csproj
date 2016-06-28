@@ -403,6 +403,8 @@
     <Content Include="Views\EmailForm\Details.cshtml" />
     <Content Include="Views\EmailForm\Edit.cshtml" />
     <Content Include="Views\EmailForm\Index.cshtml" />
+    <Content Include="Views\AttProSingle\Index.cshtml" />
+    <Content Include="Views\AttProSingle\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -423,6 +425,7 @@
     <Compile Include="Bootstrap Html Helpers\DatePickerFor.cs" />
     <Compile Include="Bootstrap Html Helpers\HelperMethods.cs" />
     <Compile Include="Controllers\AttProcessorsController.cs" />
+    <Compile Include="Controllers\AttProSingleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CrewController.cs" />
@@ -430,7 +433,9 @@
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\EditAttendanceController.cs" />
+    <Compile Include="Controllers\EditAttendance\CreateAttendance.cs" />
     <Compile Include="Controllers\EditAttendance\ManualAttendanceProcess.cs" />
+    <Compile Include="Controllers\EditAttendance\ProcessSupportFunc.cs" />
     <Compile Include="Controllers\EmailFormController.cs" />
     <Compile Include="Controllers\EmpController.cs" />
     <Compile Include="Controllers\EmpTypeController.cs" />
@@ -476,6 +481,9 @@
     <Compile Include="Models\AccessEmp.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApprovedOT.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AttCode.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -495,6 +503,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AttProcessorScheduler.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AuditEmail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AuditForm.cs">
@@ -736,6 +747,9 @@
     <Compile Include="Models\TestPollData.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TestTable.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TestView.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -830,6 +844,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewOverTime.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewPayRoll.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewPayrollData.cs">
@@ -1342,6 +1359,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\RDLC\AttDepartmentSummary.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\BadliReport.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\MRDetailExcelCOT.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\DRDeviceData.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\MLvConsumedCPL.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRCPLLeave.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRLWOPLeave.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\DRPresentFather.rdlc" />

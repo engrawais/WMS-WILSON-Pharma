@@ -34,6 +34,7 @@ namespace WMS.Models
         public string TelNo { get; set; }
         public string Email { get; set; }
         public Nullable<int> ImageID { get; set; }
+        public string Role { get; set; }
     
         public virtual ICollection<AttProcessorScheduler> AttProcessorSchedulers { get; set; }
         public virtual ICollection<Crew> Crews { get; set; }

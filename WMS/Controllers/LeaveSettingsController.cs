@@ -586,6 +586,12 @@ namespace WMS.Controllers
                             case "C"://sick
                                 _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().SL = (float)item.YearRemaining;
                                 break;
+                            case "E"://CPL
+                                if (item.YearRemaining != null)
+                                    _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().CPL = (float)item.YearRemaining;
+                                else
+                                    _leavesQuotaModel.Where(aa => aa.EmpID == item.EmpID).FirstOrDefault().CPL = 0;
+                                break;
                         } 
                     }
                 }
@@ -606,6 +612,12 @@ namespace WMS.Controllers
                             break;
                         case "C"://sick
                             lvModel.SL = (float)item.YearRemaining;
+                            break;
+                        case "E"://CPL
+                            if(item.YearRemaining!=null)
+                                lvModel.CPL = (float)item.YearRemaining;
+                            else
+                                lvModel.CPL=0;
                             break;
                     }
                     _leavesQuotaModel.Add(lvModel);
@@ -644,8 +656,6 @@ namespace WMS.Controllers
                 return Json(new { foo = "Not Found" }, JsonRequestBehavior.AllowGet);
 
             }
-            
-           
         }
     }
 

@@ -30,13 +30,40 @@ namespace WMS.Controllers
             ViewData["JobDateTo"] = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
             ViewBag.JobCardType = new SelectList(db.JobCards, "WorkCardID", "WorkCardName");
             ViewBag.ShiftList = new SelectList(db.Shifts, "ShiftID", "ShiftName");
-            ViewBag.CompanyID = new SelectList(db.Companies, "CompID", "CompName",LoggedInUser.CompanyID);
-            ViewBag.CompanyIDJobCard = new SelectList(db.Companies, "CompID", "CompName", LoggedInUser.CompanyID);
+
+            ViewBag.CompanyID = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDJobCard = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
             ViewBag.CrewList = new SelectList(db.Crews, "CrewID", "CrewName");
             ViewBag.SectionList = new SelectList(db.Sections, "SectionID", "SectionName");
             ViewBag.DesignationID = new SelectList(db.Designations.Where(aa=>aa.CompanyID==LoggedInUser.CompanyID), "DesignationID", "DesignationName");
             ViewBag.Message = "";
             return View();
+        }
+
+        private List<Company> CompanyListAccordToRole(byte? roleID, short? compID)
+        {
+            List<Company> companies = new List<Company>();
+            if (roleID == 1)
+            {
+                companies = db.Companies.ToList();
+            }
+            else if (roleID == 2)
+            {
+                companies = db.Companies.Where(aa => aa.Role == "FRT").ToList();
+            }
+            else if (roleID == 3)
+            {
+                companies = db.Companies.Where(aa => aa.Role == "NFRT").ToList();
+            }
+            else if (roleID == 4)
+            {
+                companies = db.Companies.Where(aa => aa.CompID == compID).ToList();
+            }
+            else 
+            {
+
+            }
+            return companies;
         }
 
         TAS2013Entities db = new TAS2013Entities();
@@ -416,8 +443,8 @@ namespace WMS.Controllers
                 ViewData["datef"] = Session["EditAttendanceDate"].ToString();
                 ViewData["JobDateFrom"] = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
                 ViewData["JobDateTo"] = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
-                ViewBag.CompanyID = new SelectList(db.Companies, "CompID", "CompName", LoggedInUser.CompanyID);
-                ViewBag.CompanyIDJobCard = new SelectList(db.Companies, "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyID = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyIDJobCard = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
                 ViewBag.DesignationID = new SelectList(db.Designations.Where(aa => aa.CompanyID == LoggedInUser.CompanyID), "DesignationID", "DesignationName");
                     return View("Index");
             }
@@ -431,7 +458,8 @@ namespace WMS.Controllers
                 ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s=>s.CrewName), "CrewID", "CrewName");
                 ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s=>s.SectionName), "SectionID", "SectionName");
                 ViewBag.CMessage = "An Error occured while creating Job Card of" + Request.Form["JobCardType"].ToString();
-                ViewBag.CompanyIDJobCard = new SelectList(db.Companies, "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyIDJobCard = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyID = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
                 ViewBag.DesignationID = new SelectList(db.Designations.Where(aa => aa.CompanyID == LoggedInUser.CompanyID), "DesignationID", "DesignationName");
                 return View("Index");
             }
@@ -514,7 +542,7 @@ namespace WMS.Controllers
             {
                 _empDate = _selEmp.EmpID + _Date.ToString("yyMMdd");
                 AddJobCardDataToDatabase(_empDate, _empID, _Date, _userID,jcApp);
-                if (db.AttProcesses.Where(aa => aa.ProcessDate == _Date).Count()>0)
+                if (db.AttDatas.Where(aa => aa.EmpDate == _empDate).Count() > 0)
                 {
                     switch (jcApp.CardType)
                     {
@@ -534,18 +562,78 @@ namespace WMS.Controllers
                             AddDoubleDutyAttData(_empDate, _empID, _Date, _userID, jcApp);
                             break;
                         case 9:// Badli Duty
-                            AddBadliTableData(_empID,_empDate,_Date,(short)jcApp.OtherValue,jcApp.Remarks);
+                            AddBadliTableData(_empID, _empDate, _Date, (short)jcApp.OtherValue, jcApp.Remarks);
                             AddBadliAttData(_empDate, _empID, _Date, _userID, jcApp);
                             break;
-                        //case 10:// Late In Margin
-                        //    AddLateInMarginAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
-                        //    break;
+                        case 10:// Present
+                            AddPresentToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            break;
+                        case 11:// Remove Rest
+                            AddSwapRestToAttdata(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (jcApp.CardType)
+                    {
+                        case 9:// Present 
+                            CreateAttendance ca = new CreateAttendance();
+                            ca.CreateAttendanceForEmp(_Date, db.Emps.Where(aa => aa.EmpID == _empID).ToList());
+                            AddPresentToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            break;
                     }
                 }
                 _Date = _Date.AddDays(1);
             }
             HelperClass.MyHelper.SaveAuditLog(_userID, (byte)MyEnums.FormName.EditAttendance, (byte)MyEnums.Operation.Edit, DateTime.Now);
         }
+
+        private bool AddSwapRestToAttdata(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        {
+            bool check = false;
+            try
+            {
+                //Normal Duty
+                using (var context = new TAS2013Entities())
+                {
+                    AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
+                    if (_attdata != null)
+                    {
+                        _attdata.DutyCode = "D";
+                        _attdata.StatusAB = true;
+                        _attdata.StatusDO = false;
+                        _attdata.StatusLeave = false;
+                        _attdata.StatusP = false;
+                        _attdata.ShifMin = _jcCard.WorkMin;
+                        _attdata.Remarks = "[Absent]";
+                        _attdata.TimeIn = null;
+                        _attdata.TimeOut = null;
+                        _attdata.EarlyIn = null;
+                        _attdata.EarlyOut = null;
+                        _attdata.LateIn = null;
+                        _attdata.LateOut = null;
+                        _attdata.OTMin = null;
+                        _attdata.StatusEI = null;
+                        _attdata.StatusEO = null;
+                        _attdata.StatusLI = null;
+                        _attdata.StatusLO = null;
+                        _attdata.StatusMN = true;
+                    }
+                    context.SaveChanges();
+                    if (context.SaveChanges() > 0)
+                        check = true;
+                    context.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return check;
+        }
+
+        
 
         private void AddBadliTableData(int _empID, string _empDate, DateTime _Date, short desigID, string remarks)
         {
@@ -657,6 +745,7 @@ namespace WMS.Controllers
                         _attdata.StatusLeave = false;
                         _attdata.StatusP = true;
                         _attdata.WorkMin = _jcCard.WorkMin;
+                        _attdata.OTMin = _jcCard.WorkMin;
                         _attdata.Remarks = _attdata.Remarks+"[DD][Manual]";
                         _attdata.StatusMN = true;
                         _attdata.TimeIn = null;
@@ -665,7 +754,7 @@ namespace WMS.Controllers
                         _attdata.EarlyOut = null;
                         _attdata.LateIn = null;
                         _attdata.LateOut = null;
-                        _attdata.OTMin = null;
+                        _attdata.StatusOT = true;
                         _attdata.StatusEI = null;
                         _attdata.StatusEO = null;
                         _attdata.StatusLI = null;
@@ -920,7 +1009,86 @@ namespace WMS.Controllers
             }
             return check;
         }
+        private bool AddPresentToAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        {
+            bool check = false;
+            try
+            {
+                //Normal Duty
+                using (var context = new TAS2013Entities())
+                {
+                    AttData _attdata = new AttData();
+                    _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
+                    if (context.AttDatas.Where(aa => aa.EmpDate == _empDate).Count()>0)
+                    {
+                        _attdata.DutyCode = "D";
+                        _attdata.StatusAB = false;
+                        _attdata.StatusDO = false;
+                        _attdata.StatusLeave = false;
+                        _attdata.StatusP = true;
+                        _attdata.WorkMin = _jcCard.WorkMin;
+                        _attdata.ShifMin = _jcCard.WorkMin;
+                        _attdata.Remarks = "[Present]";
+                        _attdata.TimeIn = null;
+                        _attdata.TimeOut = null;
+                        _attdata.EarlyIn = null;
+                        _attdata.EarlyOut = null;
+                        _attdata.LateIn = null;
+                        _attdata.LateOut = null;
+                        _attdata.OTMin = null;
+                        _attdata.StatusEI = null;
+                        _attdata.StatusEO = null;
+                        _attdata.StatusLI = null;
+                        _attdata.StatusLO = null;
+                        _attdata.StatusMN = true;
+                    }
+                    else
+                    {
+                        CreateAttendance ca = new CreateAttendance();
+                        ca.CreateAttendanceForEmp(_Date, context.Emps.Where(aa => aa.EmpID == _empID).ToList());
+                        using (var ctxx = new TAS2013Entities())
+                        {
+                            AttData _attdata1 = ctxx.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                            JobCard _jcCard1 = ctxx.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
+                            if (_attdata != null)
+                            {
+                                _attdata1.DutyCode = "D";
+                                _attdata1.StatusAB = false;
+                                _attdata1.StatusDO = false;
+                                _attdata1.StatusLeave = false;
+                                _attdata1.StatusP = true;
+                                _attdata1.WorkMin = _jcCard1.WorkMin;
+                                _attdata1.ShifMin = _jcCard1.WorkMin;
+                                _attdata1.Remarks = "[Present]";
+                                _attdata1.TimeIn = null;
+                                _attdata1.TimeOut = null;
+                                _attdata1.EarlyIn = null;
+                                _attdata1.EarlyOut = null;
+                                _attdata1.LateIn = null;
+                                _attdata1.LateOut = null;
+                                _attdata1.OTMin = null;
+                                _attdata1.StatusEI = null;
+                                _attdata1.StatusEO = null;
+                                _attdata1.StatusLI = null;
+                                _attdata1.StatusLO = null;
+                                _attdata1.StatusMN = true;
+                            }
+                            ctxx.SaveChanges();
+                        }
 
+                    }
+                    context.SaveChanges();
+                    if (context.SaveChanges() > 0)
+                        check = true;
+                    context.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return check;
+        }
         #endregion
     }
 }

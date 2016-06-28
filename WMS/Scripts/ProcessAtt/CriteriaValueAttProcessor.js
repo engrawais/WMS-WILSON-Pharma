@@ -2,6 +2,7 @@
     $('#location').css('display', 'none');
     $('#employee').css('display', 'none'); 
     $('#empDetails').css('display', 'none');
+
     $('#CriteriaID').change(function () {
         switch ($("#CriteriaID option:selected").html()) {
             case 'Location': $('#location').css('display', 'inline');

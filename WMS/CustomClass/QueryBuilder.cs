@@ -306,5 +306,24 @@ namespace WMS.CustomClass
             query = query + _CriteriaForOrLoc[_CriteriaForOrLoc.Count - 1];
             return query;
         }
+
+        internal string GetShiftIDFromUserLocation(User LoggedInUser)
+        {
+            string query = "";
+             string query1 = QueryForLocationSegeration(LoggedInUser);
+             DataTable dt = GetValuesfromDB("select * from Shift " + query1);
+            List<Shift> shifts = dt.ToList<Shift>();
+            List<string> shiftIDs = new List<string>();
+            foreach (var sh in shifts)
+            {
+                shiftIDs.Add(" ShiftID = " + sh.ShiftID + " ");
+            }
+            for (int i = 0; i < shiftIDs.Count - 1; i++)
+            {
+                query = query + shiftIDs[i] + " or ";
+            }
+            query = query + shiftIDs[shiftIDs.Count - 1];
+            return query;
+        }
     }
 }

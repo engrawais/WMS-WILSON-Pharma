@@ -1,0 +1,90 @@
+﻿@model WMS.Models.AttProcessorScheduler
+
+@{
+    ViewBag.Title = "Create";
+}
+<br />
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Attendance Processor</legend>
+ <div class="form-horizontal">
+     <div class="form-group">
+            <div class="control-label col-md-2">Process Type</div>
+            <div class="col-md-10">
+               @Html.DropDownList("PeriodTag",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
+    @Html.ValidationMessageFor(model => model.PeriodTag)
+            </div>
+         </div>
+     <div id="CriteriaID">
+      <div class="form-group">
+            <div class="control-label col-md-2">Criteria</div>
+            <div class="col-md-10">
+              @Html.DropDownList("CriteriaID",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
+            </div>
+        </div>
+         </div>
+     <div>
+     <div class="form-group" >
+            <div class="control-label col-md-2">Employee No</div>
+            <div class="col-md-10">
+              @Html.TextBox("EmpNo",null,new { @class = "form-control"})
+            </div>
+        </div>
+         <div class="form-group" >
+            <div class="control-label col-md-2">Company</div>
+            <div class="col-md-10">
+              @Html.DropDownList("CompanyIDForEmp",null,new { @class = "btn btn-default dropdown-toggle dropdown ComboBoxWidth"})
+            </div>
+        </div>
+         <div class="form-group" >
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-10">
+              <input type='button' id="buttonId" name="buttonId" value="Search" class="btn btn-default btn-info"/>
+            </div>
+        </div>
+         </div>
+         <div class="form-group" >
+            <div class="control-label col-md-2">Name</div>
+            <div class="col-md-10">
+             <input "form-control col-md-10 btn btn-default" type="text" id="EName" />
+            </div>
+        </div>
+         <div class="form-group" >
+            <div class="control-label col-md-2">Designation</div>
+            <div class="col-md-10">
+             <input "form-control col-md-10 btn btn-default" type="text" id="EDesignation" />
+            </div>
+        </div>
+         <div class="form-group" >
+            <div class="control-label col-md-2">Section</div>
+            <div class="col-md-10">
+              <input "form-control col-md-10 btn btn-default" type="text" id="ESection" />
+            </div>
+        </div>
+     <div class="form-group" >
+            <div class="control-label col-md-2">From</div>
+            <div class="col-md-10">
+            @Html.EditorFor(model => model.DateFrom,@DateTime.Today.ToString("dd-MMM-yyyy"))
+                @Html.ValidationMessageFor(model => model.DateFrom)
+            </div>
+        </div>
+     <div class="form-group" >
+            <div class="control-label col-md-2">To</div>
+            <div class="col-md-10">
+            @Html.EditorFor(model => model.DateTo,@DateTime.Today.ToString("dd-MMM-yyyy"))
+                @Html.ValidationMessageFor(model => model.DateTo)
+            </div>
+        </div>
+     </div>
+        <p>
+            <input type="submit" value="Create" class="btn btn-default" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="@Url.Content("~/Scripts/ProcessAtt/CriteriaValueAttProcessor.js")"></script>
