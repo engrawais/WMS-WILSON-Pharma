@@ -26,6 +26,7 @@ namespace WMS.Models
         }
     
         public DbSet<AccessEmp> AccessEmps { get; set; }
+        public DbSet<ApprovedOT> ApprovedOTs { get; set; }
         public DbSet<AttCode> AttCodes { get; set; }
         public DbSet<AttData> AttDatas { get; set; }
         public DbSet<AttDataManEdit> AttDataManEdits { get; set; }
@@ -33,6 +34,7 @@ namespace WMS.Models
         public DbSet<AttMnDataPer> AttMnDataPers { get; set; }
         public DbSet<AttProcess> AttProcesses { get; set; }
         public DbSet<AttProcessorScheduler> AttProcessorSchedulers { get; set; }
+        public DbSet<AuditEmail> AuditEmails { get; set; }
         public DbSet<AuditForm> AuditForms { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<AuditOperation> AuditOperations { get; set; }
@@ -103,6 +105,7 @@ namespace WMS.Models
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<TestTable> TestTables { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserLocation> UserLocations { get; set; }
         public DbSet<UserModule> UserModules { get; set; }
@@ -139,6 +142,7 @@ namespace WMS.Models
         public DbSet<ViewMonthlyDataPer> ViewMonthlyDataPers { get; set; }
         public DbSet<ViewMultipleInOut> ViewMultipleInOuts { get; set; }
         public DbSet<ViewOverTime> ViewOverTimes { get; set; }
+        public DbSet<ViewPayRoll> ViewPayRolls { get; set; }
         public DbSet<ViewPayrollData> ViewPayrollDatas { get; set; }
         public DbSet<ViewPollData> ViewPollDatas { get; set; }
         public DbSet<ViewPresentEmp> ViewPresentEmps { get; set; }

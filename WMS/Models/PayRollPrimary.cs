@@ -21,15 +21,18 @@ namespace WMS.Models
         public Nullable<System.DateTime> EndDate { get; set; }
         public string EmpNo { get; set; }
         public Nullable<short> TotalDays { get; set; }
-        public Nullable<short> EarnedDays { get; set; }
-        public Nullable<short> RestDays { get; set; }
-        public Nullable<short> AbsentDays { get; set; }
-        public Nullable<short> SickLeaveDays { get; set; }
-        public Nullable<short> AnnualLeaveDays { get; set; }
-        public Nullable<short> CasualDays { get; set; }
-        public Nullable<short> OtherLeaveDays { get; set; }
+        public Nullable<double> EarnedDays { get; set; }
+        public Nullable<double> PresentDays { get; set; }
+        public Nullable<double> RestDays { get; set; }
+        public Nullable<double> GZDays { get; set; }
+        public Nullable<double> AbsentDays { get; set; }
+        public Nullable<double> SickLeaveDays { get; set; }
+        public Nullable<double> AnnualLeaveDays { get; set; }
+        public Nullable<double> CasualDays { get; set; }
+        public Nullable<double> OtherLeaveDays { get; set; }
         public Nullable<short> LateInMins { get; set; }
         public Nullable<short> OverTimeMins { get; set; }
+        public Nullable<short> GZOTMins { get; set; }
         public Nullable<int> EmpID { get; set; }
         public Nullable<int> AnnualLVEncashmentDays { get; set; }
         public string BadliPNo { get; set; }

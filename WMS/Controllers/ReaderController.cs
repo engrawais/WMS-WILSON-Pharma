@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WMS.Models;
-using WMS.Models;
 using PagedList;
 using System.Text.RegularExpressions;
 using WMS.Controllers.Filters;

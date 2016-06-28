@@ -56,18 +56,18 @@ namespace WMS.Reports
                             PathString = "/WMS/Reports/RDLC/BadliReport.rdlc";
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempBadliList, _BadliList), _dateFrom + " TO " + _dateTo);
                         break;
-                    //please modify the first case 
-                    case "summarized_monthly_report":
-                        List<TASReportDataSet.SummarizedMonthlyReportDataTable> AttDeptdummy = new List<TASReportDataSet.SummarizedMonthlyReportDataTable>().ToList();
-                        title = "Department Attendace Summary";
-                        if (GlobalVariables.DeploymentType == false)
-                            PathString = "/Reports/RDLC/SummarizedMonthlyReport.rdlc";
-                        else
-                            PathString = "/WMS/Reports/RDLC/SummarizedMonthlyReport.rdlc";
+                    ////please modify the first case 
+                    //case "summarized_monthly_report":
+                    //    List<TASReportDataSet.SummarizedMonthlyReportDataTable> AttDeptdummy = new List<TASReportDataSet.SummarizedMonthlyReportDataTable>().ToList();
+                    //    title = "Department Attendace Summary";
+                    //    if (GlobalVariables.DeploymentType == false)
+                    //        PathString = "/Reports/RDLC/SummarizedMonthlyReport.rdlc";
+                    //    else
+                    //        PathString = "/WMS/Reports/RDLC/SummarizedMonthlyReport.rdlc";
 
-                        LoadReport(PathString, AttDeptdummy, _dateFrom + " TO " + _dateTo);
+                    //    LoadReport(PathString, AttDeptdummy, _dateFrom + " TO " + _dateTo);
 
-                        break;
+                    //    break;
                     case "Employee_Att_Summary_New_report": DataTable dt4  = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1" + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
                         List<ViewAttData> ListOfAttDate = new List<ViewAttData>();
                         List<ViewAttData> TempList = new List<ViewAttData>();
@@ -356,9 +356,33 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList9, _ViewList9), _dateFrom + " TO " + _dateTo);
 
                         break;
+                    case "polldata_in": dt = qb.GetValuesfromDB("select * from ViewPollData " + query + " and Status=1 " + " and (EntDate >= " + "'" + _dateFrom + "'" + " and EntDate <= " + "'"
+                                     + _dateTo + "'" + " and RdrDutyName='IN'" + " )");
+                        List<ViewPollData> _ViewList88 = dt.ToList<ViewPollData>();
+                        List<ViewPollData> _TempViewList88 = new List<ViewPollData>();
+                        title = "Device Data IN Report";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/DRDeviceData.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/DRDeviceData.rdlc";
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList88, _ViewList88), _dateFrom + " TO " + _dateTo);
+
+                        break;
+                    case "polldata_out": dt = qb.GetValuesfromDB("select * from ViewPollData " + query + " and Status=1 " + " and (EntDate >= " + "'" + _dateFrom + "'" + " and EntDate <= " + "'"
+                                    + _dateTo + "'" + " and RdrDutyName='OUT' " + " )" );
+                        _ViewList88 = dt.ToList<ViewPollData>();
+                        _TempViewList88 = new List<ViewPollData>();
+                        title = "Device Data OUT Report";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/DRDeviceData.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/DRDeviceData.rdlc";
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList88, _ViewList88), _dateFrom + " TO " + _dateTo);
+
+                        break;
                     #endregion
 
-                    #region -- Monthly Report --
+                    #region -- Monthly Leave Report
                     case "monthly_leave_sheet": string _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
                         dt = qb.GetValuesfromDB("select * from EmpView " + query + " and Status=1 ");
                         _ViewList1 = dt.ToList<EmpView>();
@@ -378,7 +402,28 @@ namespace WMS.Reports
 
                         // LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), _dateFrom);
                         break;
+                    case "monthly_leave_sheetCPL": _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
+                        dt = qb.GetValuesfromDB("select * from EmpView " + query + " and Status=1 ");
+                        _ViewList1 = dt.ToList<EmpView>();
+                        _TempViewList1 = new List<EmpView>();
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/MLvConsumedCPL.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/MLvConsumedCPL.rdlc";
+                        monthfrom = Convert.ToDateTime(_dateFrom).Month;
+                        monthTo = Convert.ToDateTime(_dateTo).Month;
+                        //int totalMonths = monthfrom < monthTo ? monthTo : monthfrom;
+                        for (int ul = monthfrom > monthTo ? monthTo : monthfrom; ul <= (monthfrom < monthTo ? monthTo : monthfrom); ul++)
+                        {
+                            LoadReport(PathString, GetLVCPL(ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), monthfrom, Convert.ToDateTime(_dateFrom)), ul);
 
+                        }
+
+                        // LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList1, _ViewList1), _dateFrom);
+                        break;
+                    #endregion
+
+                    #region -- Monthly AttendanceReport --
                     case "monthly_21-20": _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
                         monthfrom = Convert.ToDateTime(_dateFrom).Month;
                         monthTo = Convert.ToDateTime(_dateTo).Month;
@@ -510,7 +555,27 @@ namespace WMS.Reports
                             PathString = "/WMS/Reports/RDLC/MRDetailExcelC.rdlc";
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListMonthlyData, _ViewListMonthlyData), _dateFrom + " to " + _dateTo);
                         break;
+                    case "monthly_1-31_overtime": _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
+                        monthfrom = Convert.ToDateTime(_dateFrom).Month;
+                        monthTo = Convert.ToDateTime(_dateTo).Month;
 
+                        for (int i = monthfrom; i <= monthTo; i++)
+                        {
+                            consolidatedMonth = consolidatedMonth + "  Period =" + i + Convert.ToDateTime(_dateFrom).Year.ToString() + " OR";
+                        }
+                        if (consolidatedMonth.Length > 4)
+                            consolidatedMonth = consolidatedMonth.Substring(0, consolidatedMonth.Length - 3);
+                        dt = qb.GetValuesfromDB("select * from ViewMonthlyData " + query + " and Status=1" + " and" + consolidatedMonth);
+                        title = "Monthly Consolidated Attendance Sheet (1st to 31th)";
+                        _ViewListMonthlyData = dt.ToList<ViewMonthlyData>();
+                        _TempViewListMonthlyData = new List<ViewMonthlyData>();
+                        //Change the Paths
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/MRDetailExcelCOT.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/MRDetailExcelCOT.rdlc";
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListMonthlyData, _ViewListMonthlyData), _dateFrom + " to " + _dateTo);
+                        break;
                     case "monthly_21-20_consolidated": _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
                         consolidatedMonth = "";
                         monthfrom = Convert.ToDateTime(_dateFrom).Month;
@@ -755,23 +820,7 @@ namespace WMS.Reports
 
             }
         }
-        private void LoadReports(string path, DataTable _Summary,DateTime? dtFrom,DateTime? dtTo)
-        {
-            string _Header = "Employee Attendance Summary";
-            this.ReportViewer1.LocalReport.DisplayName = "Employee Attendance Summary";
-            ReportViewer1.ProcessingMode = ProcessingMode.Local;
-            ReportViewer1.LocalReport.ReportPath = Server.MapPath(path);
-            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
-            ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
-            ReportDataSource datasource1 = new ReportDataSource("DataSet1", _Summary);
-            ReportViewer1.LocalReport.DataSources.Clear();
-            ReportViewer1.LocalReport.EnableExternalImages = true;
-            ReportViewer1.LocalReport.DataSources.Add(datasource1);
-            ReportParameter rp = new ReportParameter("Header", _Header, false);
-            ReportParameter rp1 = new ReportParameter("Date", dtFrom.Value.ToString("dd-MMM-yyyy") + " TO" + dtTo.Value.ToString("dd-MMM-yyyy"), false);
-            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp,rp1});
-            ReportViewer1.LocalReport.Refresh();
-        }
+
         #region -- AttSummaryReport--
         private void monthlyProductivityProcess(String _dateFrom,String _dateTo,String query)
         {
@@ -872,7 +921,47 @@ namespace WMS.Reports
             //this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp1, rp });
             //ReportViewer1.LocalReport.Refresh();
         }
+        private void LoadReport(string PathString, List<ViewPollData> list, string date)
+        {
+            string _Header = title;
+            this.ReportViewer1.LocalReport.DisplayName = title;
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            ReportViewer1.LocalReport.ReportPath = Server.MapPath(PathString);
+            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            IEnumerable<ViewPollData> ie;
+            ie = list.AsQueryable();
+            IEnumerable<EmpPhoto> companyImage;
+            companyImage = companyimage.AsQueryable();
+            ReportDataSource datasource1 = new ReportDataSource("DataSet1", ie);
 
+            ReportViewer1.LocalReport.DataSources.Clear();
+            ReportViewer1.LocalReport.EnableExternalImages = true;
+            ReportViewer1.LocalReport.DataSources.Add(datasource1);
+            ReportParameter rp = new ReportParameter("Date", date, false);
+            ReportParameter rp1 = new ReportParameter("Header", _Header, false);
+            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp, rp1 });
+            ReportViewer1.LocalReport.Refresh();
+        }
+
+
+        private void LoadReports(string path, DataTable _Summary, DateTime? dtFrom, DateTime? dtTo)
+        {
+            string _Header = "Employee Attendance Summary";
+            this.ReportViewer1.LocalReport.DisplayName = "Employee Attendance Summary";
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            ReportViewer1.LocalReport.ReportPath = Server.MapPath(path);
+            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            ReportDataSource datasource1 = new ReportDataSource("DataSet1", _Summary);
+            ReportViewer1.LocalReport.DataSources.Clear();
+            ReportViewer1.LocalReport.EnableExternalImages = true;
+            ReportViewer1.LocalReport.DataSources.Add(datasource1);
+            ReportParameter rp = new ReportParameter("Header", _Header, false);
+            ReportParameter rp1 = new ReportParameter("Date", dtFrom.Value.ToString("dd-MMM-yyyy") + " TO" + dtTo.Value.ToString("dd-MMM-yyyy"), false);
+            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp, rp1 });
+            ReportViewer1.LocalReport.Refresh();
+        }
         private void LoadReport(DataTable dataTable, string PathString, string p)
         {
             string _Header = "Flexy Monthly Sheet";
@@ -2501,6 +2590,147 @@ namespace WMS.Reports
 
             return _ViewList;
         }
+        //DeviceData
+        public List<ViewPollData> ReportsFilterImplementation(FiltersModel fm, List<ViewPollData> _TempViewList, List<ViewPollData> _ViewList)
+        {
+            //for company
+            if (fm.CompanyFilter.Count > 0)
+            {
+                foreach (var comp in fm.CompanyFilter)
+                {
+                    short _compID = Convert.ToInt16(comp.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.CompanyID == _compID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+
+
+            //for location
+            if (fm.LocationFilter.Count > 0)
+            {
+                foreach (var loc in fm.LocationFilter)
+                {
+                    short _locID = Convert.ToInt16(loc.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.LocID == _locID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for shifts
+            if (fm.ShiftFilter.Count > 0)
+            {
+                foreach (var shift in fm.ShiftFilter)
+                {
+                    short _shiftID = Convert.ToInt16(shift.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.ShiftID == _shiftID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+
+
+            _TempViewList.Clear();
+
+            //for type
+            if (fm.TypeFilter.Count > 0)
+            {
+                foreach (var type in fm.TypeFilter)
+                {
+                    short _typeID = Convert.ToInt16(type.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.TypeID == _typeID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for crews
+            if (fm.CrewFilter.Count > 0)
+            {
+                foreach (var cre in fm.CrewFilter)
+                {
+                    short _crewID = Convert.ToInt16(cre.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.CrewID == _crewID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+
+
+
+
+            //for division
+            if (fm.DivisionFilter.Count > 0)
+            {
+                foreach (var div in fm.DivisionFilter)
+                {
+                    short _divID = Convert.ToInt16(div.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.DivID == _divID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for department
+            if (fm.DepartmentFilter.Count > 0)
+            {
+                foreach (var dept in fm.DepartmentFilter)
+                {
+                    short _deptID = Convert.ToInt16(dept.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.DeptID == _deptID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for sections
+            if (fm.SectionFilter.Count > 0)
+            {
+                foreach (var sec in fm.SectionFilter)
+                {
+                    short _secID = Convert.ToInt16(sec.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.SecID == _secID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //Employee
+            if (fm.EmployeeFilter.Count > 0)
+            {
+                foreach (var emp in fm.EmployeeFilter)
+                {
+                    int _empID = Convert.ToInt32(emp.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.EmpID == _empID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+
+            return _ViewList;
+        }
+        
         #endregion
 
         private DataTable GYL(List<EmpView> _Emp,DateTime dateTimeLv)
@@ -2733,6 +2963,248 @@ namespace WMS.Reports
             MYLeaveSummaryDT.Rows.Add(EmpID, EmpNo, EmpName, TotalAL, BalAL, TotalCL, BalCL, TotalSL, BalSL, JanAL, JanCL, JanSL, FebAL, FebCL, FebSL, MarchAL, MarchCL, MarchSL,
                 AprilAL, AprilCL, AprilSL, MayAL, MayCL, MaySL, JunAL, JunCL, JunSL, JullyAL, JullyCL, JullySL, AugAL, AugCL, AugSL,
                 SepAL, SepCL, SepSL, OctAL, OctCL, OctSL, NovAL, NovCL, NovSL, DecAL, DecCL, DecSL, Remarks, DeptName, DeptID, LocationName, LocationID, CrewName, CrewID, SecName, SecID, CompanyName, CompanyID);
+        }
+        
+        private DataTable GetLVCPL(List<EmpView> _Emp, int month, DateTime dateTimeLv)
+        {
+            using (var ctx = new TAS2013Entities())
+            {
+
+                List<LvConsumed> _lvConsumed = new List<LvConsumed>();
+                LvConsumed _lvTemp = new LvConsumed();
+                string year = dateTimeLv.Year.ToString();
+                _lvConsumed = ctx.LvConsumeds.Where(aa => aa.Year == year).ToList();
+                List<LvType> _lvTypes = ctx.LvTypes.ToList();
+                //List<LvData> lvData = ctx.LvDatas.Where(aa=>aa.AttDate>=)
+                foreach (var emp in _Emp)
+                {
+                    float BeforeCL = 0, UsedCL = 0, BalCL = 0;
+                    float BeforeSL = 0, UsedSL = 0, BalSL = 0;
+                    float BeforeAL = 0, UsedAL = 0, BalAL = 0;
+                    float BeforeCPL = 0, UsedCPL = 0, BalCPL = 0;
+                    string _month = "";
+                    List<LvConsumed> entries = _lvConsumed.Where(aa => aa.EmpID == emp.EmpID).ToList();
+                    string EmpLvC = emp.EmpID.ToString() + "A" + dateTimeLv.Year.ToString();
+                    string EmpLvS = emp.EmpID.ToString() + "C" + dateTimeLv.Year.ToString();
+                    string EmpLvA = emp.EmpID.ToString() + "B" + dateTimeLv.Year.ToString();
+                    string EmpLvE = emp.EmpID.ToString() + "E" + dateTimeLv.Year.ToString();
+                    //string EmpLvA = emp.EmpID.ToString() + "B" + dateTimeLv.Year.ToString();
+                    LvConsumed eCL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvC);
+                    LvConsumed eSL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvS);
+                    LvConsumed eAL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvA);
+                    LvConsumed eCPL = new LvConsumed();
+                    if(entries.Where(lv => lv.EmpLvTypeYear == EmpLvE).Count()>0)
+                        eCPL = entries.FirstOrDefault(lv => lv.EmpLvTypeYear == EmpLvE);
+                    else
+                    {
+                        eCPL.JanConsumed = 0;
+                        eCPL.FebConsumed = 0;
+                        eCPL.MarchConsumed = 0;
+                        eCPL.AprConsumed = 0;
+                        eCPL.MayConsumed = 0;
+                        eCPL.JuneConsumed = 0;
+                        eCPL.JulyConsumed = 0;
+                        eCPL.AugustConsumed = 0;
+                        eCPL.SepConsumed = 0;
+                        eCPL.OctConsumed = 0;
+                        eCPL.NovConsumed = 0;
+                        eCPL.DecConsumed = 0;
+                        eCPL.TotalForYear = 0;
+                        eCPL.GrandTotal = 0;
+                        eCPL.YearRemaining = 0;
+                        eCPL.GrandTotalRemaining = 0;
+                    }
+                    if (entries.Count > 0 && eCL != null && eSL != null && eAL != null)
+                    {
+                        switch (month)
+                        {
+                            case 1:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear;
+                                UsedCL = (float)eCL.JanConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear;
+                                UsedSL = (float)eSL.JanConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear;
+                                UsedAL = (float)eAL.JanConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear;
+                                UsedCPL = (float)eCPL.JanConsumed;
+                                _month = "January";
+                                break;
+                            case 2:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - (float)eCL.JanConsumed;
+                                UsedCL = (float)eCL.FebConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - (float)eSL.JanConsumed;
+                                UsedSL = (float)eSL.FebConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - (float)eAL.JanConsumed;
+                                UsedAL = (float)eAL.FebConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - (float)eCPL.JanConsumed;
+                                UsedCPL = (float)eCPL.FebConsumed;
+                                break;
+                                _month = "Febu";
+                            case 3:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed);
+                                UsedCL = (float)eCL.MarchConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed);
+                                UsedSL = (float)eSL.MarchConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed);
+                                UsedAL = (float)eAL.MarchConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed);
+                                UsedAL = (float)eAL.MarchConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed);
+                                UsedCPL = (float)eCPL.MarchConsumed;
+                                break;
+                            case 4:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed);
+                                UsedCL = (float)eCL.AprConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed);
+                                UsedSL = (float)eSL.AprConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed);
+                                UsedAL = (float)eAL.AprConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed);
+                                UsedCPL = (float)eCPL.AprConsumed;
+                                break;
+                            case 5:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed);
+                                UsedCL = (float)eCL.MayConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed);
+                                UsedSL = (float)eSL.MayConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed);
+                                UsedAL = (float)eAL.MayConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed);
+                                UsedCPL = (float)eCPL.MayConsumed;
+                                break;
+                            case 6:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed);
+                                UsedCL = (float)eCL.JuneConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed);
+                                UsedSL = (float)eSL.JuneConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed);
+                                UsedAL = (float)eAL.JuneConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed);
+                                UsedCPL = (float)eCPL.JuneConsumed;
+                                break;
+                            case 7:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed + (float)eCL.JuneConsumed);
+                                UsedCL = (float)eCL.JulyConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed + (float)eSL.JuneConsumed);
+                                UsedSL = (float)eSL.JulyConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed);
+                                UsedAL = (float)eAL.JulyConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed);
+                                UsedCPL = (float)eCPL.JulyConsumed;
+                                break;
+                            case 8:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed + (float)eCL.JuneConsumed + (float)eCL.JulyConsumed);
+                                UsedCL = (float)eCL.AugustConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed + (float)eSL.JuneConsumed + (float)eSL.JulyConsumed);
+                                UsedSL = (float)eSL.AugustConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed);
+                                UsedAL = (float)eAL.AugustConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed);
+                                UsedCPL = (float)eCPL.AugustConsumed;
+                                break;
+                            case 9:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed + (float)eCL.JuneConsumed + (float)eCL.JulyConsumed + (float)eCL.AugustConsumed);
+                                UsedCL = (float)eCL.SepConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed + (float)eSL.JuneConsumed + (float)eSL.JulyConsumed + (float)eSL.AugustConsumed);
+                                UsedSL = (float)eSL.SepConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed);
+                                UsedAL = (float)eAL.SepConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed);
+                                UsedCPL = (float)eCPL.SepConsumed;
+                                break;
+                            case 10:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed + (float)eCL.JuneConsumed + (float)eCL.JulyConsumed + (float)eCL.AugustConsumed + (float)eCL.SepConsumed);
+                                UsedCL = (float)eCL.OctConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed + (float)eSL.JuneConsumed + (float)eSL.JulyConsumed + (float)eSL.AugustConsumed + (float)eSL.SepConsumed);
+                                UsedSL = (float)eSL.OctConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed + (float)eAL.AugustConsumed);
+                                UsedAL = (float)eAL.SepConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed + (float)eCPL.AugustConsumed);
+                                UsedCPL = (float)eCPL.SepConsumed;
+                                break;
+                            case 11:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed + (float)eCL.JuneConsumed + (float)eCL.JulyConsumed + (float)eCL.AugustConsumed + (float)eCL.SepConsumed + (float)eCL.OctConsumed);
+                                UsedCL = (float)eCL.NovConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed + (float)eSL.JuneConsumed + (float)eSL.JulyConsumed + (float)eSL.AugustConsumed + (float)eSL.SepConsumed + (float)eSL.OctConsumed);
+                                UsedSL = (float)eSL.NovConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed + (float)eAL.AugustConsumed + (float)eAL.OctConsumed);
+                                UsedAL = (float)eAL.NovConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed + (float)eCPL.AugustConsumed + (float)eCPL.OctConsumed);
+                                UsedCPL = (float)eCPL.NovConsumed;
+                                break;
+                            case 12:
+                                // casual
+                                BeforeCL = (float)eCL.TotalForYear - ((float)eCL.JanConsumed + (float)eCL.FebConsumed + (float)eCL.MarchConsumed + (float)eCL.AprConsumed + (float)eCL.MayConsumed + (float)eCL.JuneConsumed + (float)eCL.JulyConsumed + (float)eCL.AugustConsumed + (float)eCL.SepConsumed + (float)eCL.OctConsumed + (float)eCL.NovConsumed);
+                                UsedCL = (float)eCL.DecConsumed;
+                                //Sick
+                                BeforeSL = (float)eSL.TotalForYear - ((float)eSL.JanConsumed + (float)eSL.FebConsumed + (float)eSL.MarchConsumed + (float)eSL.AprConsumed + (float)eSL.MayConsumed + (float)eSL.JuneConsumed + (float)eSL.JulyConsumed + (float)eSL.AugustConsumed + (float)eSL.SepConsumed + (float)eSL.OctConsumed + (float)eSL.NovConsumed);
+                                UsedSL = (float)eSL.DecConsumed;
+                                //Anual
+                                BeforeAL = (float)eAL.TotalForYear - ((float)eAL.JanConsumed + (float)eAL.FebConsumed + (float)eAL.MarchConsumed + (float)eAL.AprConsumed + (float)eAL.MayConsumed + (float)eAL.JuneConsumed + (float)eAL.JulyConsumed + (float)eAL.AugustConsumed + (float)eAL.AugustConsumed + (float)eAL.OctConsumed + (float)eAL.NovConsumed);
+                                UsedAL = (float)eAL.DecConsumed;
+                                ////CPL
+                                BeforeCPL = (float)eCPL.TotalForYear - ((float)eCPL.JanConsumed + (float)eCPL.FebConsumed + (float)eCPL.MarchConsumed + (float)eCPL.AprConsumed + (float)eCPL.MayConsumed + (float)eCPL.JuneConsumed + (float)eCPL.JulyConsumed + (float)eCPL.AugustConsumed + (float)eAL.AugustConsumed + (float)eCPL.OctConsumed + (float)eCPL.NovConsumed);
+                                UsedCPL = (float)eCPL.DecConsumed;
+                                break;
+
+                        }
+                        BalCL = (float)(BeforeCL - UsedCL);
+                        BalSL = (float)(BeforeSL - UsedSL);
+                        BalAL = (float)(BeforeAL - UsedAL);
+                        BalCPL = (float)(BeforeCPL - UsedCPL);
+                        AddDataToDT(emp.EmpNo, emp.EmpName, emp.DesignationName, emp.SectionName,
+                            emp.DeptName, emp.TypeName, emp.CatName, emp.LocName,
+                            BeforeCL, BeforeSL, BeforeAL, BeforeCPL, UsedCL, UsedSL, UsedAL, UsedCPL, BalCL, BalSL, BalAL, BalCPL, _month);
+                    }
+
+                }
+            }
+            return LvSummaryMonth;
         }
 
         #region --Leave Process--

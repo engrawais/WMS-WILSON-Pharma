@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WMS.Controllers.Filters;
+using WMS.CustomClass;
 using WMS.HelperClass;
 using WMS.Models;
 
@@ -29,15 +31,18 @@ namespace WMS.Controllers
         public ActionResult RosterAppIndex(FormCollection form)
         {
             User LoggedInUser = Session["LoggedUser"] as User;
-            List<RosterApp> rosterapps = new List<RosterApp>();
             int _UserID = Convert.ToInt32(Session["LogedUserID"].ToString());
-            rosterapps = db.RosterApps.Where(aa => aa.Status == true && aa.UserID == _UserID).ToList();
+            QueryBuilder qb = new QueryBuilder();
+            string query = qb.GetShiftIDFromUserLocation(LoggedInUser);
+            DataTable dt = qb.GetValuesfromDB("select * from RosterApp where " + query);
+            List<RosterApp> rosterapps = dt.ToList<RosterApp>();
 
             List<RosterApplication> _RosterApplicationsList = new List<RosterApplication>();
             List<Crew> Crews = db.Crews.ToList();
             List<Section> Sections = db.Sections.ToList();
             List<Emp> Emps = db.Emps.ToList();
             List<Shift> shifts = db.Shifts.ToList();
+            List<RosterType> rts = db.RosterTypes.ToList();
             foreach (var item in rosterapps)
             {
                 try
@@ -66,7 +71,7 @@ namespace WMS.Controllers
                     }
                     _RosterApplication.WorkMin = item.WorkMin;
                     _RosterApplication.DutyTime = item.DutyTime;
-                    _RosterApplication.RosterType = item.RosterType.Name;
+                    _RosterApplication.RosterType = rts.First(aa=>aa.ID==item.RotaTypeID).Name;
                     _RosterApplication.Shift = shifts.First(aa => aa.ShiftID == item.ShiftID).ShiftName;
                     _RosterApplicationsList.Add(_RosterApplication);
                 }
