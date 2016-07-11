@@ -3702,12 +3702,18 @@ namespace WMS.Reports
                         if (attdata.StatusMN == true)
                         {
                             if (WorkMins > 300)
-                                WorkMins = WorkMins - 60;
+                            {
+                                //WorkMins = WorkMins - 60;
+                                WorkMins = WorkMins-0;
+                            }
                         }
                         if (attdata.ShifMin > 0)
                         {
-                            if(attdata.AttDate.Value.DayOfWeek!=DayOfWeek.Friday)
-                                attdata.ShifMin = (short)(attdata.ShifMin - 60);
+                            if (attdata.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
+                            {
+                                //attdata.ShifMin = (short)(attdata.ShifMin - 60);
+                                attdata.ShifMin = (short)(attdata.ShifMin - 0);
+                            }
                         }
                            
                     }
