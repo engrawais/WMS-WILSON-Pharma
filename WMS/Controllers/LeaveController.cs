@@ -812,6 +812,7 @@ namespace WMS.Controllers
 
         public bool HasLeaveQuota(int empID, string lvType)
         {
+
             bool check = false;
             using (var ctx = new TAS2013Entities())
             {
