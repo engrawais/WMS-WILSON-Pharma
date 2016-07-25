@@ -3703,19 +3703,24 @@ namespace WMS.Reports
                         {
                             if (WorkMins > 300)
                             {
-                                //WorkMins = WorkMins - 60;
-                                WorkMins = WorkMins-0;
+                                if(attdata.AttDate.Value.Day >=7)
+                                    WorkMins = WorkMins - 0;
+                                else
+                                    WorkMins = WorkMins - 60;
                             }
                         }
                         if (attdata.ShifMin > 0)
                         {
                             if (attdata.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
                             {
+                                if (attdata.AttDate.Value.Day >= 7)
+                                    attdata.ShifMin = (short)(attdata.ShifMin - 0);
+                                else
+                                    attdata.ShifMin = (short)(attdata.ShifMin - 60);
                                 //attdata.ShifMin = (short)(attdata.ShifMin - 60);
-                                attdata.ShifMin = (short)(attdata.ShifMin - 0);
+                                //attdata.ShifMin = (short)(attdata.ShifMin - 0);
                             }
-                        }
-                           
+                        } 
                     }
                     else if (attdata.ShiftID == 3)
                     {
