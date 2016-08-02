@@ -123,7 +123,8 @@ namespace WMS.Controllers
                 //    bool isValid = pc.ValidateCredentials(u.UserName, u.Password);
                 //    if (isValid)
                 //    {
-                      if (ModelState.IsValid) // this is check validity
+                #region -- Login--
+                if (ModelState.IsValid) // this is check validity
                       {
                           using (TAS2013Entities dc = new TAS2013Entities())
                           {
@@ -213,20 +214,7 @@ namespace WMS.Controllers
                               }
                           }
                       }
-                    //}
-                  //else
-                  //{
-                  //    int LoginCount = 0;
-                  //    bool successOnConversion = int.TryParse(Session["LoginCount"] as string, out LoginCount);
-                  //    if (successOnConversion == true)
-                  //    {
-                  //        LoginCount++;
-                  //        Session["LoginCount"] = LoginCount + "";
-                  //    }
-                  //    else
-                  //    {
-                  //        Session["LoginCount"] = "1";
-                  //    }
+                #endregion
 
                 //}
                   return RedirectToAction("index");

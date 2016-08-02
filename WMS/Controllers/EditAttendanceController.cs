@@ -418,7 +418,7 @@ namespace WMS.Controllers
                             if (Request.Form["cars"].ToString() == "employee")
                             {
                                 _EmpNo = Request.Form["JobEmpNo"];
-                                _Emp = db.Emps.Where(aa => aa.EmpNo == _EmpNo && aa.CompanyID == CompID).ToList();
+                                _Emp = db.Emps.Where(aa => aa.EmpNo == _EmpNo && aa.CompanyID == CompID && aa.Status == true).ToList();
                                 if (_Emp.Count > 0)
                                 {
                                     jobCardApp.CriteriaData = _Emp.FirstOrDefault().EmpID;

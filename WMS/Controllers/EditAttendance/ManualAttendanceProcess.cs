@@ -229,15 +229,15 @@ namespace WMS.Controllers.EditAttendance
             try
             {
                 //Calculate WorkMin
-                attendanceRecord.Remarks.Replace("[LI]", "");
-                attendanceRecord.Remarks.Replace("[EI]", "");
-                attendanceRecord.Remarks.Replace("[EO]", "");
-                attendanceRecord.Remarks.Replace("[LO]", "");
-                attendanceRecord.Remarks.Replace("[G-OT]", "");
-                attendanceRecord.Remarks.Replace("[R-OT]", "");
-                attendanceRecord.Remarks.Replace("[N-OT]", "");
-                attendanceRecord.Remarks.Replace("[Manual]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
+                attendanceRecord.Remarks =attendanceRecord.Remarks.Replace("[LI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
                 //attendanceRecord.Remarks = "";
                 TimeSpan mins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
                 //Check if GZ holiday then place all WorkMin in GZOTMin
@@ -282,14 +282,14 @@ namespace WMS.Controllers.EditAttendance
                             {
                                 attendanceRecord.StatusLI = null;
                                 attendanceRecord.LateIn = null;
-                                attendanceRecord.Remarks.Replace("[LI]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
                             }
                         }
                         else
                         {
                             attendanceRecord.StatusLI = null;
                             attendanceRecord.LateIn = null;
-                            attendanceRecord.Remarks.Replace("[LI]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
                         }
 
                         //Calculate Early In, Compare margin with Shift Early In
@@ -307,14 +307,14 @@ namespace WMS.Controllers.EditAttendance
                             {
                                 attendanceRecord.StatusEI = null;
                                 attendanceRecord.EarlyIn = null;
-                                attendanceRecord.Remarks.Replace("[EI]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
                             }
                         }
                         else
                         {
                             attendanceRecord.StatusEI = null;
                             attendanceRecord.EarlyIn = null;
-                            attendanceRecord.Remarks.Replace("[EI]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
                         }
 
                         // CalculateShiftEndTime = ShiftStart + DutyHours
@@ -335,14 +335,14 @@ namespace WMS.Controllers.EditAttendance
                             {
                                 attendanceRecord.StatusEO = null;
                                 attendanceRecord.EarlyOut = null;
-                                attendanceRecord.Remarks.Replace("[EO]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
                             }
                         }
                         else
                         {
                             attendanceRecord.StatusEO = null;
                             attendanceRecord.EarlyOut = null;
-                            attendanceRecord.Remarks.Replace("[EO]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
                         }
                         //Calculate Late Out, Compare margin with Shift Late Out
                         if (attendanceRecord.TimeOut.Value > shiftEnd)
@@ -361,10 +361,9 @@ namespace WMS.Controllers.EditAttendance
                                 attendanceRecord.StatusLO = null;
                                 attendanceRecord.LateOut = null;
                                 attendanceRecord.OTMin = null;
-                                attendanceRecord.StatusOT = null;
-                                attendanceRecord.Remarks.Replace("[OT]", "");
-                                attendanceRecord.Remarks.Replace("[N-OT]", "");
-                                attendanceRecord.Remarks.Replace("[LO]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");attendanceRecord.Remarks.Replace("[OT]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
                             }
                         }
                         else
@@ -373,9 +372,9 @@ namespace WMS.Controllers.EditAttendance
                             attendanceRecord.LateOut = null;
                             attendanceRecord.OTMin = null;
                             attendanceRecord.StatusOT = null;
-                            attendanceRecord.Remarks.Replace("[OT]", "");
-                            attendanceRecord.Remarks.Replace("[N-OT]", "");
-                            attendanceRecord.Remarks.Replace("[LO]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[OT]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
                         }
 
                         //Subtract EarlyIn and LateOut from Work Minutes
@@ -422,8 +421,8 @@ namespace WMS.Controllers.EditAttendance
                             {
                                 attendanceRecord.OTMin = null;
                                 attendanceRecord.StatusOT = null;
-                                attendanceRecord.Remarks.Replace("[OT]", "");
-                                attendanceRecord.Remarks.Replace("[N-OT]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[OT]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
                             }
                         }
                         //Mark Absent if less than 4 hours
@@ -431,22 +430,30 @@ namespace WMS.Controllers.EditAttendance
                         {
                             if (attendanceRecord.DutyCode == "D")
                             {
-                                short MinShiftMin = (short)shift.MinHrs;
-                                if (attendanceRecord.WorkMin < MinShiftMin)
+                                int minMinutes = 0;
+                                //currentday is present
+                                if (shift.MinHrs > 100)
+                                {
+                                    minMinutes = (int)attendanceRecord.ShifMin;
+                                    minMinutes = minMinutes / 2;
+                                }
+                                else
+                                    minMinutes = (int)shift.MinHrs;
+                                if (attendanceRecord.WorkMin < minMinutes)
                                 {
                                     attendanceRecord.StatusAB = true;
                                     attendanceRecord.StatusP = false;
                                     attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent]";
-                                    attendanceRecord.Remarks.Replace("[LI]", "");
-                                    attendanceRecord.Remarks.Replace("[EI]", "");
-                                    attendanceRecord.Remarks.Replace("[EO]", "");
-                                    attendanceRecord.Remarks.Replace("[LO]", "");
+                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
                                 }
                                 else
                                 {
                                     attendanceRecord.StatusAB = false;
                                     attendanceRecord.StatusP = true;
-                                    attendanceRecord.Remarks.Replace("[Absent]", "");
+                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
                                 }
                             }
                         }
@@ -471,14 +478,14 @@ namespace WMS.Controllers.EditAttendance
                 //Calculate WorkMin
                 if (attendanceRecord != null)
                 {
-                    attendanceRecord.Remarks.Replace("[LI]", "");
-                    attendanceRecord.Remarks.Replace("[EI]", "");
-                    attendanceRecord.Remarks.Replace("[EO]", "");
-                    attendanceRecord.Remarks.Replace("[LO]", "");
-                    attendanceRecord.Remarks.Replace("[G-OT]", "");
-                    attendanceRecord.Remarks.Replace("[R-OT]", "");
-                    attendanceRecord.Remarks.Replace("[N-OT]", "");
-                    attendanceRecord.Remarks.Replace("[Manual]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
                     attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
                     if (attendanceRecord.TimeOut != null && attendanceRecord.TimeIn != null)
                     {
@@ -545,16 +552,16 @@ namespace WMS.Controllers.EditAttendance
                                             attendanceRecord.StatusAB = true;
                                             attendanceRecord.StatusP = false;
                                             attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent]";
-                                            attendanceRecord.Remarks.Replace("[LI]", "");
-                                            attendanceRecord.Remarks.Replace("[EI]", "");
-                                            attendanceRecord.Remarks.Replace("[EO]", "");
-                                            attendanceRecord.Remarks.Replace("[LO]", "");
+                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
                                         }
                                         else
                                         {
                                             attendanceRecord.StatusAB = false;
                                             attendanceRecord.StatusP = true;
-                                            attendanceRecord.Remarks.Replace("[Absent]", "");
+                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
                                         }
                                     }
                                 }

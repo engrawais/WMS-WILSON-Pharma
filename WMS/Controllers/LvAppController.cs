@@ -118,7 +118,7 @@ namespace WMS.Controllers
                 ModelState.AddModelError("FromDate", "From Date should be smaller than To Date");
             Int16 CompID = Convert.ToInt16(Request.Form["CompanyID"]);
             string _EmpNo = Request.Form["EmpNo"].ToString();
-            List<Emp> _emp = db.Emps.Where(aa => aa.EmpNo == _EmpNo && aa.CompanyID == CompID).ToList();
+            List<Emp> _emp = db.Emps.Where(aa => aa.EmpNo == _EmpNo && aa.CompanyID == CompID && aa.Status == true).ToList();
             if (_emp.Count == 0 )
             {
                 ModelState.AddModelError("EmpNo", "Emp No not exist");

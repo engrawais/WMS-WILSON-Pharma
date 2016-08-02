@@ -143,7 +143,7 @@ namespace WMS.Controllers
                         string ee = Request.Form["EmpNo"].ToString();
                         int cc = Convert.ToInt16(Request.Form["CompanyIDForEmp"].ToString());
                         List<Emp> empss = new List<Emp>();
-                        empss = context.Emps.Where(aa => aa.EmpNo == ee && aa.CompanyID == cc).ToList();
+                        empss = context.Emps.Where(aa => aa.EmpNo == ee && aa.CompanyID == cc &&aa.Status==true).ToList();
                         if (empss.Count() > 0)
                         {
                             attprocessor.EmpID = empss.First().EmpID;
