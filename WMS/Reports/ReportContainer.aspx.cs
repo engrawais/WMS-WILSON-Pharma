@@ -241,17 +241,17 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList5, _ViewList5), _dateFrom + " TO " + _dateTo);
 
                         break;
-                    case "lv_application": DataTable dt6 = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
-                                                + _dateTo + "'" + " )" + " and (StatusLeave=1 OR StatusHL=1)");
-                        List<ViewAttData> _ViewList6 = dt6.ToList<ViewAttData>();
-                        List<ViewAttData> _TempViewList6 = new List<ViewAttData>();
+                    case "lv_application": DataTable dt6 = qb.GetValuesfromDB("select * from ViewLvApplication " + query + " and Status=1 " + " and (FromDate >= " + "'" + _dateFrom + "'" + " and FromDate <= " + "'"
+                                                + _dateTo + "'" + " )" );
+                        List<ViewLvApplication> _ViewList6 = dt6.ToList<ViewLvApplication>();
+                        List<ViewLvApplication> _TempViewList6 = new List<ViewLvApplication>();
                         title = "Leave Attendence Report";
                         if (GlobalVariables.DeploymentType == false)
-                            PathString = "/Reports/RDLC/DRAbsent.rdlc";
+                            PathString = "/Reports/RDLC/DRLeave.rdlc";
                         else
-                            PathString = "/WMS/Reports/RDLC/DRAbsent.rdlc";
+                            PathString = "/WMS/Reports/RDLC/DRLeave.rdlc";
 
-                        //LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList6, _ViewList6), _dateFrom + " TO " + _dateTo);
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList6, _ViewList6), _dateFrom + " TO " + _dateTo);
                         //To-do Develop Leave Attendance Report
                         break;
                     case "short_lv": DataTable dt7 = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
