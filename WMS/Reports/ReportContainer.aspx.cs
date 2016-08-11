@@ -3703,9 +3703,19 @@ namespace WMS.Reports
                         {
                             if (WorkMins > 300)
                             {
-                                if(attdata.AttDate.Value.Day >=7)
-                                    WorkMins = WorkMins - 0;
-                                else
+                                //if (attdata.AttDate.Value.Day < 5)
+                                //    WorkMins = WorkMins - 0;
+                                //else
+                                    WorkMins = WorkMins - 60;
+                            }
+                        }
+                        else
+                        {
+                            if (WorkMins > 300)
+                            {
+                                //if (attdata.AttDate.Value.Day < 5)
+                                //    WorkMins = WorkMins - 0;
+                                //else
                                     WorkMins = WorkMins - 60;
                             }
                         }
@@ -3713,9 +3723,9 @@ namespace WMS.Reports
                         {
                             if (attdata.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
                             {
-                                if (attdata.AttDate.Value.Day >= 7)
-                                    attdata.ShifMin = (short)(attdata.ShifMin - 0);
-                                else
+                                //if (attdata.AttDate.Value.Day <5)
+                                //    attdata.ShifMin = (short)(attdata.ShifMin - 0);
+                                //else
                                     attdata.ShifMin = (short)(attdata.ShifMin - 60);
                                 //attdata.ShifMin = (short)(attdata.ShifMin - 60);
                                 //attdata.ShifMin = (short)(attdata.ShifMin - 0);
@@ -3728,7 +3738,8 @@ namespace WMS.Reports
                         {
                             attdata.DutyCode = "D";
                             attdata.ShifMin = 480;
-                            attdata.Expr3 = attdata.Expr3.Replace("[GZ]", "");
+                            if(attdata.Expr3!=null)
+                                attdata.Expr3 = attdata.Expr3.Replace("[GZ]", "");
                         }
                     }
                     if (attdata.DutyCode != "D")
