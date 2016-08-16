@@ -2919,15 +2919,15 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="200" />
           <Property Name="CCAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="CriteriaComLoc" Type="nvarchar" MaxLength="50" />
           <Property Name="CompanyID" Type="smallint" />
           <Property Name="DepartmentID" Type="smallint" />
           <Property Name="SectionID" Type="smallint" />
-          <Property Name="Criteria" Type="nvarchar" MaxLength="50" />
+          <Property Name="CriteriaDepSec" Type="nvarchar" MaxLength="50" />
           <Property Name="ReportCurrentDate" Type="bit" />
           <Property Name="LocationID" Type="smallint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="HasCat" Type="bit" />
-          <Property Name="HasLoc" Type="bit" />
           <Property Name="EmailTime" Type="time" />
         </EntityType>
         <EntityType Name="Emergency">
@@ -7880,15 +7880,15 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="EmailAddress" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CCAddress" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CriteriaComLoc" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="CompanyID" />
           <Property Type="Int16" Name="DepartmentID" />
           <Property Type="Int16" Name="SectionID" />
-          <Property Type="String" Name="Criteria" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CriteriaDepSec" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="ReportCurrentDate" />
           <Property Type="Int16" Name="LocationID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Boolean" Name="HasCat" />
-          <Property Type="Boolean" Name="HasLoc" />
           <Property Type="Time" Name="EmailTime" Precision="7" />
           <NavigationProperty Name="Category" Relationship="TAS2013Model.FK_EmailEntryForm_Category" FromRole="EmailEntryForm" ToRole="Category" />
           <NavigationProperty Name="Company" Relationship="TAS2013Model.FK_EmailEntryForm_Company" FromRole="EmailEntryForm" ToRole="Company" />
@@ -12351,15 +12351,15 @@
             <EntityTypeMapping TypeName="TAS2013Model.EmailEntryForm">
               <MappingFragment StoreEntitySet="EmailEntryForm">
                 <ScalarProperty Name="EmailTime" ColumnName="EmailTime" />
-                <ScalarProperty Name="HasLoc" ColumnName="HasLoc" />
                 <ScalarProperty Name="HasCat" ColumnName="HasCat" />
                 <ScalarProperty Name="CatID" ColumnName="CatID" />
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="ReportCurrentDate" ColumnName="ReportCurrentDate" />
-                <ScalarProperty Name="Criteria" ColumnName="Criteria" />
+                <ScalarProperty Name="CriteriaDepSec" ColumnName="CriteriaDepSec" />
                 <ScalarProperty Name="SectionID" ColumnName="SectionID" />
                 <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CriteriaComLoc" ColumnName="CriteriaComLoc" />
                 <ScalarProperty Name="CCAddress" ColumnName="CCAddress" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
