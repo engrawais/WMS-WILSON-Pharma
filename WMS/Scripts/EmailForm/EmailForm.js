@@ -1,9 +1,11 @@
 ﻿
 $(document).ready(function () {
-
-    $("#CDept").hide(); 
-    $("#CLoc").hide();
+    $("#CDept").hide();
+    $("#CSec").hide();
     $("#CCat").hide();
+
+    $("#CLoc").hide();
+    $("#AddLoc").hide();
     $('#Criteria').change(function () {
         var test = $(this).val();
         if (test == 'D') {
@@ -13,6 +15,20 @@ $(document).ready(function () {
         if (test == 'S') {
             $("#CSec").show();
             $("#CDept").hide();
+        }
+    });
+    $('#CriteriaComp').change(function () {
+        var test = $(this).val();
+        if (test == 'C') {
+            $("#CComp").show();
+            $("#CLoc").hide();
+            $("#AddLoc").hide();
+        }
+        if (test == 'L') {
+            $("#CLoc").show();
+            $("#CComp").hide();
+            $("#AddLoc").show();
+            $("#SecDept").hide();
         }
     });
 
