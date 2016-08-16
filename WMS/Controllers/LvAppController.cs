@@ -113,69 +113,41 @@ namespace WMS.Controllers
         [CustomActionAttribute]
         public ActionResult Create([Bind(Include = "LvID,LvDate,LvType,EmpID,FromDate,ToDate,NoOfDays,IsHalf,FirstHalf,HalfAbsent,LvReason,LvAddress,CreatedBy,ApprovedBy,Status")] LvApplication lvapplication)
         {
-            User LoggedInUser = Session["LoggedUser"] as User;
-            if (lvapplication.FromDate.Date > lvapplication.ToDate.Date)
-                ModelState.AddModelError("FromDate", "From Date should be smaller than To Date");
-            Int16 CompID = Convert.ToInt16(Request.Form["CompanyID"]);
-            string _EmpNo = Request.Form["EmpNo"].ToString();
-            List<Emp> _emp = db.Emps.Where(aa => aa.EmpNo == _EmpNo && aa.CompanyID == CompID && aa.Status == true).ToList();
-            if (_emp.Count == 0 )
-            {
-                ModelState.AddModelError("EmpNo", "Emp No not exist");
-            }
-            else
-            {
-                lvapplication.EmpID = _emp.FirstOrDefault().EmpID;
-            }
-            if (ModelState.IsValid)
-            {
-                LeaveController LvProcessController = new LeaveController();
-                if (LvProcessController.HasLeaveQuota(lvapplication.EmpID,lvapplication.LvType))
+            string Firstdate = Request.Form["FromDate"].ToString();
+            string Seconddate = Request.Form["ToDate"].ToString();
+             lvapplication.NoOfDays = (float)((lvapplication.ToDate - lvapplication.FromDate).TotalDays) + 1;
+             #region
+             if (lvapplication.NoOfDays > 100)
+             {
+                 ModelState.AddModelError("LvType", "Date criteria is too much long kindly give correct date ");
+             }
+                User LoggedInUser = Session["LoggedUser"] as User;
+                if (lvapplication.FromDate.Date > lvapplication.ToDate.Date)
+                    ModelState.AddModelError("FromDate", "From Date should be smaller than To Date");
+                Int16 CompID = Convert.ToInt16(Request.Form["CompanyID"]);
+                string _EmpNo = Request.Form["EmpNo"].ToString();
+                List<Emp> _emp = db.Emps.Where(aa => aa.EmpNo == _EmpNo && aa.CompanyID == CompID && aa.Status == true).ToList();
+                if (_emp.Count == 0)
                 {
-                    if (lvapplication.IsHalf != true)
+                    ModelState.AddModelError("EmpNo", "Emp No not exist");
+                }
+                else
+                {
+                    lvapplication.EmpID = _emp.FirstOrDefault().EmpID;
+                }
+                if (ModelState.IsValid)
+                {
+                    LeaveController LvProcessController = new LeaveController();
+                    if (LvProcessController.HasLeaveQuota(lvapplication.EmpID, lvapplication.LvType))
                     {
-                        lvapplication.NoOfDays = (float)((lvapplication.ToDate - lvapplication.FromDate).TotalDays) + 1;
-                        lvapplication.Active = true;
-                        if (LvProcessController.CheckDuplicateLeave(lvapplication))
+                        if (lvapplication.IsHalf != true)
                         {
-                            //Check leave Balance
-                            if (LvProcessController.CheckLeaveBalance(lvapplication))
-                            {
-                                lvapplication.LvDate = DateTime.Today;
-                                int _userID = Convert.ToInt32(Session["LogedUserID"].ToString());
-                                lvapplication.CreatedBy = _userID;
-                                lvapplication.CompanyID = _emp.FirstOrDefault().CompanyID;
-                                lvapplication.Active = true;
-                                db.LvApplications.Add(lvapplication);
-                                if (db.SaveChanges() > 0)
-                                {
-                                    HelperClass.MyHelper.SaveAuditLog(_userID, (byte)MyEnums.FormName.Leave, (byte)MyEnums.Operation.Add, DateTime.Now);
-                                    LvProcessController.AddLeaveToLeaveData(lvapplication);
-                                    LvProcessController.AddLeaveToLeaveAttData(lvapplication);
-                                    ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo");
-                                    ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s=>s.LvType1).ToList(), "LvType1", "LvDesc");
-                                    return RedirectToAction("Create");
-                                }
-                                else
-                                {
-                                    ModelState.AddModelError("LvType", "There is an error while creating leave.");
-                                }
-
-                            }
-                            else
-                                ModelState.AddModelError("LvType", "Leave Balance Exceeds, Please check the balance");
-                        }
-                        else
-                            ModelState.AddModelError("FromDate", "This Employee already has leave of this date ");
-                    }
-                    else
-                    {
-                        lvapplication.NoOfDays = (float)0.5;
-                        if (lvapplication.FromDate.Date == lvapplication.ToDate.Date)
-                        {
+                            lvapplication.NoOfDays = (float)((lvapplication.ToDate - lvapplication.FromDate).TotalDays) + 1;
+                            lvapplication.Active = true;
                             if (LvProcessController.CheckDuplicateLeave(lvapplication))
                             {
-                                if (LvProcessController.CheckHalfLeaveBalance(lvapplication))
+                                //Check leave Balance
+                                if (LvProcessController.CheckLeaveBalance(lvapplication))
                                 {
                                     lvapplication.LvDate = DateTime.Today;
                                     int _userID = Convert.ToInt32(Session["LogedUserID"].ToString());
@@ -186,12 +158,17 @@ namespace WMS.Controllers
                                     if (db.SaveChanges() > 0)
                                     {
                                         HelperClass.MyHelper.SaveAuditLog(_userID, (byte)MyEnums.FormName.Leave, (byte)MyEnums.Operation.Add, DateTime.Now);
-                                        LvProcessController.AddHalfLeaveToLeaveData(lvapplication);
-                                        LvProcessController.AddHalfLeaveToAttData(lvapplication);
-                                        ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo");
-                                        ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s=>s.LvType1).ToList(), "LvType1", "LvDesc");
+                                        LvProcessController.AddLeaveToLeaveData(lvapplication);
+                                        LvProcessController.AddLeaveToLeaveAttData(lvapplication);
+                                        ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s => s.EmpName), "EmpID", "EmpNo");
+                                        ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s => s.LvType1).ToList(), "LvType1", "LvDesc");
                                         return RedirectToAction("Create");
                                     }
+                                    else
+                                    {
+                                        ModelState.AddModelError("LvType", "There is an error while creating leave.");
+                                    }
+
                                 }
                                 else
                                     ModelState.AddModelError("LvType", "Leave Balance Exceeds, Please check the balance");
@@ -200,18 +177,51 @@ namespace WMS.Controllers
                                 ModelState.AddModelError("FromDate", "This Employee already has leave of this date ");
                         }
                         else
-                            ModelState.AddModelError("FromDate", "Half Leave should be entered of same date");
+                        {
+                            lvapplication.NoOfDays = (float)0.5;
+                            if (lvapplication.FromDate.Date == lvapplication.ToDate.Date)
+                            {
+                                if (LvProcessController.CheckDuplicateLeave(lvapplication))
+                                {
+                                    if (LvProcessController.CheckHalfLeaveBalance(lvapplication))
+                                    {
+                                        lvapplication.LvDate = DateTime.Today;
+                                        int _userID = Convert.ToInt32(Session["LogedUserID"].ToString());
+                                        lvapplication.CreatedBy = _userID;
+                                        lvapplication.CompanyID = _emp.FirstOrDefault().CompanyID;
+                                        lvapplication.Active = true;
+                                        db.LvApplications.Add(lvapplication);
+                                        if (db.SaveChanges() > 0)
+                                        {
+                                            HelperClass.MyHelper.SaveAuditLog(_userID, (byte)MyEnums.FormName.Leave, (byte)MyEnums.Operation.Add, DateTime.Now);
+                                            LvProcessController.AddHalfLeaveToLeaveData(lvapplication);
+                                            LvProcessController.AddHalfLeaveToAttData(lvapplication);
+                                            ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s => s.EmpName), "EmpID", "EmpNo");
+                                            ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s => s.LvType1).ToList(), "LvType1", "LvDesc");
+                                            return RedirectToAction("Create");
+                                        }
+                                    }
+                                    else
+                                        ModelState.AddModelError("LvType", "Leave Balance Exceeds, Please check the balance");
+                                }
+                                else
+                                    ModelState.AddModelError("FromDate", "This Employee already has leave of this date ");
+                            }
+                            else
+                                ModelState.AddModelError("FromDate", "Half Leave should be entered of same date");
+                        }
                     }
+                    else
+                        ModelState.AddModelError("LvType", "Leave Quota does not exist");
                 }
                 else
-                    ModelState.AddModelError("LvType", "Leave Quota does not exist");
-            }
-            else
-                ModelState.AddModelError("LvType", "Leave is not created. Please contact with network administrator");
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo", lvapplication.EmpID);
-            ViewBag.LvType = new SelectList(db.LvTypes.Where(aa=>aa.Enable==true).OrderBy(s=>s.LvType1), "LvType1", "LvDesc", lvapplication.LvType);
-            return View(lvapplication);
+                    ModelState.AddModelError("LvType", "Leave is not created. Please contact with network administrator");
+                ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName");
+                ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s => s.EmpName), "EmpID", "EmpNo", lvapplication.EmpID);
+                ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s => s.LvType1), "LvType1", "LvDesc", lvapplication.LvType);
+                return View(lvapplication);
+             #endregion
+            
         }
 
           [CustomActionAttribute]
