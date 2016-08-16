@@ -493,6 +493,9 @@
     <Compile Include="Models\AttDataManEdit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AttDataOld.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AttMnData.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -680,6 +683,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PollDataError.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PollDataOld.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RdrDutyCode.cs">

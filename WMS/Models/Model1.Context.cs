@@ -30,6 +30,7 @@ namespace WMS.Models
         public DbSet<AttCode> AttCodes { get; set; }
         public DbSet<AttData> AttDatas { get; set; }
         public DbSet<AttDataManEdit> AttDataManEdits { get; set; }
+        public DbSet<AttDataOld> AttDataOlds { get; set; }
         public DbSet<AttMnData> AttMnDatas { get; set; }
         public DbSet<AttMnDataPer> AttMnDataPers { get; set; }
         public DbSet<AttProcess> AttProcesses { get; set; }
@@ -86,6 +87,7 @@ namespace WMS.Models
         public DbSet<PayRollPrimary> PayRollPrimaries { get; set; }
         public DbSet<PollData> PollDatas { get; set; }
         public DbSet<PollDataError> PollDataErrors { get; set; }
+        public DbSet<PollDataOld> PollDataOlds { get; set; }
         public DbSet<RdrDutyCode> RdrDutyCodes { get; set; }
         public DbSet<RdrEventLog> RdrEventLogs { get; set; }
         public DbSet<Reader> Readers { get; set; }

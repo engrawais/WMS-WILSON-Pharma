@@ -11,6 +11,7 @@
           <EntitySet Name="AttCodes" EntityType="TAS2013Model.Store.AttCodes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AttData" EntityType="TAS2013Model.Store.AttData" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AttDataManEdit" EntityType="TAS2013Model.Store.AttDataManEdit" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AttDataOld" EntityType="TAS2013Model.Store.AttDataOld" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AttMnData" EntityType="TAS2013Model.Store.AttMnData" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AttMnDataPer" EntityType="TAS2013Model.Store.AttMnDataPer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AttProcess" EntityType="TAS2013Model.Store.AttProcess" store:Type="Tables" Schema="dbo" />
@@ -72,6 +73,7 @@
           <EntitySet Name="PayRollPrimary" EntityType="TAS2013Model.Store.PayRollPrimary" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PollData" EntityType="TAS2013Model.Store.PollData" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PollDataError" EntityType="TAS2013Model.Store.PollDataError" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PollDataOld" EntityType="TAS2013Model.Store.PollDataOld" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RdrDutyCode" EntityType="TAS2013Model.Store.RdrDutyCode" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RdrEventLog" EntityType="TAS2013Model.Store.RdrEventLog" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Reader" EntityType="TAS2013Model.Store.Reader" store:Type="Tables" Schema="dbo" />
@@ -2381,6 +2383,83 @@
           <Property Name="OldShiftMin" Type="smallint" />
           <Property Name="NewShiftMin" Type="smallint" />
         </EntityType>
+        <EntityType Name="AttDataOld">
+          <Key>
+            <PropertyRef Name="EmpDate" />
+          </Key>
+          <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="AttDate" Type="date" />
+          <Property Name="EmpNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="EmpID" Type="int" />
+          <Property Name="DutyCode" Type="char" MaxLength="1" />
+          <Property Name="DutyTime" Type="time" />
+          <Property Name="TimeIn" Type="datetime" />
+          <Property Name="TimeOut" Type="datetime" />
+          <Property Name="WorkMin" Type="smallint" />
+          <Property Name="LateIn" Type="smallint" />
+          <Property Name="LateOut" Type="smallint" />
+          <Property Name="EarlyIn" Type="smallint" />
+          <Property Name="EarlyOut" Type="smallint" />
+          <Property Name="OTMin" Type="smallint" />
+          <Property Name="GZOTMin" Type="smallint" />
+          <Property Name="BreakMin" Type="smallint" />
+          <Property Name="SLMin" Type="time" />
+          <Property Name="StatusP" Type="bit" />
+          <Property Name="StatusAB" Type="bit" />
+          <Property Name="StatusLI" Type="bit" />
+          <Property Name="StatusLO" Type="bit" />
+          <Property Name="StatusEI" Type="bit" />
+          <Property Name="StatusEO" Type="bit" />
+          <Property Name="StatusOT" Type="bit" />
+          <Property Name="StatusGZOT" Type="bit" />
+          <Property Name="StatusGZ" Type="bit" />
+          <Property Name="StatusDO" Type="bit" />
+          <Property Name="StatusHD" Type="bit" />
+          <Property Name="StatusSL" Type="bit" />
+          <Property Name="StatusOD" Type="bit" />
+          <Property Name="StatusHL" Type="bit" />
+          <Property Name="StatusLeave" Type="bit" />
+          <Property Name="StatusMN" Type="bit" />
+          <Property Name="StatusIN" Type="bit" />
+          <Property Name="StatusBreak" Type="bit" />
+          <Property Name="ShifMin" Type="smallint" />
+          <Property Name="ShfSplit" Type="bit" />
+          <Property Name="ProcessIn" Type="bit" />
+          <Property Name="Remarks" Type="varchar" MaxLength="100" />
+          <Property Name="Tin0" Type="datetime" />
+          <Property Name="Tout0" Type="datetime" />
+          <Property Name="Tin1" Type="datetime" />
+          <Property Name="Tout1" Type="datetime" />
+          <Property Name="Tin2" Type="datetime" />
+          <Property Name="Tout2" Type="datetime" />
+          <Property Name="Tin3" Type="datetime" />
+          <Property Name="Tout3" Type="datetime" />
+          <Property Name="Tin4" Type="datetime" />
+          <Property Name="Tout4" Type="datetime" />
+          <Property Name="Tin5" Type="datetime" />
+          <Property Name="Tout5" Type="datetime" />
+          <Property Name="Tin6" Type="datetime" />
+          <Property Name="Tout6" Type="datetime" />
+          <Property Name="Tin7" Type="datetime" />
+          <Property Name="Tout7" Type="datetime" />
+          <Property Name="Tin8" Type="datetime" />
+          <Property Name="Tout8" Type="datetime" />
+          <Property Name="Tin9" Type="datetime" />
+          <Property Name="Tout9" Type="datetime" />
+          <Property Name="Tin10" Type="datetime" />
+          <Property Name="Tout10" Type="datetime" />
+          <Property Name="Tin11" Type="datetime" />
+          <Property Name="Tout11" Type="datetime" />
+          <Property Name="Tin12" Type="datetime" />
+          <Property Name="Tout12" Type="datetime" />
+          <Property Name="Tin13" Type="datetime" />
+          <Property Name="Tout13" Type="datetime" />
+          <Property Name="Tin14" Type="datetime" />
+          <Property Name="Tout14" Type="datetime" />
+          <Property Name="Tin15" Type="datetime" />
+          <Property Name="Tout15" Type="datetime" />
+          <Property Name="CompanyID" Type="smallint" />
+        </EntityType>
         <EntityType Name="AttMnData">
           <Key>
             <PropertyRef Name="EmpMonth" />
@@ -3335,6 +3414,24 @@
           <Property Name="EntryDate" Type="date" />
           <Property Name="EntryTime" Type="datetime" />
           <Property Name="AddedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PollDataOld">
+          <Key>
+            <PropertyRef Name="PollID" />
+          </Key>
+          <Property Name="PollID" Type="bigint" Nullable="false" />
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FpID" Type="int" />
+          <Property Name="CardNo" Type="char" MaxLength="10" />
+          <Property Name="EntDate" Type="date" Nullable="false" />
+          <Property Name="EntTime" Type="datetime" Nullable="false" />
+          <Property Name="RdrID" Type="smallint" Nullable="false" />
+          <Property Name="RdrDuty" Type="tinyint" />
+          <Property Name="Process" Type="bit" />
+          <Property Name="Split" Type="bit" />
+          <Property Name="CompanyID" Type="smallint" />
+          <Property Name="AddedDate" Type="date" />
         </EntityType>
         <EntityType Name="RdrDutyCode">
           <Key>
@@ -6677,6 +6774,7 @@
           <EntitySet Name="AttCodes" EntityType="TAS2013Model.AttCode" />
           <EntitySet Name="AttDatas" EntityType="TAS2013Model.AttData" />
           <EntitySet Name="AttDataManEdits" EntityType="TAS2013Model.AttDataManEdit" />
+          <EntitySet Name="AttDataOlds" EntityType="TAS2013Model.AttDataOld" />
           <EntitySet Name="AttMnDatas" EntityType="TAS2013Model.AttMnData" />
           <EntitySet Name="AttMnDataPers" EntityType="TAS2013Model.AttMnDataPer" />
           <EntitySet Name="AttProcesses" EntityType="TAS2013Model.AttProcess" />
@@ -6733,6 +6831,7 @@
           <EntitySet Name="PayRollPrimaries" EntityType="TAS2013Model.PayRollPrimary" />
           <EntitySet Name="PollDatas" EntityType="TAS2013Model.PollData" />
           <EntitySet Name="PollDataErrors" EntityType="TAS2013Model.PollDataError" />
+          <EntitySet Name="PollDataOlds" EntityType="TAS2013Model.PollDataOld" />
           <EntitySet Name="RdrDutyCodes" EntityType="TAS2013Model.RdrDutyCode" />
           <EntitySet Name="RdrEventLogs" EntityType="TAS2013Model.RdrEventLog" />
           <EntitySet Name="Readers" EntityType="TAS2013Model.Reader" />
@@ -7206,6 +7305,83 @@
           <Property Type="Int16" Name="NewShiftMin" />
           <NavigationProperty Name="Emp" Relationship="TAS2013Model.FK_AttDataManEdit_Emp" FromRole="AttDataManEdit" ToRole="Emp" />
           <NavigationProperty Name="User" Relationship="TAS2013Model.FK_AttDataManEdit_User" FromRole="AttDataManEdit" ToRole="User" />
+        </EntityType>
+        <EntityType Name="AttDataOld">
+          <Key>
+            <PropertyRef Name="EmpDate" />
+          </Key>
+          <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="AttDate" Precision="0" />
+          <Property Type="String" Name="EmpNo" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="EmpID" />
+          <Property Type="String" Name="DutyCode" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="Time" Name="DutyTime" Precision="7" />
+          <Property Type="DateTime" Name="TimeIn" Precision="3" />
+          <Property Type="DateTime" Name="TimeOut" Precision="3" />
+          <Property Type="Int16" Name="WorkMin" />
+          <Property Type="Int16" Name="LateIn" />
+          <Property Type="Int16" Name="LateOut" />
+          <Property Type="Int16" Name="EarlyIn" />
+          <Property Type="Int16" Name="EarlyOut" />
+          <Property Type="Int16" Name="OTMin" />
+          <Property Type="Int16" Name="GZOTMin" />
+          <Property Type="Int16" Name="BreakMin" />
+          <Property Type="Time" Name="SLMin" Precision="7" />
+          <Property Type="Boolean" Name="StatusP" />
+          <Property Type="Boolean" Name="StatusAB" />
+          <Property Type="Boolean" Name="StatusLI" />
+          <Property Type="Boolean" Name="StatusLO" />
+          <Property Type="Boolean" Name="StatusEI" />
+          <Property Type="Boolean" Name="StatusEO" />
+          <Property Type="Boolean" Name="StatusOT" />
+          <Property Type="Boolean" Name="StatusGZOT" />
+          <Property Type="Boolean" Name="StatusGZ" />
+          <Property Type="Boolean" Name="StatusDO" />
+          <Property Type="Boolean" Name="StatusHD" />
+          <Property Type="Boolean" Name="StatusSL" />
+          <Property Type="Boolean" Name="StatusOD" />
+          <Property Type="Boolean" Name="StatusHL" />
+          <Property Type="Boolean" Name="StatusLeave" />
+          <Property Type="Boolean" Name="StatusMN" />
+          <Property Type="Boolean" Name="StatusIN" />
+          <Property Type="Boolean" Name="StatusBreak" />
+          <Property Type="Int16" Name="ShifMin" />
+          <Property Type="Boolean" Name="ShfSplit" />
+          <Property Type="Boolean" Name="ProcessIn" />
+          <Property Type="String" Name="Remarks" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="Tin0" Precision="3" />
+          <Property Type="DateTime" Name="Tout0" Precision="3" />
+          <Property Type="DateTime" Name="Tin1" Precision="3" />
+          <Property Type="DateTime" Name="Tout1" Precision="3" />
+          <Property Type="DateTime" Name="Tin2" Precision="3" />
+          <Property Type="DateTime" Name="Tout2" Precision="3" />
+          <Property Type="DateTime" Name="Tin3" Precision="3" />
+          <Property Type="DateTime" Name="Tout3" Precision="3" />
+          <Property Type="DateTime" Name="Tin4" Precision="3" />
+          <Property Type="DateTime" Name="Tout4" Precision="3" />
+          <Property Type="DateTime" Name="Tin5" Precision="3" />
+          <Property Type="DateTime" Name="Tout5" Precision="3" />
+          <Property Type="DateTime" Name="Tin6" Precision="3" />
+          <Property Type="DateTime" Name="Tout6" Precision="3" />
+          <Property Type="DateTime" Name="Tin7" Precision="3" />
+          <Property Type="DateTime" Name="Tout7" Precision="3" />
+          <Property Type="DateTime" Name="Tin8" Precision="3" />
+          <Property Type="DateTime" Name="Tout8" Precision="3" />
+          <Property Type="DateTime" Name="Tin9" Precision="3" />
+          <Property Type="DateTime" Name="Tout9" Precision="3" />
+          <Property Type="DateTime" Name="Tin10" Precision="3" />
+          <Property Type="DateTime" Name="Tout10" Precision="3" />
+          <Property Type="DateTime" Name="Tin11" Precision="3" />
+          <Property Type="DateTime" Name="Tout11" Precision="3" />
+          <Property Type="DateTime" Name="Tin12" Precision="3" />
+          <Property Type="DateTime" Name="Tout12" Precision="3" />
+          <Property Type="DateTime" Name="Tin13" Precision="3" />
+          <Property Type="DateTime" Name="Tout13" Precision="3" />
+          <Property Type="DateTime" Name="Tin14" Precision="3" />
+          <Property Type="DateTime" Name="Tout14" Precision="3" />
+          <Property Type="DateTime" Name="Tin15" Precision="3" />
+          <Property Type="DateTime" Name="Tout15" Precision="3" />
+          <Property Type="Int16" Name="CompanyID" />
         </EntityType>
         <EntityType Name="AttMnData">
           <Key>
@@ -8260,6 +8436,24 @@
           <Property Type="DateTime" Name="EntryDate" Precision="0" />
           <Property Type="DateTime" Name="EntryTime" Precision="3" />
           <Property Type="DateTime" Name="AddedDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="PollDataOld">
+          <Key>
+            <PropertyRef Name="PollID" />
+          </Key>
+          <Property Type="Int64" Name="PollID" Nullable="false" />
+          <Property Type="Int32" Name="EmpID" Nullable="false" />
+          <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="FpID" />
+          <Property Type="String" Name="CardNo" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="DateTime" Name="EntDate" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="EntTime" Nullable="false" Precision="3" />
+          <Property Type="Int16" Name="RdrID" Nullable="false" />
+          <Property Type="Byte" Name="RdrDuty" />
+          <Property Type="Boolean" Name="Process" />
+          <Property Type="Boolean" Name="Split" />
+          <Property Type="Int16" Name="CompanyID" />
+          <Property Type="DateTime" Name="AddedDate" Precision="0" />
         </EntityType>
         <EntityType Name="RdrDutyCode">
           <Key>
@@ -11601,6 +11795,84 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AttDataOlds">
+            <EntityTypeMapping TypeName="TAS2013Model.AttDataOld">
+              <MappingFragment StoreEntitySet="AttDataOld">
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Tout15" ColumnName="Tout15" />
+                <ScalarProperty Name="Tin15" ColumnName="Tin15" />
+                <ScalarProperty Name="Tout14" ColumnName="Tout14" />
+                <ScalarProperty Name="Tin14" ColumnName="Tin14" />
+                <ScalarProperty Name="Tout13" ColumnName="Tout13" />
+                <ScalarProperty Name="Tin13" ColumnName="Tin13" />
+                <ScalarProperty Name="Tout12" ColumnName="Tout12" />
+                <ScalarProperty Name="Tin12" ColumnName="Tin12" />
+                <ScalarProperty Name="Tout11" ColumnName="Tout11" />
+                <ScalarProperty Name="Tin11" ColumnName="Tin11" />
+                <ScalarProperty Name="Tout10" ColumnName="Tout10" />
+                <ScalarProperty Name="Tin10" ColumnName="Tin10" />
+                <ScalarProperty Name="Tout9" ColumnName="Tout9" />
+                <ScalarProperty Name="Tin9" ColumnName="Tin9" />
+                <ScalarProperty Name="Tout8" ColumnName="Tout8" />
+                <ScalarProperty Name="Tin8" ColumnName="Tin8" />
+                <ScalarProperty Name="Tout7" ColumnName="Tout7" />
+                <ScalarProperty Name="Tin7" ColumnName="Tin7" />
+                <ScalarProperty Name="Tout6" ColumnName="Tout6" />
+                <ScalarProperty Name="Tin6" ColumnName="Tin6" />
+                <ScalarProperty Name="Tout5" ColumnName="Tout5" />
+                <ScalarProperty Name="Tin5" ColumnName="Tin5" />
+                <ScalarProperty Name="Tout4" ColumnName="Tout4" />
+                <ScalarProperty Name="Tin4" ColumnName="Tin4" />
+                <ScalarProperty Name="Tout3" ColumnName="Tout3" />
+                <ScalarProperty Name="Tin3" ColumnName="Tin3" />
+                <ScalarProperty Name="Tout2" ColumnName="Tout2" />
+                <ScalarProperty Name="Tin2" ColumnName="Tin2" />
+                <ScalarProperty Name="Tout1" ColumnName="Tout1" />
+                <ScalarProperty Name="Tin1" ColumnName="Tin1" />
+                <ScalarProperty Name="Tout0" ColumnName="Tout0" />
+                <ScalarProperty Name="Tin0" ColumnName="Tin0" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProcessIn" ColumnName="ProcessIn" />
+                <ScalarProperty Name="ShfSplit" ColumnName="ShfSplit" />
+                <ScalarProperty Name="ShifMin" ColumnName="ShifMin" />
+                <ScalarProperty Name="StatusBreak" ColumnName="StatusBreak" />
+                <ScalarProperty Name="StatusIN" ColumnName="StatusIN" />
+                <ScalarProperty Name="StatusMN" ColumnName="StatusMN" />
+                <ScalarProperty Name="StatusLeave" ColumnName="StatusLeave" />
+                <ScalarProperty Name="StatusHL" ColumnName="StatusHL" />
+                <ScalarProperty Name="StatusOD" ColumnName="StatusOD" />
+                <ScalarProperty Name="StatusSL" ColumnName="StatusSL" />
+                <ScalarProperty Name="StatusHD" ColumnName="StatusHD" />
+                <ScalarProperty Name="StatusDO" ColumnName="StatusDO" />
+                <ScalarProperty Name="StatusGZ" ColumnName="StatusGZ" />
+                <ScalarProperty Name="StatusGZOT" ColumnName="StatusGZOT" />
+                <ScalarProperty Name="StatusOT" ColumnName="StatusOT" />
+                <ScalarProperty Name="StatusEO" ColumnName="StatusEO" />
+                <ScalarProperty Name="StatusEI" ColumnName="StatusEI" />
+                <ScalarProperty Name="StatusLO" ColumnName="StatusLO" />
+                <ScalarProperty Name="StatusLI" ColumnName="StatusLI" />
+                <ScalarProperty Name="StatusAB" ColumnName="StatusAB" />
+                <ScalarProperty Name="StatusP" ColumnName="StatusP" />
+                <ScalarProperty Name="SLMin" ColumnName="SLMin" />
+                <ScalarProperty Name="BreakMin" ColumnName="BreakMin" />
+                <ScalarProperty Name="GZOTMin" ColumnName="GZOTMin" />
+                <ScalarProperty Name="OTMin" ColumnName="OTMin" />
+                <ScalarProperty Name="EarlyOut" ColumnName="EarlyOut" />
+                <ScalarProperty Name="EarlyIn" ColumnName="EarlyIn" />
+                <ScalarProperty Name="LateOut" ColumnName="LateOut" />
+                <ScalarProperty Name="LateIn" ColumnName="LateIn" />
+                <ScalarProperty Name="WorkMin" ColumnName="WorkMin" />
+                <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+                <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
+                <ScalarProperty Name="DutyTime" ColumnName="DutyTime" />
+                <ScalarProperty Name="DutyCode" ColumnName="DutyCode" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="AttDate" ColumnName="AttDate" />
+                <ScalarProperty Name="EmpDate" ColumnName="EmpDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AttMnDatas">
             <EntityTypeMapping TypeName="TAS2013Model.AttMnData">
               <MappingFragment StoreEntitySet="AttMnData">
@@ -12606,6 +12878,25 @@
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="DeviceRegID" ColumnName="DeviceRegID" />
                 <ScalarProperty Name="PollErrorID" ColumnName="PollErrorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PollDataOlds">
+            <EntityTypeMapping TypeName="TAS2013Model.PollDataOld">
+              <MappingFragment StoreEntitySet="PollDataOld">
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Split" ColumnName="Split" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+                <ScalarProperty Name="RdrDuty" ColumnName="RdrDuty" />
+                <ScalarProperty Name="RdrID" ColumnName="RdrID" />
+                <ScalarProperty Name="EntTime" ColumnName="EntTime" />
+                <ScalarProperty Name="EntDate" ColumnName="EntDate" />
+                <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+                <ScalarProperty Name="FpID" ColumnName="FpID" />
+                <ScalarProperty Name="EmpDate" ColumnName="EmpDate" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

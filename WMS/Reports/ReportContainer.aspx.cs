@@ -3701,34 +3701,32 @@ namespace WMS.Reports
                     {
                         if (attdata.StatusMN == true)
                         {
-                            if (WorkMins > 300)
-                            {
-                                //if (attdata.AttDate.Value.Day < 5)
-                                //    WorkMins = WorkMins - 0;
-                                //else
-                                    WorkMins = WorkMins - 60;
-                            }
+                            //if (WorkMins > 300)
+                            //{
+                            //    if (attdata.AttDate.Value.Day < 5)
+                            //        WorkMins = WorkMins - 0;
+                            //    else
+                            //        WorkMins = WorkMins - 60;
+                            //}
                         }
                         else
                         {
-                            if (WorkMins > 300)
-                            {
-                                //if (attdata.AttDate.Value.Day < 5)
-                                //    WorkMins = WorkMins - 0;
-                                //else
-                                    WorkMins = WorkMins - 60;
-                            }
+                            //if (WorkMins > 300)
+                            //{
+                            //    if (attdata.AttDate.Value.Day < 5)
+                            //        WorkMins = WorkMins - 0;
+                            //    else
+                            //        WorkMins = WorkMins - 60;
+                            //}
                         }
                         if (attdata.ShifMin > 0)
                         {
                             if (attdata.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
                             {
-                                //if (attdata.AttDate.Value.Day <5)
-                                //    attdata.ShifMin = (short)(attdata.ShifMin - 0);
-                                //else
+                                if (attdata.AttDate.Value.Day < 5)
+                                    attdata.ShifMin = (short)(attdata.ShifMin - 0);
+                                else
                                     attdata.ShifMin = (short)(attdata.ShifMin - 60);
-                                //attdata.ShifMin = (short)(attdata.ShifMin - 60);
-                                //attdata.ShifMin = (short)(attdata.ShifMin - 0);
                             }
                         } 
                     }
