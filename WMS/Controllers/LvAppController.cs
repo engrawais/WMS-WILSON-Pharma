@@ -116,8 +116,11 @@ namespace WMS.Controllers
             string Firstdate = Request.Form["FromDate"].ToString();
             string Seconddate = Request.Form["ToDate"].ToString();
              lvapplication.NoOfDays = (float)((lvapplication.ToDate - lvapplication.FromDate).TotalDays) + 1;
-             if (lvapplication.NoOfDays<60)
-            {
+             #region
+             if (lvapplication.NoOfDays > 100)
+             {
+                 ModelState.AddModelError("LvType", "Date criteria is too much long kindly give correct date ");
+             }
                 User LoggedInUser = Session["LoggedUser"] as User;
                 if (lvapplication.FromDate.Date > lvapplication.ToDate.Date)
                     ModelState.AddModelError("FromDate", "From Date should be smaller than To Date");
@@ -216,13 +219,8 @@ namespace WMS.Controllers
                 ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName");
                 ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s => s.EmpName), "EmpID", "EmpNo", lvapplication.EmpID);
                 ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s => s.LvType1), "LvType1", "LvDesc", lvapplication.LvType);
-                return View(lvapplication); 
-            }
-            else
-            {
-                ModelState.AddModelError("lvapplication", "this date criteria is too much long kindly give correct date ");
-                return RedirectToAction("Create");
-            }
+                return View(lvapplication);
+             #endregion
             
         }
 

@@ -365,11 +365,11 @@ namespace WMS.Controllers
         public ActionResult EditAttJobCard()
         {
 
-
             DateTime Firstdate = Convert.ToDateTime(Request.Form["JobDateFrom"]);
             DateTime Seconddate = Convert.ToDateTime(Request.Form["JobDateTo"]);
             int NoOfDays = (int)(Seconddate - Firstdate).TotalDays;
-             if (NoOfDays < 60)
+            #region
+            if (NoOfDays < 60)
              {
                  User LoggedInUser = Session["LoggedUser"] as User;
                  try
@@ -470,12 +470,25 @@ namespace WMS.Controllers
                      ViewBag.DesignationID = new SelectList(db.Designations.Where(aa => aa.CompanyID == LoggedInUser.CompanyID), "DesignationID", "DesignationName");
                      return View("Index");
                  }
-             }
-             else
-             {
 
              }
-             return View("Index");
+            #endregion
+            else
+             {
+                 User LoggedInUser = Session["LoggedUser"] as User;
+                 ViewBag.CMessage = "Date criteria is too much long kindly give correct date";
+                 ViewData["JobDateFrom"] = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
+                 ViewData["JobDateTo"] = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
+                 ViewBag.JobCardType = new SelectList(db.JobCards.OrderBy(s => s.WorkCardName), "WorkCardID", "WorkCardName");
+                 ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s => s.ShiftName), "ShiftID", "ShiftName");
+                 ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s => s.CrewName), "CrewID", "CrewName");
+                 ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s => s.SectionName), "SectionID", "SectionName");
+                 ViewBag.CompanyIDJobCard = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
+                 ViewBag.CompanyID = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
+                 ViewBag.DesignationID = new SelectList(db.Designations.Where(aa => aa.CompanyID == LoggedInUser.CompanyID), "DesignationID", "DesignationName");
+                 return View("Index");
+
+             }
         }
 
         private bool ValidateJobCard(DateTime dateStart, short CardType)
