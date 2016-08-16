@@ -17,15 +17,15 @@ namespace WMS.Models
         public int ID { get; set; }
         public string EmailAddress { get; set; }
         public string CCAddress { get; set; }
+        public string CriteriaComLoc { get; set; }
         public Nullable<short> CompanyID { get; set; }
         public Nullable<short> DepartmentID { get; set; }
         public Nullable<short> SectionID { get; set; }
-        public string Criteria { get; set; }
+        public string CriteriaDepSec { get; set; }
         public Nullable<bool> ReportCurrentDate { get; set; }
         public Nullable<short> LocationID { get; set; }
         public Nullable<short> CatID { get; set; }
         public Nullable<bool> HasCat { get; set; }
-        public Nullable<bool> HasLoc { get; set; }
         public Nullable<System.TimeSpan> EmailTime { get; set; }
     
         public virtual Category Category { get; set; }

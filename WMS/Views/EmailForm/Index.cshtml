@@ -53,13 +53,13 @@
             @Html.DisplayFor(modelItem => item.Company.CompName)
         </td>
         <td>
-            @if(item.Criteria=="S")
+            @if(item.CriteriaDepSec=="S")
             {<p>Section</p>}
             else
             {<p>Department</p>}
         </td>
         <td>
-            @if(item.Criteria=="S")
+            @if (item.CriteriaDepSec == "S")
             {<p>@item.Section.SectionName</p>}
             else
             {<p>@item.Department.DeptName</p>}
@@ -77,7 +77,7 @@
             {<p>All</p>}
         </td>
         <td>
-             @if(item.HasLoc==true)
+             @if(item.HasCat==true)
             {<p>@item.Location.LocName</p>}
             else
             {<p>All</p>}
