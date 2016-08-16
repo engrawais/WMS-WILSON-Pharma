@@ -3723,9 +3723,9 @@ namespace WMS.Reports
                         {
                             if (attdata.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
                             {
-                                if (attdata.AttDate.Value.Day < 5)
-                                    attdata.ShifMin = (short)(attdata.ShifMin - 0);
-                                else
+                                //if (attdata.AttDate.Value.Day < 5)
+                                //    attdata.ShifMin = (short)(attdata.ShifMin - 0);
+                                //else
                                     attdata.ShifMin = (short)(attdata.ShifMin - 60);
                             }
                         } 
