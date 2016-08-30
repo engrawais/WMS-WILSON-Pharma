@@ -54,6 +54,10 @@ namespace WMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include="ID,EmailAddress,CCAddress,CompanyID,DepartmentID,SectionID,Criteria,ReportCurrentDate,LocationID,CatID,HasCat,HasLoc")] EmailEntryForm emailentryform)
         {
+            string compval = Request.Form["CriteriaComp"].ToString();
+            emailentryform.CriteriaComLoc = compval;
+            string depval = Request.Form["Criteria"].ToString();
+            emailentryform.CriteriaDepSec = depval;
             if (ModelState.IsValid)
             {
                 db.EmailEntryForms.Add(emailentryform);
@@ -96,6 +100,12 @@ namespace WMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include="ID,EmailAddress,CCAddress,CompanyID,DepartmentID,SectionID,Criteria,ReportCurrentDate,LocationID,CatID,HasCat,HasLoc")] EmailEntryForm emailentryform)
         {
+            //if (Request.Form["CriteriaComp"].ToString() == "C")
+            //string compval = Request.Form["CriteriaComp"].ToString();
+            //emailentryform.CriteriaComLoc = compval;
+                
+            //else
+            //    emailentryform.CriteriaComLoc = compval;
             if (ModelState.IsValid)
             {
                 db.Entry(emailentryform).State = EntityState.Modified;

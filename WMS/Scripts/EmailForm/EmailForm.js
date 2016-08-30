@@ -1,19 +1,38 @@
 ﻿
 $(document).ready(function () {
-
-    $("#CDept").hide(); 
+    $("#CDept").hide();
+    $("#CSec").hide();
+    $("#CCat").hide()
     $("#CLoc").hide();
-    $("#CCat").hide();
+
+    $('#CriteriaComp').change(function () {
+        var test = $(this).val();
+        if (test == 'C') {
+            $("#CComp").show();
+            $("#SecDept").show();
+            $("#CLoc").hide();
+        }
+        if (test == 'L') {
+            $("#CLoc").show();
+            $("#CComp").hide();
+            $("#CDept").hide();
+            $("#CSec").hide();
+            $("#SecDept").hide();
+           
+        }
+    });
     $('#Criteria').change(function () {
         var test = $(this).val();
-        if (test == 'D') {
-            $("#CDept").show();
-            $("#CSec").hide();
-        }
         if (test == 'S') {
+
             $("#CSec").show();
             $("#CDept").hide();
         }
+        if (test == 'D') {
+            $("#CSec").hide();
+            $("#CDept").show();
+        }
+
     });
 
     $('#HasCat').change(function () {
@@ -23,16 +42,6 @@ $(document).ready(function () {
         }
         if (test == 'true') {
             $("#CCat").show();
-        }
-    });
-
-    $('#HasLoc').change(function () {
-        var test = $(this).val();
-        if (test == 'False') {
-            $("#CLoc").hide();
-        }
-        if (test == 'true') {
-            $("#CLoc").show();
         }
     });
 
@@ -87,7 +96,23 @@ $(document).ready(function () {
             });
             $('#SectionID').html(items);
         });
+
+        // loading section if  select department changed/////////////////////////
+        ////////////////////////////////////////////////////////////
+
+
+        //$('#DepartmentID').change(function () {
+        //    $('#SectionID').empty();
+        //    //var URL = '/WMS/EditAttendance/CompanyIDJobCardList';
+        //    var URL = '/EmailForm/GetDepartment';
+        //    $.getJSON(URL + '/' + $('#DpartmentID').val(), function (data) {
+        //        var items;
+        //        $.each(data, function (i, state) {
+        //            items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+        //            // state.Value cannot contain ' character. We are OK because state.Value = cnt++;
+        //        });
+        //        $('#SectionID').html(items);
+        //    });
+
     });
-
-
 });

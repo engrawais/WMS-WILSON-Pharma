@@ -24,13 +24,10 @@
             Email
         </th>
         <th>
-            Company
+            Criteria Company/Location
         </th>
         <th>
             Criteria
-        </th>
-        <th>
-            Value
         </th>
         <th>
             Date
@@ -50,19 +47,19 @@
             @Html.DisplayFor(modelItem => item.EmailAddress)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Company.CompName)
-        </td>
-        <td>
-            @if(item.CriteriaDepSec=="S")
-            {<p>Section</p>}
+            @if(item.CriteriaComLoc=="C")
+            {<p>Company</p>}
             else
-            {<p>Department</p>}
+            {<p>Location</p>}
         </td>
         <td>
             @if (item.CriteriaDepSec == "S")
             {<p>@item.Section.SectionName</p>}
-            else
+           
+            @if (item.CriteriaDepSec == "D")
             {<p>@item.Department.DeptName</p>}
+            @if (item.CriteriaDepSec == "A")
+            {<p>All</p>}
         </td>
         <td>
             @if(item.ReportCurrentDate==true)
@@ -77,13 +74,13 @@
             {<p>All</p>}
         </td>
         <td>
-             @if(item.HasCat==true)
+             @if (item.CriteriaComLoc == "L")
             {<p>@item.Location.LocName</p>}
             else
-            {<p>All</p>}
+            {<p>@item.Location.LocName</p>}
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+           @* @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |*@
            @* @Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>

@@ -7,18 +7,33 @@ $(document).ready(function () {
     if (cat == 'true') {
         $("#CCat").show();
     }
-    var loc = $('#HasLoc').val();
-    if (loc == 'False') {
+    //var loc = $('#HasLoc').val();
+    //if (loc == 'False') {
+    //    $("#CLoc").hide();
+    //}
+    //if (loc == 'true') {
+    //    $("#CLoc").show();
+    //}
+
+
+    var cri = $('#CriteriaComp').val();
+    if (cri == 'C') {
+        $("#CComp").show();
+        $("#SecDept").show();
         $("#CLoc").hide();
     }
-    if (loc == 'true') {
+    if (cri == 'L') {
         $("#CLoc").show();
+        $("#CComp").hide();
+        $("#CDept").hide();
+        $("#CSec").hide();
+        $("#SecDept").hide();
     }
 
     var cri = $('#Criteria').val();
     if (cri == 'D') {
-        $("#CDept").show();
         $("#CSec").hide();
+        $("#CDept").show();
     }
     if (cri == 'S') {
         $("#CSec").show();
@@ -29,8 +44,8 @@ $(document).ready(function () {
     $('#Criteria').change(function () {
         var test = $(this).val();
         if (test == 'D') {
-            $("#CDept").show();
             $("#CSec").hide();
+            $("#CDept").show();
         }
         if (test == 'S') {
             $("#CSec").show();
@@ -48,15 +63,25 @@ $(document).ready(function () {
         }
     });
 
-    $('#HasLoc').change(function () {
-        var test = $(this).val();
-        if (test == 'False') {
-            $("#CLoc").hide();
-        }
-        if (test == 'true') {
-            $("#CLoc").show();
-        }
-    });
+    //$('#HasLoc').change(function () {
+    //    var test = $(this).val();
+    //    if (test == 'False') {
+    //        $("#CLoc").hide();
+    //    }
+    //    if (test == 'true') {
+    //        $("#CLoc").show();
+    //    }
+    //});
+
+
+
+
+
+
+
+
+
+
 
     $('#DepartmentID').empty();
     //var URL = '/WMS/EditAttendance/CompanyIDJobCardList';
