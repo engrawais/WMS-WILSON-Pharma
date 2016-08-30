@@ -29,6 +29,7 @@
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.EmpDate)
+        @Html.HiddenFor(model => model.EmpID)
         <div>
             <h5 style="font-weight:bold">
                 <input type="hidden" id="Attdate" name="Attdate" value="@Model.AttDate.Value.ToString()"/>           

@@ -99,8 +99,10 @@ namespace WMS.Controllers
           [CustomActionAttribute]
         public ActionResult Create()
         {
+
+            User LoggedInUser = Session["LoggedUser"] as User;
             ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo");
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
+            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName",LoggedInUser.CompanyID);
             ViewBag.LvType = new SelectList(db.LvTypes.Where(aa=>aa.Enable==true).OrderBy(s=>s.LvType1).ToList(), "LvType1", "LvDesc");
             return View();
         }
@@ -162,6 +164,10 @@ namespace WMS.Controllers
                                         LvProcessController.AddLeaveToLeaveAttData(lvapplication);
                                         ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s => s.EmpName), "EmpID", "EmpNo");
                                         ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s => s.LvType1).ToList(), "LvType1", "LvDesc");
+                                        // Make Request of Monthly Attendance of current employee
+                                        ManualMonthlyRequest mpr = new ManualMonthlyRequest();
+                                        mpr.SaveManualRequest((int)lvapplication.EmpID, new DateTime(lvapplication.FromDate.Year, lvapplication.ToDate.Month, 1), new DateTime(lvapplication.FromDate.Year, lvapplication.ToDate.Month, 30));
+                    
                                         return RedirectToAction("Create");
                                     }
                                     else
@@ -328,6 +334,8 @@ namespace WMS.Controllers
                     DOB = emp.FirstOrDefault().JoinDate.Value.ToString("dd-MMM-yyyy");
                 if (lvConsumed.Count > 0)
                 {
+                    string empName = emp.FirstOrDefault().EmpName;
+                    empName = empName.Replace("@", "");
                     string emplvTypeCL = emp.First().EmpID.ToString() + "A";
                     string emplvTypeAL = emp.First().EmpID.ToString() + "B";
                     string emplvTypeSL = emp.First().EmpID.ToString() + "C";
@@ -340,16 +348,19 @@ namespace WMS.Controllers
                         if (lvConsumed.Where(aa => aa.EmpLvType == emplvTypeCPL).First().YearRemaining != null)
                             CPL = lvConsumed.Where(aa => aa.EmpLvType == emplvTypeCPL).First().YearRemaining.ToString();
                     if (HttpContext.Request.IsAjaxRequest())
-                        return Json(emp.FirstOrDefault().EmpName + "@" + emp.FirstOrDefault().Designation.DesignationName + "@" +
+                        return Json(empName + "@" + emp.FirstOrDefault().Designation.DesignationName + "@" +
                             emp.FirstOrDefault().Section.SectionName + "@" + CL + "@" + AL + "@" + SL+"@"+CPL+"@"+emp.FirstOrDefault().FatherName
                             + "@" + DOB
                            , JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
+                    string empName = emp.FirstOrDefault().EmpName;
+                    empName = empName.Replace("@", "");
+                    string designationName = emp.FirstOrDefault().Designation.DesignationName;
+                    string sectionName = emp.FirstOrDefault().Section.SectionName;
                     if (HttpContext.Request.IsAjaxRequest())
-                        return Json(emp.FirstOrDefault().EmpName + "@" + emp.FirstOrDefault().Designation.DesignationName + "@" +
-                            emp.FirstOrDefault().Section.SectionName + "@" + "No Quota" + "@" + "No Quota" + "@" + "No Quota"+"@" + "No Quota"
+                        return Json(empName + "@" + designationName + "@" +sectionName + "@" + "No Quota" + "@" + "No Quota" + "@" + "No Quota" + "@" + "No Quota"
                             + "@" + emp.FirstOrDefault().FatherName
                             + "@" + DOB
                            , JsonRequestBehavior.AllowGet);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WMS.Controllers.EditAttendance;
@@ -194,6 +195,10 @@ namespace WMS.Controllers
                     int _UserID = Convert.ToInt32(Session["LogedUserID"].ToString());
                     HelperClass.MyHelper.SaveAuditLog(_UserID, (byte)MyEnums.FormName.EditAttendance, (byte)MyEnums.Operation.Edit, DateTime.Now);
                     ManualAttendanceProcess _pma = new ManualAttendanceProcess(_EmpDate, "", false, _NewTimeIn, _NewTimeOut, NewDutyCode, _UserID, _DutyTime, Remarks, ShiftMins);
+                    // Make Request of Monthly Attendance of current employee
+                    ManualMonthlyRequest mpr = new ManualMonthlyRequest();
+                    mpr.SaveManualRequest((int)_attData.EmpID, new DateTime(_NewTimeIn.Year, _NewTimeIn.Month, 1), new DateTime(_NewTimeIn.Year, _NewTimeIn.Month, 30));
+                    
                     List<PollData> _Polls = new List<PollData>();
                     _Polls = db.PollDatas.Where(aa => aa.EntDate == _AttDate && aa.EmpID == _attData.EmpID).OrderBy(a => a.EntTime).ToList();
                     ViewBag.PollsDataIn = _Polls.Where(aa => aa.RdrDuty == 1);
@@ -434,13 +439,16 @@ namespace WMS.Controllers
                                      if (db.SaveChanges() > 0)
                                      {
                                          AddJobCardAppToJobCardData();
+
+                                         // Make Request of Monthly Attendance of current employee
+                                         ManualMonthlyRequest mpr = new ManualMonthlyRequest();
+                                         mpr.SaveManualRequest((int)_Emp.FirstOrDefault().EmpID, new DateTime(jobCardApp.DateStarted.Value.Year, jobCardApp.DateStarted.Value.Month, 1), new DateTime(jobCardApp.DateStarted.Value.Year, jobCardApp.DateStarted.Value.Month, 30));
+                    
                                      }
                                  }
                              }
                              break;
-                     }
-
-                     //Add Job Card to JobCardData and Mark Legends in Attendance Data if attendance Created
+                     }                     //Add Job Card to JobCardData and Mark Legends in Attendance Data if attendance Created
                      Session["EditAttendanceDate"] = DateTime.Today.Date.ToString("yyyy-MM-dd");
                      ViewBag.JobCardType = new SelectList(db.JobCards.OrderBy(s => s.WorkCardName), "WorkCardID", "WorkCardName");
                      ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s => s.ShiftName), "ShiftID", "ShiftName");
@@ -1116,5 +1124,109 @@ namespace WMS.Controllers
             return check;
         }
         #endregion
+        public ActionResult Delete(int ID)
+        {
+            if (ID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobCardApp jc_app = db.JobCardApps.Find(ID);
+            if (jc_app == null)
+            {
+                return HttpNotFound();
+            }
+            List<JobCardEmp> jc_Details = new List<JobCardEmp>();
+            jc_Details = db.JobCardEmps.Where(aa => aa.JCAppID == ID).ToList();
+            foreach (var item in jc_Details)
+            {
+                db.JobCardEmps.Remove(item);
+                db.SaveChanges();
+            }
+            db.JobCardApps.Remove(jc_app);
+            db.SaveChanges();
+            return RedirectToAction("ListOfJobCardApp");
+        }
+        public ActionResult ListOfJobCardApp(FormCollection form)
+        {
+
+            User LoggedInUser = Session["LoggedUser"] as User;
+            List<JobCardApp> jobcardsApps = new List<JobCardApp>();
+            DateTime dt = DateTime.Today.AddDays(-45);
+            jobcardsApps = db.JobCardApps.Where(aa=>aa.DateStarted>=dt && aa.UserID==LoggedInUser.UserID).OrderByDescending(aa=>aa.DateCreated).ToList();
+            List<User> users = new List<Models.User>();
+            users = db.Users.ToList();
+            List<VMJCApplication> _JCAppList = new List<VMJCApplication>();
+            List<Shift> shifts = db.Shifts.ToList();
+            List<Location> locations = db.Locations.ToList();
+            List<Crew> groups = db.Crews.ToList();
+            List<Division> divisions = db.Divisions.ToList();
+            List<Department> departments = db.Departments.ToList();
+            List<Section> sections = db.Sections.ToList();
+            List<Emp> emps = db.Emps.ToList();
+            List<JobCard> jc = new List<JobCard>();
+            jc = db.JobCards.ToList();
+            foreach (var item in jobcardsApps)
+            {
+                try
+                {
+                    VMJCApplication _JCApplication = new VMJCApplication();
+                    _JCApplication.JCAppID = item.JobCardID;
+                    _JCApplication.DateStarted = item.DateStarted;
+                    _JCApplication.DateEnded = item.DateEnded;
+                    _JCApplication.CardType = jc.First(aa=>aa.WorkCardID==item.CardType).WorkCardName;
+                    _JCApplication.User = users.First(aa => aa.UserID == item.UserID).UserName;
+                    switch (item.JobCardCriteria)
+                    {
+                        case "A"://all 
+                            _JCApplication.CriteriaData = "All";
+                            _JCApplication.JCCriteria = "All";
+                            break;
+                        case "H"://all shift
+                            _JCApplication.CriteriaData = shifts.FirstOrDefault(aa => aa.ShiftID == item.CriteriaData).ShiftName;
+                            _JCApplication.JCCriteria = "Shift";
+                            break;
+                        case "L"://all loc
+                            _JCApplication.CriteriaData = locations.FirstOrDefault(aa => aa.LocID == item.CriteriaData).LocName;
+                            _JCApplication.JCCriteria = "Location";
+                            break;
+                        case "C"://crew
+                            _JCApplication.CriteriaData = groups.FirstOrDefault(aa => aa.CrewID == item.CriteriaData).CrewName;
+                            _JCApplication.JCCriteria = "Group";
+                            break;
+                        case "V"://div
+                            _JCApplication.CriteriaData = divisions.FirstOrDefault(aa => aa.DivisionID == item.CriteriaData).DivisionName;
+                            _JCApplication.JCCriteria = "Division";
+                            break;
+                        case "d"://dept
+                            _JCApplication.CriteriaData = departments.FirstOrDefault(aa => aa.DeptID == item.CriteriaData).DeptName;
+                            _JCApplication.JCCriteria = "Department";
+                            break;
+                        case "S"://section
+                            _JCApplication.CriteriaData = sections.FirstOrDefault(aa => aa.SectionID == item.CriteriaData).SectionName;
+                            _JCApplication.JCCriteria = "Section";
+                            break;
+                        case "E"://emp
+                            _JCApplication.CriteriaData = emps.FirstOrDefault(aa => aa.EmpID == item.CriteriaData).EmpName;
+                            _JCApplication.JCCriteria = "Emp";
+                            break;
+                    }
+                    _JCAppList.Add(_JCApplication);
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return View(_JCAppList);
+        }
+    }
+    public class VMJCApplication
+    {
+        public int JCAppID { get; set; }
+        public Nullable<System.DateTime> DateStarted { get; set; }
+        public Nullable<System.DateTime> DateEnded { get; set; }
+        public string JCCriteria { get; set; }
+        public string CriteriaData { get; set; }
+        public string CardType { get; set; }
+        public string User { get; set; }
     }
 }

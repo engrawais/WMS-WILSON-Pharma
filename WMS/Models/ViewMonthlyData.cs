@@ -159,13 +159,13 @@ namespace WMS.Models
         public Nullable<double> HalfLeavesDay { get; set; }
         public Nullable<short> LocID { get; set; }
         public Nullable<short> CrewID { get; set; }
-        public Nullable<byte> GradeID { get; set; }
-        public Nullable<short> DeptID { get; set; }
+        public short DeptID { get; set; }
         public Nullable<byte> ShiftID { get; set; }
         public Nullable<short> SecID { get; set; }
-        public Nullable<short> DivID { get; set; }
+        public short DivID { get; set; }
         public Nullable<int> DesigID { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
+        public Nullable<short> GradeID { get; set; }
     }
 }

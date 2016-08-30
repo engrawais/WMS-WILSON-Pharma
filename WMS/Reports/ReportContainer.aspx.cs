@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -555,6 +557,22 @@ namespace WMS.Reports
                             PathString = "/WMS/Reports/RDLC/MRDetailExcelC.rdlc";
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewListMonthlyData, _ViewListMonthlyData), _dateFrom + " to " + _dateTo);
                         break;
+                    case "monthlyConDownload": _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
+                        monthfrom = Convert.ToDateTime(_dateFrom).Month;
+                        monthTo = Convert.ToDateTime(_dateTo).Month;
+
+                        for (int i = monthfrom; i <= monthTo; i++)
+                        {
+                            consolidatedMonth = consolidatedMonth + "  Period =" + i + Convert.ToDateTime(_dateFrom).Year.ToString() + " OR";
+                        }
+                        if (consolidatedMonth.Length > 4)
+                            consolidatedMonth = consolidatedMonth.Substring(0, consolidatedMonth.Length - 3);
+                        dt = qb.GetValuesfromDB("select * from ViewMonthlyData " + query + " and Status=1" + " and" + consolidatedMonth);
+                        title = "Monthly Consolidated Attendance Sheet (1st to 31th)";
+                        _ViewListMonthlyData = dt.ToList<ViewMonthlyData>();
+                        _TempViewListMonthlyData = new List<ViewMonthlyData>();
+                        DownloadReport(ReportsFilterImplementation(fm, _TempViewListMonthlyData, _ViewListMonthlyData), _dateFrom + " to " + _dateTo, LoggedInUser.UserID);
+                        break;
                     case "monthly_1-31_overtime": _period = Convert.ToDateTime(_dateFrom).Month.ToString() + Convert.ToDateTime(_dateFrom).Year.ToString();
                         monthfrom = Convert.ToDateTime(_dateFrom).Month;
                         monthTo = Convert.ToDateTime(_dateTo).Month;
@@ -818,6 +836,19 @@ namespace WMS.Reports
                     #endregion
                 }
 
+            }
+        }
+
+        private void DownloadReport(List<ViewMonthlyData> list, string p, int UserID)
+        {
+            string val = "";
+            val =DownloadData(list,p,UserID);
+            if (val != "")
+            {
+                Response.ContentType = ContentType;
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + val);
+                Response.WriteFile(val);
+                Response.End();
             }
         }
 
@@ -3870,5 +3901,472 @@ namespace WMS.Reports
         }
         DataTable ComplteLvSummaryMonth = new DataTable();
         #endregion
+        #region Excel Report Download
+        public string DownloadData(List<ViewMonthlyData> MonthlyDatas,string Date,int UserID)
+        {
+            string retVal = "";
+            //lvPDF is nothing but the listview control name
+            string[] st = new string[5];
+            DirectoryInfo di = new DirectoryInfo(@"D:\Reports\");
+            if (di.Exists == false)
+                di.Create();
+            StreamWriter sw = new StreamWriter(@"D:\Reports\MonthlyReport" + UserID +MonthlyDatas.FirstOrDefault().StartDate.Value.Month.ToString("00")+ ".xls", false);
+            sw.AutoFlush = true;
+            List<string> ColumnsName = new List<string>();
+            ColumnsName.Add("EmpNo");
+            ColumnsName.Add("Name");
+            ColumnsName.Add("Designation");
+            ColumnsName.Add("Section");
+            ColumnsName.Add("Department");
+            ColumnsName.Add("Type");
+            ColumnsName.Add("1");
+            ColumnsName.Add("2");
+            ColumnsName.Add("3");
+            ColumnsName.Add("4");
+            ColumnsName.Add("5");
+            ColumnsName.Add("6");
+            ColumnsName.Add("7");
+            ColumnsName.Add("8");
+            ColumnsName.Add("9");
+            ColumnsName.Add("10");
+            ColumnsName.Add("11");
+            ColumnsName.Add("12");
+            ColumnsName.Add("13");
+            ColumnsName.Add("14");
+            ColumnsName.Add("15");
+            ColumnsName.Add("16");
+            ColumnsName.Add("17");
+            ColumnsName.Add("18");
+            ColumnsName.Add("19");
+            ColumnsName.Add("20");
+            ColumnsName.Add("21");
+            ColumnsName.Add("22");
+            ColumnsName.Add("23");
+            ColumnsName.Add("24");
+            ColumnsName.Add("25");
+            ColumnsName.Add("26");
+            ColumnsName.Add("27");
+            ColumnsName.Add("28");
+            ColumnsName.Add("29");
+            ColumnsName.Add("30");
+            ColumnsName.Add("31");
+            ColumnsName.Add("PR");
+            ColumnsName.Add("AB");
+            ColumnsName.Add("LV");
+            ColumnsName.Add("HLV");
+            ColumnsName.Add("DO");
+            ColumnsName.Add("GZ");
+            ColumnsName.Add("PD");
+            ColumnsName.Add("Total");
+            ColumnsName.Add("N-OT");
+            ColumnsName.Add("G-OT");
+            ColumnsName.Add("E-In");
+            ColumnsName.Add("E-Out");
+            ColumnsName.Add("L-In");
+            string ColumnString = "";
+            for (int i = 0; i < ColumnsName.Count; i++)
+            {
+                ColumnString = ColumnString + ColumnsName[i] + "\t";
+            }
+            sw.Write(Date + "\n");
+            sw.Write(ColumnString + "\n");
+            foreach (var item in MonthlyDatas)
+            {
+                string Personal = item.EmpNo + "\t" + item.EmpName + "\t" + item.DesignationName + "\t" + item.SectionName + "\t" + item.DeptName + "\t" + item.TypeName;
+                string DaysInfo = item.D1 + "\t" + item.D2 + "\t" + item.D3 + "\t" + item.D4 + "\t" + item.D5 + "\t" + item.D6 + "\t" + item.D7 + "\t" + item.D8 + "\t" + item.D9 + "\t" + item.D10
+                    + "\t" + item.D11 + "\t" + item.D12 + "\t" + item.D13 + "\t" + item.D14 + "\t" + item.D15 + "\t" + item.D16 + "\t" + item.D17 + "\t" + item.D18 + "\t" + item.D19 + "\t" + item.D20
+                    + "\t" + item.D21 + "\t" + item.D22 + "\t" + item.D23 + "\t" + item.D24 + "\t" + item.D25 + "\t" + item.D26 + "\t" + item.D27 + "\t" + item.D28 + "\t" + item.D29 + "\t" + item.D30 + "\t" + item.D31;
+                string TotalsDays = GetDaysTotal(item);
+                string TotalHours = getTotalHours(item);
+                string OTLine = GetOTLine(item);
+                sw.WriteLine(Personal + "\t" + DaysInfo + "\t" + TotalsDays + "\t" + TotalHours);
+                sw.WriteLine("\t\t\t\t\t\t" + OTLine);
+            }
+            sw.Close();
+            FileInfo fil = new FileInfo(@"D:\Reports\MonthlyReport" + UserID + MonthlyDatas.FirstOrDefault().StartDate.Value.Month.ToString("00") + ".xls");
+            if (fil.Exists == true)
+            {
+                retVal = "D:\\Reports\\MonthlyReport" + UserID + MonthlyDatas.FirstOrDefault().StartDate.Value.Month.ToString("00") + ".xls";
+            }
+            return retVal;
+        }
+
+        private string GetOTLine(ViewMonthlyData item)
+        {
+            string val = "";
+
+            TimeSpan ts1 = new TimeSpan();
+            string ot1 = "";
+            if (item.OT1 > 0)
+            {
+                ts1 = new TimeSpan(0, (int)item.OT1, 0);
+                ot1 = ts1.Hours.ToString("00") + ":" + ts1.Minutes.ToString("00");
+            }
+            TimeSpan ts2 = new TimeSpan();
+            string ot2 = "";
+            if (item.OT2 > 0)
+            {
+                ts2 = new TimeSpan(0, (int)item.OT2, 0);
+                ot2 = ts2.Hours.ToString("00") + ":" + ts2.Minutes.ToString("00");
+            }
+
+            TimeSpan ts3 = new TimeSpan();
+            string ot3 = "";
+            if (item.OT3 > 0)
+            {
+                ts3 = new TimeSpan(0, (int)item.OT3, 0);
+                ot3 = ts3.Hours.ToString("00") + ":" + ts3.Minutes.ToString("00");
+            }
+            TimeSpan ts4 = new TimeSpan();
+            string ot4 = "";
+            if (item.OT4 > 0)
+            {
+                ts4 = new TimeSpan(0, (int)item.OT4, 0);
+                ot4 = ts4.Hours.ToString("00") + ":" + ts4.Minutes.ToString("00");
+            }
+            TimeSpan ts5 = new TimeSpan();
+            string ot5 = "";
+            if (item.OT5 > 0)
+            {
+                ts5 = new TimeSpan(0, (int)item.OT5, 0);
+                ot5 = ts5.Hours.ToString("00") + ":" + ts5.Minutes.ToString("00");
+            }
+            TimeSpan ts6 = new TimeSpan();
+            string ot6 = "";
+            if (item.OT6 > 0)
+            {
+                ts6 = new TimeSpan(0, (int)item.OT6, 0);
+                ot6 = ts6.Hours.ToString("00") + ":" + ts6.Minutes.ToString("00");
+            }
+            TimeSpan ts7 = new TimeSpan();
+            string ot7 = "";
+            if (item.OT7 > 0)
+            {
+                ts7 = new TimeSpan(0, (int)item.OT7, 0);
+                ot7 = ts7.Hours.ToString("00") + ":" + ts7.Minutes.ToString("00");
+            }
+            TimeSpan ts8 = new TimeSpan();
+            string ot8 = "";
+            if (item.OT8 > 0)
+            {
+                ts8 = new TimeSpan(0, (int)item.OT8, 0);
+                ot8 = ts8.Hours.ToString("00") + ":" + ts8.Minutes.ToString("00");
+            }
+            TimeSpan ts9 = new TimeSpan();
+            string ot9 = "";
+            if (item.OT9 > 0)
+            {
+                ts9 = new TimeSpan(0, (int)item.OT9, 0);
+                ot9 = ts9.Hours.ToString("00") + ":" + ts9.Minutes.ToString("00");
+            } TimeSpan ts10 = new TimeSpan();
+            string ot10 = "";
+            if (item.OT10 > 0)
+            {
+                ts10 = new TimeSpan(0, (int)item.OT10, 0);
+                ot10 = ts10.Hours.ToString("00") + ":" + ts10.Minutes.ToString("00");
+            } TimeSpan ts11 = new TimeSpan();
+            string ot11 = "";
+            if (item.OT11 > 0)
+            {
+                ts11 = new TimeSpan(0, (int)item.OT11, 0);
+                ot11 = ts11.Hours.ToString("00") + ":" + ts11.Minutes.ToString("00");
+            } TimeSpan ts12 = new TimeSpan();
+            string ot12 = "";
+            if (item.OT12 > 0)
+            {
+                ts12 = new TimeSpan(0, (int)item.OT12, 0);
+                ot12 = ts12.Hours.ToString("00") + ":" + ts12.Minutes.ToString("00");
+            }
+            TimeSpan ts13 = new TimeSpan();
+            string ot13 = "";
+            if (item.OT13 > 0)
+            {
+                ts13 = new TimeSpan(0, (int)item.OT13, 0);
+                ot13 = ts13.Hours.ToString("00") + ":" + ts13.Minutes.ToString("00");
+            }
+            TimeSpan ts14 = new TimeSpan();
+            string ot14 = "";
+            if (item.OT14 > 0)
+            {
+                ts14 = new TimeSpan(0, (int)item.OT14, 0);
+                ot14 = ts14.Hours.ToString("00") + ":" + ts14.Minutes.ToString("00");
+            }
+            TimeSpan ts15 = new TimeSpan();
+            string ot15 = "";
+            if (item.OT15 > 0)
+            {
+                ts15 = new TimeSpan(0, (int)item.OT15, 0);
+                ot15 = ts15.Hours.ToString("00") + ":" + ts15.Minutes.ToString("00");
+            }
+            TimeSpan ts16 = new TimeSpan();
+            string ot16 = "";
+            if (item.OT16 > 0)
+            {
+                ts16 = new TimeSpan(0, (int)item.OT16, 0);
+                ot16 = ts16.Hours.ToString("00") + ":" + ts16.Minutes.ToString("00");
+            }
+            TimeSpan ts17 = new TimeSpan();
+            string ot17 = "";
+            if (item.OT17 > 0)
+            {
+                ts17 = new TimeSpan(0, (int)item.OT17, 0);
+                ot17 = ts17.Hours.ToString("00") + ":" + ts17.Minutes.ToString("00");
+            }
+            TimeSpan ts18 = new TimeSpan();
+            string ot18 = "";
+            if (item.OT18 > 0)
+            {
+                ts18 = new TimeSpan(0, (int)item.OT18, 0);
+                ot18 = ts18.Hours.ToString("00") + ":" + ts18.Minutes.ToString("00");
+            }
+            TimeSpan ts19 = new TimeSpan();
+            string ot19 = "";
+            if (item.OT19 > 0)
+            {
+                ts19 = new TimeSpan(0, (int)item.OT19, 0);
+                ot19 = ts19.Hours.ToString("00") + ":" + ts19.Minutes.ToString("00");
+            }
+            TimeSpan ts20 = new TimeSpan();
+            string ot20 = "";
+            if (item.OT20 > 0)
+            {
+                ts20 = new TimeSpan(0, (int)item.OT20, 0);
+                ot20 = ts20.Hours.ToString("00") + ":" + ts20.Minutes.ToString("00");
+            }
+            TimeSpan ts21 = new TimeSpan();
+            string ot21 = "";
+            if (item.OT21 > 0)
+            {
+                ts21 = new TimeSpan(0, (int)item.OT21, 0);
+                ot21 = ts21.Hours.ToString("00") + ":" + ts21.Minutes.ToString("00");
+            }
+            TimeSpan ts22 = new TimeSpan();
+            string ot22 = "";
+            if (item.OT22 > 0)
+            {
+                ts22 = new TimeSpan(0, (int)item.OT22, 0);
+                ot22 = ts22.Hours.ToString("00") + ":" + ts22.Minutes.ToString("00");
+            }
+            TimeSpan ts23 = new TimeSpan();
+            string ot23 = "";
+            if (item.OT23 > 0)
+            {
+                ts23 = new TimeSpan(0, (int)item.OT23, 0);
+                ot23 = ts23.Hours.ToString("00") + ":" + ts23.Minutes.ToString("00");
+            }
+            TimeSpan ts24 = new TimeSpan();
+            string ot24 = "";
+            if (item.OT24 > 0)
+            {
+                ts24 = new TimeSpan(0, (int)item.OT24, 0);
+                ot24 = ts24.Hours.ToString("00") + ":" + ts24.Minutes.ToString("00");
+            }
+            TimeSpan ts25 = new TimeSpan();
+            string ot25 = "";
+            if (item.OT25 > 0)
+            {
+                ts25 = new TimeSpan(0, (int)item.OT25, 0);
+                ot25 = ts25.Hours.ToString("00") + ":" + ts25.Minutes.ToString("00");
+            }
+            TimeSpan ts26 = new TimeSpan();
+            string ot26 = "";
+            if (item.OT26 > 0)
+            {
+                ts26 = new TimeSpan(0, (int)item.OT26, 0);
+                ot26 = ts26.Hours.ToString("00") + ":" + ts26.Minutes.ToString("00");
+            }
+            TimeSpan ts27 = new TimeSpan();
+            string ot27 = "";
+            if (item.OT27 > 0)
+            {
+                ts27 = new TimeSpan(0, (int)item.OT27, 0);
+                ot27 = ts27.Hours.ToString("00") + ":" + ts27.Minutes.ToString("00");
+            }
+            TimeSpan ts28 = new TimeSpan();
+            string ot28 = "";
+            if (item.OT28 > 0)
+            {
+                ts28 = new TimeSpan(0, (int)item.OT28, 0);
+                ot28 = ts28.Hours.ToString("00") + ":" + ts28.Minutes.ToString("00");
+            }
+            TimeSpan ts29 = new TimeSpan();
+            string ot29 = "";
+            if (item.OT29 > 0)
+            {
+                ts29 = new TimeSpan(0, (int)item.OT29, 0);
+                ot29 = ts29.Hours.ToString("00") + ":" + ts29.Minutes.ToString("00");
+            }
+            TimeSpan ts30 = new TimeSpan();
+            string ot30 = "";
+            if (item.OT30 > 0)
+            {
+                ts30 = new TimeSpan(0, (int)item.OT30, 0);
+                ot30 = ts30.Hours.ToString("00") + ":" + ts30.Minutes.ToString("00");
+            }
+            TimeSpan ts31 = new TimeSpan();
+            string ot31 = "";
+            if (item.OT31 > 0)
+            {
+                ts31 = new TimeSpan(0, (int)item.OT31, 0);
+                ot31 = ts31.Hours.ToString("00") + ":" + ts31.Minutes.ToString("00");
+            }
+            string Lv1 = "";
+            if (item.L1 != null)
+                Lv1 = item.L1;
+            string Lv2 = "";
+            if (item.L2 != null)
+                Lv2 = item.L2;
+            string Lv3 = "";
+            if (item.L3 != null)
+                Lv3 = item.L3;
+            string Lv4 = "";
+            if (item.L4 != null)
+                Lv4 = item.L4;
+            string Lv5 = "";
+            if (item.L5 != null)
+                Lv5 = item.L5;
+            string Lv6 = "";
+            if (item.L6 != null)
+                Lv6 = item.L6;
+            string Lv7 = "";
+            if (item.L7 != null)
+                Lv7 = item.L7;
+            string Lv8 = "";
+            if (item.L8 != null)
+                Lv8 = item.L8;
+            string Lv9 = "";
+            if (item.L9 != null)
+                Lv9 = item.L9;
+            string Lv10 = "";
+            if (item.L10 != null)
+                Lv10 = item.L10;
+            string Lv11 = "";
+            if (item.L11 != null)
+                Lv11 = item.L11;
+            string Lv12 = "";
+            if (item.L12 != null)
+                Lv12 = item.L12;
+            string Lv13 = "";
+            if (item.L13 != null)
+                Lv13 = item.L13;
+            string Lv14 = "";
+            if (item.L14 != null)
+                Lv14 = item.L14;
+            string Lv15 = "";
+            if (item.L15 != null)
+                Lv15 = item.L15;
+
+            string Lv16 = "";
+            if (item.L16 != null)
+                Lv16 = item.L16;
+            string Lv17 = "";
+            if (item.L17 != null)
+                Lv17 = item.L17;
+            string Lv18 = "";
+            if (item.L18 != null)
+                Lv18 = item.L18;
+            string Lv19 = "";
+            if (item.L19 != null)
+                Lv19 = item.L19;
+            string Lv20 = "";
+            if (item.L20 != null)
+                Lv20 = item.L20;
+            string Lv21 = "";
+            if (item.L21 != null)
+                Lv21 = item.L21;
+            string Lv22 = "";
+            if (item.L22 != null)
+                Lv22 = item.L22;
+            string Lv23 = "";
+            if (item.L23 != null)
+                Lv23 = item.L23;
+            string Lv24 = "";
+            if (item.L24 != null)
+                Lv24 = item.L24;
+            string Lv25 = "";
+            if (item.L25 != null)
+                Lv25 = item.L25;
+            string Lv26 = "";
+            if (item.L26 != null)
+                Lv26 = item.L26;
+            string Lv27 = "";
+            if (item.L27 != null)
+                Lv27 = item.L27;
+            string Lv28 = "";
+            if (item.L28 != null)
+                Lv28 = item.L28;
+            string Lv29 = "";
+            if (item.L29 != null)
+                Lv29 = item.L29;
+            string Lv30 = "";
+            if (item.L30 != null)
+                Lv30 = item.L30;
+            string Lv31 = "";
+            if (item.L31 != null)
+                Lv31 = item.L31;
+            val = ot1 + Lv1 + "\t" + ot2 + Lv2 + "\t" + ot3 + Lv3 + "\t" + ot4 + Lv4 + "\t" + ot5 + Lv5 + "\t" + ot6 + Lv6 + "\t" + ot7 + Lv7 + "\t" + ot8 + Lv8 + "\t" + ot9 + Lv9 + "\t" +
+                ot10 + Lv10 + "\t" + ot11 + Lv11 + "\t" + ot12 + Lv12 + "\t" + ot13 + Lv13 + "\t" + ot14 + Lv14 + "\t" + ot15 + Lv15 + "\t" + ot16 + Lv16 + "\t" + ot17 + Lv17 + "\t" +
+                ot18 + Lv18 + "\t" + ot19 + Lv19 + "\t" + ot20 + Lv20 + "\t" + ot21 + Lv21 + "\t" + ot22 + Lv22 + "\t" + ot23 + Lv23 + "\t" + ot24 + Lv24 + "\t" + ot25 + Lv25 + "\t" +
+                ot26 + Lv26 + "\t" + ot27 + Lv27 + "\t" + ot28 + Lv28 + "\t" + ot29 + Lv29 + "\t" + ot30 + Lv30 + "\t" + ot31 + Lv31 + "\t";
+
+            return val;
+        }
+
+        private string getTotalHours(ViewMonthlyData item)
+        {
+            TimeSpan tsNOT = new TimeSpan();
+            TimeSpan tsGOT = new TimeSpan();
+            TimeSpan tsEI = new TimeSpan();
+            TimeSpan tsEO = new TimeSpan();
+            TimeSpan tsLI = new TimeSpan();
+            string not = "";
+            string got = "";
+            string ei = "";
+            string eo = "";
+            string li = "";
+
+            if (item.TNOT > 0)
+            {
+                tsNOT = new TimeSpan(0, (int)item.TNOT, 0);
+                not = tsNOT.Hours.ToString("000") + ":" + tsNOT.Minutes.ToString("00");
+            }
+            if (item.TGZOT > 0)
+            {
+                tsGOT = new TimeSpan(0, (int)item.TGZOT, 0);
+                got = tsGOT.Hours.ToString("000") + ":" + tsGOT.Minutes.ToString("00");
+            }
+            if (item.TEarlyIn > 0)
+            {
+                tsEI = new TimeSpan(0, (int)item.TEarlyIn, 0);
+                ei = tsEI.Hours.ToString("000") + ":" + tsEI.Minutes.ToString("00");
+            }
+            if (item.TEarlyOut > 0)
+            {
+                tsEO = new TimeSpan(0, (int)item.TEarlyOut, 0);
+                eo = tsEO.Hours.ToString("000") + ":" + tsEO.Minutes.ToString("00");
+            }
+            if (item.TLateIn > 0)
+            {
+                tsLI = new TimeSpan(0, (int)item.TLateIn, 0);
+                li = tsLI.Hours.ToString("000") + ":" + tsLI.Minutes.ToString("00");
+            }
+
+            string val = "";
+            val = not + "\t"
+            + got + "\t"
+            + ei + "\t"
+            + eo + "\t"
+            + li;
+            return val;
+        }
+
+        private string GetDaysTotal(ViewMonthlyData item)
+        {
+            string val = "";
+            val = item.PreDays + "\t" + item.AbDays + "\t" + item.LeaveDays + "\t" + item.HalfLeavesDay + "\t" + item.RestDays + "\t" + item.GZDays + "\t" + item.WorkDays + "\t" + item.TotalDays;
+            return val;
+        }
+        #endregion
+
     }
 }

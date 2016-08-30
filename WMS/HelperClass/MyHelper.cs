@@ -144,4 +144,36 @@ namespace WMS.HelperClass
             return check;
         }
     }
+    public class ManualMonthlyRequest
+    {
+
+        public void SaveManualRequest(int empid, DateTime dts, DateTime dte)
+        {
+            try
+            {
+                if ((DateTime.Today.Day >= 1 && DateTime.Today.Day <= 4) || (DateTime.Today.Day >25))
+                {
+
+                    using (var db = new TAS2013Entities())
+                    {
+                        int DaysInPreviousMonth = System.DateTime.DaysInMonth(dts.Year, dts.Month);
+                        DateTime dt = new DateTime(dts.Year, dts.Month, DaysInPreviousMonth);
+                        AttProSystem aps = new AttProSystem();
+                        aps.EmpID = empid;
+                        aps.StartDate = dts;
+                        aps.EndDate = dt;
+                        aps.CreatedDate = DateTime.Now;
+                        aps.Status = false;
+                        db.AttProSystems.Add(aps);
+                        db.SaveChanges();
+                        db.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+    }
 }

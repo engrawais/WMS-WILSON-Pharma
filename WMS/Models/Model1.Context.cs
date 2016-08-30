@@ -35,6 +35,7 @@ namespace WMS.Models
         public DbSet<AttMnDataPer> AttMnDataPers { get; set; }
         public DbSet<AttProcess> AttProcesses { get; set; }
         public DbSet<AttProcessorScheduler> AttProcessorSchedulers { get; set; }
+        public DbSet<AttProSystem> AttProSystems { get; set; }
         public DbSet<AuditEmail> AuditEmails { get; set; }
         public DbSet<AuditForm> AuditForms { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
@@ -133,6 +134,7 @@ namespace WMS.Models
         public DbSet<ViewEmergencyDetail> ViewEmergencyDetails { get; set; }
         public DbSet<ViewEmpPic> ViewEmpPics { get; set; }
         public DbSet<ViewEmpType> ViewEmpTypes { get; set; }
+        public DbSet<ViewJobCardEmp> ViewJobCardEmps { get; set; }
         public DbSet<ViewLateComer> ViewLateComers { get; set; }
         public DbSet<ViewLateOut> ViewLateOuts { get; set; }
         public DbSet<ViewLeaveData> ViewLeaveDatas { get; set; }

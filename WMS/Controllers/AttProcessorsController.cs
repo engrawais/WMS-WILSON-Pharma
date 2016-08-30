@@ -42,9 +42,8 @@ namespace WMS.Controllers
                 page = 1;
              else
                searchString = currentFilter;
-            DateTime dtS = DateTime.Today.AddDays(-2);
-            DateTime dtE = DateTime.Today.AddDays(1);
-            List<AttProcessorScheduler> attprocess = context.AttProcessorSchedulers.Where(aa=>aa.CreatedDate>=dtS&&aa.CreatedDate<=dtE).ToList();
+            DateTime dtE = DateTime.Now - new TimeSpan(4,0,0);
+            List<AttProcessorScheduler> attprocess = context.AttProcessorSchedulers.Where(aa=>aa.CreatedDate>=dtE || aa.ProcessingDone==false).OrderByDescending(aa=>aa.CreatedDate).ToList();
             switch (sortOrder)
             {
                 case "tag_desc": attprocess = attprocess.OrderByDescending(s => s.PeriodTag).ToList();                   break;
@@ -115,10 +114,22 @@ namespace WMS.Controllers
                 new SelectListItem { Selected = false, Text = "No", Value = "0"},
 
             }, "Value", "Text", 1);
-            ViewBag.CompanyID = new SelectList(db.Companies.Where(query).OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.CompanyIDForEmp = new SelectList(db.Companies.Where(query).OrderBy(s => s.CompName), "CompID", "CompName");
-            query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
-            ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s=>s.LocName), "LocID", "LocName");
+            if (LoggedInUser.RoleID == 1)
+            {
+                ViewBag.CompanyID = new SelectList(db.Companies.Where(query).OrderBy(s => s.CompName), "CompID", "CompName");
+                ViewBag.CompanyIDForEmp = new SelectList(db.Companies.Where(query).OrderBy(s => s.CompName), "CompID", "CompName");
+                query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
+                ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s => s.LocName), "LocID", "LocName");
+            }
+            else
+            {
+                ViewBag.CompanyID = new SelectList(db.Companies.Where(aa => aa.CompID == LoggedInUser.CompanyID).OrderBy(s => s.CompName), "CompID", "CompName");
+                ViewBag.CompanyIDForEmp = new SelectList(db.Companies.Where(aa => aa.CompID == LoggedInUser.CompanyID).OrderBy(s => s.CompName), "CompID", "CompName");
+                query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
+                ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s => s.LocName), "LocID", "LocName");
+            }
+
+            
             
             ViewBag.CatID = new SelectList(db.Categories.OrderBy(s=>s.CatName), "CatID", "CatName");
              return View();
@@ -161,7 +172,7 @@ namespace WMS.Controllers
                 attprocessor.ProcessCat = false;
             attprocessor.ProcessingDone = false;
             attprocessor.WhenToProcess = DateTime.Today;
-            attprocessor.CreatedDate = DateTime.Today;
+            attprocessor.CreatedDate = DateTime.Now;
             int _userID = Convert.ToInt32(Session["LogedUserID"].ToString());
             if (ModelState.IsValid)
             {

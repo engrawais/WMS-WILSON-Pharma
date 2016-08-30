@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "ListOfJobCardApp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model IEnumerable<WMS.Controllers.VMJCApplication>
+<h3>Job Cards List</h3>
+<hr />
+
+<table class="table table-bordered table-hover  table-condensed">
+    <tr class="table-header">
+        <th>
+            Start
+        </th>
+         <th>
+            End
+        </th>
+        <th>
+            Job Card
+        </th>
+        <th>
+            Criteria
+        </th>
+        <th>
+            Criteria Value
+        </th>
+        <th>
+            Cretated By
+        </th>
+<th>
+            <span>Delete</span>
+</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.DateStarted.Value.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+           @item.DateEnded.Value.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @item.CardType
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JCCriteria)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CriteriaData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Delete", new { id=item.JCAppID }, new { @class = "glyphicon glyphicon-trash btn btn-danger btn-xs" })
+</td>
+    </tr>
+}
+
+</table>
+<script type="text/javascript">
+    $(function () {
+            $(".urlddl").on('change',function(){
+            var url = $(this).val();
+            if (url != null && url != '') {
+                window.location.href = url;
+            }
+        });
+    });
+</script>
+

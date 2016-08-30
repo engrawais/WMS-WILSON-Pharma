@@ -155,8 +155,9 @@ namespace WMS.Controllers
             {
                 _wings = context.Divisions.ToList();
             }
-             
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
+
+            User LoggedInUser = Session["LoggedUser"] as User;
+            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName", LoggedInUser.CompanyID);
             ViewBag.CrewID = new SelectList(db.Crews.OrderBy(s => s.CrewName), "CrewID", "CrewName");
             ViewBag.DesigID = new SelectList(db.Designations.OrderBy(s => s.DesignationName), "DesignationID", "DesignationName");
             ViewBag.GradeID = new SelectList(db.Grades.OrderBy(s=>s.GradeName), "GradeID", "GradeName");

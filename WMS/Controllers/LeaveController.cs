@@ -520,7 +520,7 @@ namespace WMS.Controllers
                         _EmpAttData.Remarks.Replace("[EO]", "-");
                     if (_EmpAttData.Remarks.Contains("[LI]"))
                         _EmpAttData.Remarks.Replace("[LI]", "");
-                    _EmpAttData.StatusLeave = true;
+                    _EmpAttData.StatusHL = true;
                     if (lvappl.FirstHalf == true)
                     {
                         _EmpAttData.LateIn = 0;

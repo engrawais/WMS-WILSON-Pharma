@@ -161,100 +161,72 @@ namespace WMS.Controllers.EditAttendance
 
         #region --Calculate Work Times--
 
-        private void CalculateInEqualToOut(AttData attendanceRecord)
-        {
-            attendanceRecord.Remarks.Replace("[LI]", "");
-            attendanceRecord.Remarks.Replace("[EI]", "");
-            attendanceRecord.Remarks.Replace("[EO]", "");
-            attendanceRecord.Remarks.Replace("[LO]", "");
-            attendanceRecord.Remarks.Replace("[G-OT]", "");
-            attendanceRecord.Remarks.Replace("[R-OT]", "");
-            attendanceRecord.Remarks.Replace("[N-OT]", "");
-            attendanceRecord.Remarks.Replace("[Manual]", "");
-            switch (attendanceRecord.DutyCode)
-            {
-                case "G":
-                    attendanceRecord.StatusAB = false;
-                    attendanceRecord.StatusGZ = true;
-                    attendanceRecord.WorkMin = 0;
-                    attendanceRecord.EarlyIn = 0;
-                    attendanceRecord.EarlyOut = 0;
-                    attendanceRecord.LateIn = 0;
-                    attendanceRecord.LateOut = 0;
-                    attendanceRecord.OTMin = 0;
-                    attendanceRecord.GZOTMin = 0;
-                    attendanceRecord.StatusGZOT = false;
-                    attendanceRecord.TimeIn = null;
-                    attendanceRecord.TimeOut = null;
-                    attendanceRecord.Remarks = attendanceRecord.Remarks+"[GZ][Manual]";
-                    break;
-                case "R":
-                    attendanceRecord.StatusAB = false;
-                    attendanceRecord.StatusGZ = false;
-                    attendanceRecord.WorkMin = 0;
-                    attendanceRecord.EarlyIn = 0;
-                    attendanceRecord.EarlyOut = 0;
-                    attendanceRecord.LateIn = 0;
-                    attendanceRecord.LateOut = 0;
-                    attendanceRecord.OTMin = 0;
-                    attendanceRecord.GZOTMin = 0;
-                    attendanceRecord.StatusGZOT = false;
-                    attendanceRecord.TimeIn = null;
-                    attendanceRecord.TimeOut = null;
-                    attendanceRecord.StatusDO = true;
-                    attendanceRecord.Remarks = attendanceRecord.Remarks+"[DO][Manual]";
-                    break;
-                case "D":
-                    attendanceRecord.StatusAB = true;
-                    attendanceRecord.StatusGZ = false;
-                    attendanceRecord.WorkMin = 0;
-                    attendanceRecord.EarlyIn = 0;
-                    attendanceRecord.EarlyOut = 0;
-                    attendanceRecord.LateIn = 0;
-                    attendanceRecord.LateOut = 0;
-                    attendanceRecord.OTMin = 0;
-                    attendanceRecord.GZOTMin = 0;
-                    attendanceRecord.StatusGZOT = false;
-                    attendanceRecord.TimeIn = null;
-                    attendanceRecord.TimeOut = null;
-                    attendanceRecord.StatusDO = false;
-                    attendanceRecord.StatusP = false;
-                    attendanceRecord.Remarks = attendanceRecord.Remarks+"[Absent][Manual]";
-                    break;
-            }
-        }
+        #region -- Calculate Work Times --
 
-        private void CalculateShiftTimes(AttData attendanceRecord, Shift shift)
+        public static void ACalculateShiftTimes(AttData attendanceRecord, Shift shift)
         {
             try
             {
+                if (attendanceRecord.Remarks != null)
+                {
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                }
+                else
+                    attendanceRecord.Remarks = "";
+                if (attendanceRecord.StatusMN == true)
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
                 //Calculate WorkMin
-                attendanceRecord.Remarks =attendanceRecord.Remarks.Replace("[LI]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
-                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
-                //attendanceRecord.Remarks = "";
                 TimeSpan mins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
                 //Check if GZ holiday then place all WorkMin in GZOTMin
                 if (attendanceRecord.StatusGZ == true)
                 {
-                    attendanceRecord.GZOTMin = (short)mins.TotalMinutes;
-                    attendanceRecord.WorkMin = (short)mins.TotalMinutes;
-                    attendanceRecord.StatusGZOT = true;
-                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[G-OT]";
+                    if (attendanceRecord.Emp.HasOT != false)
+                    {
+                        attendanceRecord.GZOTMin = (short)mins.TotalMinutes;
+                        attendanceRecord.WorkMin = (short)mins.TotalMinutes;
+                        attendanceRecord.StatusGZOT = true;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[G-OT]";
+                    }
+                    else
+                        attendanceRecord.WorkMin = (short)mins.TotalMinutes;
                 }
                 //if Rest day then place all WorkMin in OTMin
                 else if (attendanceRecord.StatusDO == true)
                 {
-                    attendanceRecord.OTMin = (short)mins.TotalMinutes;
-                    attendanceRecord.WorkMin = (short)mins.TotalMinutes;
-                    attendanceRecord.StatusOT = true;
-                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                    if (attendanceRecord.Emp.HasOT != false)
+                    {
+                        attendanceRecord.OTMin = (short)mins.TotalMinutes;
+                        attendanceRecord.WorkMin = (short)mins.TotalMinutes;
+                        attendanceRecord.StatusOT = true;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                        // RoundOff Overtime
+                        if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                        {
+                            if (attendanceRecord.OTMin > 0)
+                            {
+                                float OTmins = (float)attendanceRecord.OTMin;
+                                float remainder = OTmins / 60;
+                                int intpart = (int)remainder;
+                                double fracpart = remainder - intpart;
+                                if (fracpart < 0.5)
+                                {
+                                    attendanceRecord.OTMin = (short)(intpart * 60);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.WorkMin = (short)mins.TotalMinutes;
+                    }
                 }
                 else
                 {
@@ -262,13 +234,15 @@ namespace WMS.Controllers.EditAttendance
                     if (shift.HasBreak == true)
                     {
                         attendanceRecord.WorkMin = (short)(mins.TotalMinutes - shift.BreakMin);
-                        attendanceRecord.ShifMin = (short)(CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - (short)shift.BreakMin);
+                        attendanceRecord.ShifMin = (short)(ProcessSupportFunc.CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - (short)shift.BreakMin);
                     }
                     else
                     {
+                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                        attendanceRecord.StatusAB = false;
+                        attendanceRecord.StatusP = true;
                         //Calculate Late IN, Compare margin with Shift Late In
-                        int _lateMin = (int)shift.LateIn;
-                        if (attendanceRecord.TimeIn.Value.TimeOfDay > (attendanceRecord.DutyTime + new TimeSpan(0, _lateMin, 0)))
+                        if (attendanceRecord.TimeIn.Value.TimeOfDay > attendanceRecord.DutyTime)
                         {
                             TimeSpan lateMinsSpan = (TimeSpan)(attendanceRecord.TimeIn.Value.TimeOfDay - attendanceRecord.DutyTime);
                             if (lateMinsSpan.TotalMinutes > shift.LateIn)
@@ -318,7 +292,7 @@ namespace WMS.Controllers.EditAttendance
                         }
 
                         // CalculateShiftEndTime = ShiftStart + DutyHours
-                        DateTime shiftEnd = CalculateShiftEndTime(shift, attendanceRecord.AttDate.Value, attendanceRecord.DutyTime.Value,(short)attendanceRecord.ShifMin);
+                        DateTime shiftEnd = ProcessSupportFunc.CalculateShiftEndTimeWithAttData(attendanceRecord.AttDate.Value, attendanceRecord.DutyTime.Value, attendanceRecord.ShifMin);
 
                         //Calculate Early Out, Compare margin with Shift Early Out
                         if (attendanceRecord.TimeOut < shiftEnd)
@@ -345,9 +319,9 @@ namespace WMS.Controllers.EditAttendance
                             attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
                         }
                         //Calculate Late Out, Compare margin with Shift Late Out
-                        if (attendanceRecord.TimeOut.Value > shiftEnd)
+                        if (attendanceRecord.TimeOut > shiftEnd)
                         {
-                            TimeSpan LateOutMinsSpan = (TimeSpan)(attendanceRecord.TimeOut.Value - shiftEnd);
+                            TimeSpan LateOutMinsSpan = (TimeSpan)(attendanceRecord.TimeOut - shiftEnd);
                             if (LateOutMinsSpan.TotalMinutes > shift.LateOut)
                             {
                                 attendanceRecord.LateOut = (short)LateOutMinsSpan.TotalMinutes;
@@ -360,9 +334,6 @@ namespace WMS.Controllers.EditAttendance
                             {
                                 attendanceRecord.StatusLO = null;
                                 attendanceRecord.LateOut = null;
-                                attendanceRecord.OTMin = null;
-                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");attendanceRecord.Remarks.Replace("[OT]", "");
-                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
                                 attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
                             }
                         }
@@ -370,10 +341,6 @@ namespace WMS.Controllers.EditAttendance
                         {
                             attendanceRecord.StatusLO = null;
                             attendanceRecord.LateOut = null;
-                            attendanceRecord.OTMin = null;
-                            attendanceRecord.StatusOT = null;
-                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[OT]", "");
-                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
                             attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
                         }
 
@@ -391,78 +358,94 @@ namespace WMS.Controllers.EditAttendance
                         if (attendanceRecord.LateOut != null || attendanceRecord.EarlyIn != null)
 
                             // round off work mins if overtime less than shift.OverTimeMin >
-                            if (attendanceRecord.WorkMin > CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) && (attendanceRecord.WorkMin <= (CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) + shift.OverTimeMin)))
+                            if (attendanceRecord.WorkMin > attendanceRecord.ShifMin && (attendanceRecord.WorkMin <= (attendanceRecord.ShifMin + shift.OverTimeMin)))
                             {
-                                attendanceRecord.WorkMin = CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek);
+                                attendanceRecord.WorkMin = attendanceRecord.ShifMin;
                             }
-                        //Calculate OverTime = EI+OT, Compare margin with Shift OverTime
+                        //Calculate OverTime = OT, Compare margin with Shift OverTime
                         //----to-do----- Handle from shift
-                        if (attendanceRecord.LateOut >0)
+                        //if (attendanceRecord.EarlyIn > shift.EarlyIn || attendanceRecord.LateOut > shift.LateOut)
+                        //{
+                        //    if (attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true)
+                        //    {
+                        //        short _EarlyIn;
+                        //        short _LateOut;
+                        //        if (attendanceRecord.EarlyIn == null)
+                        //            _EarlyIn = 0;
+                        //        else
+                        //            _EarlyIn = 0;
+
+                        //        if (attendanceRecord.LateOut == null)
+                        //            _LateOut = 0;
+                        //        else
+                        //            _LateOut = (short)attendanceRecord.LateOut;
+
+                        //        attendanceRecord.OTMin = (short)(_EarlyIn + _LateOut);
+                        //        attendanceRecord.StatusOT = true;
+                        //        attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                        //    }
+                        //}
+                        if ((attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true) && attendanceRecord.Emp.HasOT == true)
                         {
-                            if (attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true)
+                            if (attendanceRecord.LateOut != null)
                             {
-                                short _EarlyIn;
-                                short _LateOut;
-                                if (attendanceRecord.EarlyIn == null)
-                                    _EarlyIn = 0;
-                                else
-                                    _EarlyIn = 0;
-
-                                if (attendanceRecord.LateOut == null)
-                                    _LateOut = 0;
-                                else
-                                    _LateOut = (short)attendanceRecord.LateOut;
-
-                                attendanceRecord.OTMin = (short)(_EarlyIn + _LateOut);
+                                attendanceRecord.OTMin = attendanceRecord.LateOut;
                                 attendanceRecord.StatusOT = true;
                                 attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
                             }
-                            else
+                        }
+                        // RoundOff Overtime
+                        if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                        {
+                            if (attendanceRecord.OTMin > 0)
                             {
-                                attendanceRecord.OTMin = null;
-                                attendanceRecord.StatusOT = null;
-                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[OT]", "");
-                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                                float OTmins = (float)attendanceRecord.OTMin;
+                                float remainder = OTmins / 60;
+                                int intpart = (int)remainder;
+                                double fracpart = remainder - intpart;
+                                if (fracpart < 0.5)
+                                {
+                                    attendanceRecord.OTMin = (short)(intpart * 60);
+                                }
                             }
                         }
                         //Mark Absent if less than 4 hours
-                        if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
+                        if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
                         {
-                            if (attendanceRecord.DutyCode == "D")
+                            int minMinutes = 0;
+                            //currentday is present
+                            if (shift.MinHrs > 100)
                             {
-                                int minMinutes = 0;
-                                //currentday is present
-                                if (shift.MinHrs > 100)
-                                {
-                                    minMinutes = (int)attendanceRecord.ShifMin;
-                                    minMinutes = minMinutes / 2;
-                                }
-                                else
-                                    minMinutes = (int)shift.MinHrs;
-                                if (attendanceRecord.WorkMin < minMinutes)
-                                {
-                                    attendanceRecord.StatusAB = true;
-                                    attendanceRecord.StatusP = false;
-                                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent]";
-                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
-                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
-                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
-                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
-                                }
-                                else
-                                {
-                                    attendanceRecord.StatusAB = false;
-                                    attendanceRecord.StatusP = true;
-                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
-                                }
+                                minMinutes = (int)attendanceRecord.ShifMin;
+                                minMinutes = minMinutes / 2;
                             }
+                            else
+                                minMinutes = (int)shift.MinHrs;
+                            if (attendanceRecord.StatusHL == true || attendanceRecord.Remarks.Contains("H-"))
+                            {
+                                attendanceRecord.EarlyOut = 0;
+                                attendanceRecord.StatusEO = false;
+                                attendanceRecord.LateIn = 0;
+                                attendanceRecord.StatusLI = false;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                            }
+                            else if (attendanceRecord.WorkMin < minMinutes)
+                            {
+                                attendanceRecord.StatusAB = true;
+                                attendanceRecord.StatusP = false;
+                                attendanceRecord.Remarks = "[Absent]";
+                            }
+                            else
+                            {
+                                attendanceRecord.StatusAB = false;
+                                attendanceRecord.StatusP = true;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                            }
+
                         }
                     }
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -470,25 +453,31 @@ namespace WMS.Controllers.EditAttendance
             }
         }
 
-        private void CalculateOpenShiftTimes(AttData attendanceRecord, Shift shift)
+        public static void ACalculateOpenShiftTimes(AttData attendanceRecord, Shift shift)
         {
             try
             {
-
                 //Calculate WorkMin
                 if (attendanceRecord != null)
                 {
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
-                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
                     if (attendanceRecord.TimeOut != null && attendanceRecord.TimeIn != null)
                     {
+                        if (attendanceRecord.Remarks != null)
+                        {
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                        }
+                        else
+                            attendanceRecord.Remarks = "";
+                        if (attendanceRecord.StatusMN == true)
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
                         TimeSpan mins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
                         //Check if GZ holiday then place all WorkMin in GZOTMin
                         if (attendanceRecord.StatusGZ == true)
@@ -504,65 +493,120 @@ namespace WMS.Controllers.EditAttendance
                             attendanceRecord.WorkMin = (short)mins.TotalMinutes;
                             attendanceRecord.StatusOT = true;
                             attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                            // RoundOff Overtime
+                            if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                            {
+                                if (attendanceRecord.OTMin > 0)
+                                {
+                                    float OTmins = (float)attendanceRecord.OTMin;
+                                    float remainder = OTmins / 60;
+                                    int intpart = (int)remainder;
+                                    double fracpart = remainder - intpart;
+                                    if (fracpart < 0.5)
+                                    {
+                                        attendanceRecord.OTMin = (short)(intpart * 60);
+                                    }
+                                }
+                            }
                         }
                         else
                         {
                             if (shift.HasBreak == true)
                             {
                                 attendanceRecord.WorkMin = (short)(mins.TotalMinutes - shift.BreakMin);
-                                attendanceRecord.ShifMin = (short)(CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - (short)shift.BreakMin);
+                                attendanceRecord.ShifMin = (short)(ProcessSupportFunc.CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - (short)shift.BreakMin);
                             }
                             else
                             {
+                                attendanceRecord.Remarks.Replace("[Absent]", "");
+                                attendanceRecord.StatusAB = false;
+                                attendanceRecord.StatusP = true;
                                 // CalculateShiftEndTime = ShiftStart + DutyHours
-                                TimeSpan shiftEnd = CalculateShiftEndTime(shift,(short)attendanceRecord.ShifMin);
+                                //TimeSpan shiftEnd = ProcessSupportFunc.CalculateShiftEndTime(shift, attendanceRecord.AttDate.Value.DayOfWeek);
                                 attendanceRecord.WorkMin = (short)(mins.TotalMinutes);
                                 //Calculate OverTIme, 
-                                if (mins.TotalMinutes > (CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) + shift.OverTimeMin))
+                                if ((mins.TotalMinutes > (attendanceRecord.ShifMin + shift.OverTimeMin)) && attendanceRecord.Emp.HasOT == true)
                                 {
-                                    attendanceRecord.OTMin = (Int16)(Convert.ToInt16(mins.TotalMinutes) - CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek));
+                                    attendanceRecord.OTMin = (Int16)(Convert.ToInt16(mins.TotalMinutes) - attendanceRecord.ShifMin);
                                     attendanceRecord.WorkMin = (short)((mins.TotalMinutes) - attendanceRecord.OTMin);
                                     attendanceRecord.StatusOT = true;
                                     attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
                                 }
                                 //Calculate Early Out
-                                if (mins.TotalMinutes < (CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - shift.EarlyOut))
+                                if (mins.TotalMinutes < (attendanceRecord.ShifMin - shift.EarlyOut))
                                 {
-                                    Int16 EarlyoutMin = (Int16)(CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek)-Convert.ToInt16(mins.TotalMinutes) );
+                                    Int16 EarlyoutMin = (Int16)(attendanceRecord.ShifMin - Convert.ToInt16(mins.TotalMinutes));
                                     if (EarlyoutMin > shift.EarlyOut)
                                     {
                                         attendanceRecord.EarlyOut = EarlyoutMin;
                                         attendanceRecord.StatusEO = true;
                                         attendanceRecord.Remarks = attendanceRecord.Remarks + "[EO]";
                                     }
+                                    else
+                                    {
+                                        attendanceRecord.StatusEO = null;
+                                        attendanceRecord.EarlyOut = null;
+                                        attendanceRecord.Remarks.Replace("[EO]", "");
+                                    }
+                                }
+                                else
+                                {
+                                    attendanceRecord.StatusEO = null;
+                                    attendanceRecord.EarlyOut = null;
+                                    attendanceRecord.Remarks.Replace("[EO]", "");
                                 }
                                 // round off work mins if overtime less than shift.OverTimeMin >
-                                if (attendanceRecord.WorkMin > CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) && (attendanceRecord.WorkMin <= (CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) + shift.OverTimeMin)))
+                                if (attendanceRecord.WorkMin > attendanceRecord.ShifMin && (attendanceRecord.WorkMin <= (attendanceRecord.ShifMin + shift.OverTimeMin)))
                                 {
-                                    attendanceRecord.WorkMin = CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek);
+                                    attendanceRecord.WorkMin = attendanceRecord.ShifMin;
+                                }
+                                // RoundOff Overtime
+                                if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                                {
+                                    if (attendanceRecord.OTMin > 0)
+                                    {
+                                        float OTmins = (float)attendanceRecord.OTMin;
+                                        float remainder = OTmins / 60;
+                                        int intpart = (int)remainder;
+                                        double fracpart = remainder - intpart;
+                                        if (fracpart < 0.5)
+                                        {
+                                            attendanceRecord.OTMin = (short)(intpart * 60);
+                                        }
+                                    }
                                 }
                                 //Mark Absent if less than 4 hours
-                                if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday)
+                                if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
                                 {
-                                    if (attendanceRecord.DutyCode == "D")
+                                    int minMinutes = 0;
+                                    //currentday is present
+                                    if (shift.MinHrs > 100)
                                     {
-                                        short MinShiftMin = (short)shift.MinHrs;
-                                        if (attendanceRecord.WorkMin < MinShiftMin)
-                                        {
-                                            attendanceRecord.StatusAB = true;
-                                            attendanceRecord.StatusP = false;
-                                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent]";
-                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
-                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
-                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
-                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
-                                        }
-                                        else
-                                        {
-                                            attendanceRecord.StatusAB = false;
-                                            attendanceRecord.StatusP = true;
-                                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
-                                        }
+                                        minMinutes = (int)attendanceRecord.ShifMin;
+                                        minMinutes = minMinutes / 2;
+                                    }
+                                    else
+                                        minMinutes = (int)shift.MinHrs;
+                                    if (attendanceRecord.StatusHL == true || attendanceRecord.Remarks.Contains("H-"))
+                                    {
+                                        attendanceRecord.EarlyOut = 0;
+                                        attendanceRecord.StatusEO = false;
+                                        attendanceRecord.LateIn = 0;
+                                        attendanceRecord.StatusLI = false;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                                    }
+                                    else if (attendanceRecord.WorkMin < minMinutes)
+                                    {
+                                        attendanceRecord.StatusAB = true;
+                                        attendanceRecord.StatusP = false;
+                                        attendanceRecord.Remarks = "[Absent]";
+                                    }
+                                    else
+                                    {
+                                        attendanceRecord.StatusAB = false;
+                                        attendanceRecord.StatusP = true;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
                                     }
                                 }
                             }
@@ -574,8 +618,1060 @@ namespace WMS.Controllers.EditAttendance
             {
             }
         }
-        #endregion
 
+        public static void ACalculateRosterTimes(AttData attendanceRecord, WMS.Models.Roster roster, Shift _shift)
+        {
+            try
+            {
+                if (attendanceRecord.Remarks != null)
+                {
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Manual]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                }
+                else
+                    attendanceRecord.Remarks = "";
+                if (attendanceRecord.StatusMN == true)
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[Manual]";
+                TimeSpan mins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
+                if (attendanceRecord.StatusGZ == true)
+                {
+                    attendanceRecord.GZOTMin = (short)mins.TotalMinutes;
+                    attendanceRecord.WorkMin = (short)mins.TotalMinutes;
+                    attendanceRecord.StatusGZOT = true;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[GZ-OT]";
+                }
+                else if (attendanceRecord.StatusDO == true)
+                {
+                    attendanceRecord.OTMin = (short)mins.TotalMinutes;
+                    attendanceRecord.WorkMin = (short)mins.TotalMinutes;
+                    attendanceRecord.StatusOT = true;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                    // RoundOff Overtime
+                    if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                    {
+                        if (attendanceRecord.OTMin > 0)
+                        {
+                            float OTmins = (float)attendanceRecord.OTMin;
+                            float remainder = OTmins / 60;
+                            int intpart = (int)remainder;
+                            double fracpart = remainder - intpart;
+                            if (fracpart < 0.5)
+                            {
+                                attendanceRecord.OTMin = (short)(intpart * 60);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    attendanceRecord.Remarks.Replace("[Absent]", "");
+                    attendanceRecord.StatusAB = false;
+                    attendanceRecord.StatusP = true;
+                    ////------to-do ----------handle shift break time
+                    //Calculate Late IN, Compare margin with Shift Late In
+                    if (attendanceRecord.TimeIn.Value.TimeOfDay > roster.DutyTime)
+                    {
+                        TimeSpan lateMinsSpan = (TimeSpan)(attendanceRecord.TimeIn.Value.TimeOfDay - attendanceRecord.DutyTime);
+                        if (lateMinsSpan.TotalMinutes > _shift.LateIn)
+                        {
+                            attendanceRecord.LateIn = (short)lateMinsSpan.TotalMinutes;
+                            attendanceRecord.StatusLI = true;
+                            attendanceRecord.EarlyIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[LI]";
+                        }
+                        else
+                        {
+                            attendanceRecord.LateIn = null;
+                            attendanceRecord.StatusLI = null;
+                            attendanceRecord.Remarks.Replace("[LI]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.LateIn = null;
+                        attendanceRecord.StatusLI = null;
+                        attendanceRecord.Remarks.Replace("[LI]", "");
+                    }
+
+                    //Calculate Early In, Compare margin with Shift Early In
+                    if (attendanceRecord.TimeIn.Value.TimeOfDay < attendanceRecord.DutyTime)
+                    {
+                        TimeSpan EarlyInMinsSpan = (TimeSpan)(attendanceRecord.DutyTime - attendanceRecord.TimeIn.Value.TimeOfDay);
+                        if (EarlyInMinsSpan.TotalMinutes > _shift.EarlyIn)
+                        {
+                            attendanceRecord.EarlyIn = (short)EarlyInMinsSpan.TotalMinutes;
+                            attendanceRecord.StatusEI = true;
+                            attendanceRecord.LateIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[EI]";
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusEI = null;
+                            attendanceRecord.EarlyIn = null;
+                            attendanceRecord.Remarks.Replace("[EI]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.StatusEI = null;
+                        attendanceRecord.EarlyIn = null;
+                        attendanceRecord.Remarks.Replace("[EI]", "");
+                    }
+
+                    // CalculateShiftEndTime = ShiftStart + DutyHours
+                    TimeSpan shiftEnd = (TimeSpan)attendanceRecord.DutyTime + (new TimeSpan(0, (int)roster.WorkMin, 0));
+
+                    //Calculate Early Out, Compare margin with Shift Early Out
+                    if (attendanceRecord.TimeOut.Value.TimeOfDay < shiftEnd)
+                    {
+                        TimeSpan EarlyOutMinsSpan = (TimeSpan)(shiftEnd - attendanceRecord.TimeOut.Value.TimeOfDay);
+                        if (EarlyOutMinsSpan.TotalMinutes > _shift.EarlyOut)
+                        {
+                            attendanceRecord.EarlyOut = (short)EarlyOutMinsSpan.TotalMinutes;
+                            attendanceRecord.StatusEO = true;
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[EO]";
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusEO = null;
+                            attendanceRecord.EarlyOut = null;
+                            attendanceRecord.Remarks.Replace("[EO]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.StatusEO = null;
+                        attendanceRecord.EarlyOut = null;
+                        attendanceRecord.Remarks.Replace("[EO]", "");
+                    }
+                    //Calculate Late Out, Compare margin with Shift Late Out
+                    if (attendanceRecord.TimeOut.Value.TimeOfDay > shiftEnd)
+                    {
+                        TimeSpan LateOutMinsSpan = (TimeSpan)(attendanceRecord.TimeOut.Value.TimeOfDay - shiftEnd);
+                        if (LateOutMinsSpan.TotalMinutes > _shift.LateOut)
+                        {
+                            attendanceRecord.LateOut = (short)LateOutMinsSpan.TotalMinutes;
+                            // Late Out cannot have an early out, In case of poll at multiple times before and after shiftend
+                            attendanceRecord.EarlyOut = null;
+                            attendanceRecord.StatusLO = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[LO]";
+                        }
+                        else
+                        {
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.Remarks.Replace("[LO]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.LateOut = null;
+                        attendanceRecord.LateOut = null;
+                        attendanceRecord.Remarks.Replace("[LO]", "");
+                    }
+                    attendanceRecord.WorkMin = (short)(mins.TotalMinutes);
+                    if (attendanceRecord.EarlyIn != null && attendanceRecord.EarlyIn > _shift.EarlyIn)
+                    {
+                        attendanceRecord.WorkMin = (short)(attendanceRecord.WorkMin - attendanceRecord.EarlyIn);
+                    }
+                    if (attendanceRecord.LateOut != null && attendanceRecord.LateOut > _shift.LateOut)
+                    {
+                        attendanceRecord.WorkMin = (short)(attendanceRecord.WorkMin - attendanceRecord.LateOut);
+                    }
+                    if (attendanceRecord.EarlyIn == null && attendanceRecord.LateOut == null)
+                    {
+
+                    }
+                    //round off work minutes
+                    if (attendanceRecord.WorkMin > attendanceRecord.ShifMin && (attendanceRecord.WorkMin <= (attendanceRecord.ShifMin + _shift.OverTimeMin)))
+                    {
+                        attendanceRecord.WorkMin = attendanceRecord.ShifMin;
+                    }
+                    // RoundOff Overtime
+                    if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                    {
+                        if (attendanceRecord.OTMin > 0)
+                        {
+                            float OTmins = (float)attendanceRecord.OTMin;
+                            float remainder = OTmins / 60;
+                            int intpart = (int)remainder;
+                            double fracpart = remainder - intpart;
+                            if (fracpart < 0.5)
+                            {
+                                attendanceRecord.OTMin = (short)(intpart * 60);
+                            }
+                        }
+                    }
+                    ////Calculate OverTime, Compare margin with Shift OverTime
+                    //if (attendanceRecord.EarlyIn > _shift.EarlyIn || attendanceRecord.LateOut > _shift.LateOut)
+                    //{
+                    //    if (attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true)
+                    //    {
+                    //        short _EarlyIn;
+                    //        short _LateOut;
+                    //        if (attendanceRecord.EarlyIn == null)
+                    //            _EarlyIn = 0;
+                    //        else
+                    //            _EarlyIn = 0;
+
+                    //        if (attendanceRecord.LateOut == null)
+                    //            _LateOut = 0;
+                    //        else
+                    //            _LateOut = (short)attendanceRecord.LateOut;
+
+                    //        attendanceRecord.OTMin = (short)(_EarlyIn + _LateOut);
+                    //        attendanceRecord.StatusOT = true;
+                    //    }
+                    //}
+                    if ((attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true) && attendanceRecord.Emp.HasOT == true)
+                    {
+                        if (attendanceRecord.LateOut != null)
+                        {
+                            attendanceRecord.OTMin = attendanceRecord.LateOut;
+                            attendanceRecord.StatusOT = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                        }
+                    }
+                    //Mark Absent if less than 4 hours
+                    if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
+                    {
+                        int minMinutes = 0;
+                        //currentday is present
+                        if (_shift.MinHrs > 100)
+                        {
+                            minMinutes = (int)attendanceRecord.ShifMin;
+                            minMinutes = minMinutes / 2;
+                        }
+                        else
+                            minMinutes = (int)_shift.MinHrs;
+                        if (attendanceRecord.StatusHL == true || attendanceRecord.Remarks.Contains("H-"))
+                        {
+                            attendanceRecord.EarlyOut = 0;
+                            attendanceRecord.StatusEO = false;
+                            attendanceRecord.LateIn = 0;
+                            attendanceRecord.StatusLI = false;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                        }
+                        else if (attendanceRecord.WorkMin < minMinutes)
+                        {
+                            attendanceRecord.StatusAB = true;
+                            attendanceRecord.StatusP = false;
+                            attendanceRecord.Remarks = "[Absent]";
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusAB = false;
+                            attendanceRecord.StatusP = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                        }
+
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #endregion
+        public static void CalculateShiftTimes(AttData attendanceRecord, Shift shift)
+        {
+            //if (attendanceRecord.Emp.TypeID == 90)
+            //{
+            //    SMCalculateShiftTimes(attendanceRecord, shift);
+            //}
+            //else
+            ACalculateShiftTimes(attendanceRecord, shift);
+        }
+        public static void CalculateOpenShiftTimes(AttData attendanceRecord, Shift shift)
+        {
+            if (attendanceRecord != null)
+            {
+                //if (attendanceRecord.Emp.TypeID == 90)
+                //{
+                //    SMCalculateOpenShiftTimes(attendanceRecord, shift);
+                //}
+                //else
+                ACalculateOpenShiftTimes(attendanceRecord, shift);
+            }
+        }
+        public static void CalculateRosterTimes(AttData attendanceRecord, WMS.Models.Roster roster, Shift _shift)
+        {
+            //if (attendanceRecord.Emp.TypeID == 90)
+            //{
+            //    SMCalculateRosterTimes(attendanceRecord, roster, _shift);
+            //}
+            //else
+            ACalculateRosterTimes(attendanceRecord, roster, _shift);
+        }
+        #region --Calculate Sugar Mill Employees
+        public static void SMCalculateShiftTimes(AttData attendanceRecord, Shift shift)
+        {
+            try
+            {
+                attendanceRecord.Remarks = "";
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                //Calculate WorkMin
+                TimeSpan TotalMins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
+                TimeSpan mins = (TimeSpan)(attendanceRecord.Tout0 - attendanceRecord.Tin0);
+                //Check if GZ holiday then place all WorkMin in GZOTMin
+                if (attendanceRecord.StatusGZ == true)
+                {
+                    if (attendanceRecord.Emp.HasOT != false)
+                    {
+                        attendanceRecord.GZOTMin = (short)TotalMins.TotalMinutes;
+                        attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                        attendanceRecord.StatusGZOT = true;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[G-OT]";
+                    }
+                    else
+                        attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                }
+                //if Rest day then place all WorkMin in OTMin
+                else if (attendanceRecord.StatusDO == true)
+                {
+                    if (attendanceRecord.Emp.HasOT != false)
+                    {
+                        attendanceRecord.OTMin = (short)TotalMins.TotalMinutes;
+                        attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                        attendanceRecord.StatusOT = true;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                        // RoundOff Overtime
+                        if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                        {
+                            if (attendanceRecord.OTMin > 0)
+                            {
+                                float OTmins = (float)attendanceRecord.OTMin;
+                                float remainder = OTmins / 60;
+                                int intpart = (int)remainder;
+                                double fracpart = remainder - intpart;
+                                if (fracpart < 0.5)
+                                {
+                                    attendanceRecord.OTMin = (short)(intpart * 60);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                    }
+                }
+                else
+                {
+                    /////////// to-do -----calculate Margins for those shifts which has break mins 
+                    if (shift.HasBreak == true)
+                    {
+                        attendanceRecord.WorkMin = (short)(mins.TotalMinutes - shift.BreakMin);
+                        attendanceRecord.ShifMin = (short)(ProcessSupportFunc.CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - (short)shift.BreakMin);
+                    }
+                    else
+                    {
+                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                        attendanceRecord.StatusAB = false;
+                        attendanceRecord.StatusP = true;
+                        //Calculate Late IN, Compare margin with Shift Late In
+                        if (attendanceRecord.TimeIn.Value.TimeOfDay > attendanceRecord.DutyTime)
+                        {
+                            TimeSpan lateMinsSpan = (TimeSpan)(attendanceRecord.TimeIn.Value.TimeOfDay - attendanceRecord.DutyTime);
+                            if (lateMinsSpan.TotalMinutes > shift.LateIn)
+                            {
+                                attendanceRecord.LateIn = (short)lateMinsSpan.TotalMinutes;
+                                attendanceRecord.StatusLI = true;
+                                attendanceRecord.EarlyIn = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks + "[LI]";
+                            }
+                            else
+                            {
+                                attendanceRecord.StatusLI = null;
+                                attendanceRecord.LateIn = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                            }
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusLI = null;
+                            attendanceRecord.LateIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                        }
+
+                        //Calculate Early In, Compare margin with Shift Early In
+                        if (attendanceRecord.TimeIn.Value.TimeOfDay < attendanceRecord.DutyTime)
+                        {
+                            TimeSpan EarlyInMinsSpan = (TimeSpan)(attendanceRecord.DutyTime - attendanceRecord.TimeIn.Value.TimeOfDay);
+                            if (EarlyInMinsSpan.TotalMinutes > shift.EarlyIn)
+                            {
+                                attendanceRecord.EarlyIn = (short)EarlyInMinsSpan.TotalMinutes;
+                                attendanceRecord.StatusEI = true;
+                                attendanceRecord.LateIn = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks + "[EI]";
+                            }
+                            else
+                            {
+                                attendanceRecord.StatusEI = null;
+                                attendanceRecord.EarlyIn = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                            }
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusEI = null;
+                            attendanceRecord.EarlyIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                        }
+
+                        // CalculateShiftEndTime = ShiftStart + DutyHours
+                        DateTime shiftEnd = ProcessSupportFunc.CalculateShiftEndTimeWithAttData(attendanceRecord.AttDate.Value, attendanceRecord.DutyTime.Value, attendanceRecord.ShifMin);
+
+                        //Calculate Early Out, Compare margin with Shift Early Out
+                        if (attendanceRecord.TimeOut < shiftEnd)
+                        {
+                            TimeSpan EarlyOutMinsSpan = (TimeSpan)(shiftEnd - attendanceRecord.TimeOut);
+                            if (EarlyOutMinsSpan.TotalMinutes > shift.EarlyOut)
+                            {
+                                attendanceRecord.EarlyOut = (short)EarlyOutMinsSpan.TotalMinutes;
+                                attendanceRecord.StatusEO = true;
+                                attendanceRecord.LateOut = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks + "[EO]";
+                            }
+                            else
+                            {
+                                attendanceRecord.StatusEO = null;
+                                attendanceRecord.EarlyOut = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                            }
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusEO = null;
+                            attendanceRecord.EarlyOut = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                        }
+                        //Calculate Late Out, Compare margin with Shift Late Out
+                        if (attendanceRecord.TimeOut > shiftEnd)
+                        {
+                            TimeSpan LateOutMinsSpan = (TimeSpan)(attendanceRecord.TimeOut - shiftEnd);
+                            if (LateOutMinsSpan.TotalMinutes > shift.LateOut)
+                            {
+                                attendanceRecord.LateOut = (short)LateOutMinsSpan.TotalMinutes;
+                                // Late Out cannot have an early out, In case of poll at multiple times before and after shiftend
+                                attendanceRecord.EarlyOut = null;
+                                attendanceRecord.StatusLO = true;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks + "[LO]";
+                            }
+                            else
+                            {
+                                attendanceRecord.StatusLO = null;
+                                attendanceRecord.LateOut = null;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                            }
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusLO = null;
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                        }
+
+                        //Subtract EarlyIn and LateOut from Work Minutes
+                        //////-------to-do--------- Automate earlyin,lateout from shift setup
+                        attendanceRecord.WorkMin = (short)(mins.TotalMinutes);
+                        if (attendanceRecord.EarlyIn != null && attendanceRecord.EarlyIn > shift.EarlyIn)
+                        {
+                            attendanceRecord.WorkMin = (short)(attendanceRecord.WorkMin - attendanceRecord.EarlyIn);
+                        }
+                        if (attendanceRecord.LateOut != null && attendanceRecord.LateOut > shift.LateOut)
+                        {
+                            attendanceRecord.WorkMin = (short)(attendanceRecord.WorkMin - attendanceRecord.LateOut);
+                        }
+                        if (attendanceRecord.LateOut != null || attendanceRecord.EarlyIn != null)
+
+                            // round off work mins if overtime less than shift.OverTimeMin >
+                            if (attendanceRecord.WorkMin > attendanceRecord.ShifMin && (attendanceRecord.WorkMin <= (attendanceRecord.ShifMin + shift.OverTimeMin)))
+                            {
+                                attendanceRecord.WorkMin = attendanceRecord.ShifMin;
+                            }
+                        //Calculate OverTime = OT, Compare margin with Shift OverTime
+                        //----to-do----- Handle from shift
+                        //if (attendanceRecord.EarlyIn > shift.EarlyIn || attendanceRecord.LateOut > shift.LateOut)
+                        //{
+                        //    if (attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true)
+                        //    {
+                        //        short _EarlyIn;
+                        //        short _LateOut;
+                        //        if (attendanceRecord.EarlyIn == null)
+                        //            _EarlyIn = 0;
+                        //        else
+                        //            _EarlyIn = 0;
+
+                        //        if (attendanceRecord.LateOut == null)
+                        //            _LateOut = 0;
+                        //        else
+                        //            _LateOut = (short)attendanceRecord.LateOut;
+
+                        //        attendanceRecord.OTMin = (short)(_EarlyIn + _LateOut);
+                        //        attendanceRecord.StatusOT = true;
+                        //        attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                        //    }
+                        //}
+                        if ((attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true) && attendanceRecord.Emp.HasOT == true)
+                        {
+                            //if (attendanceRecord.LateOut != null)
+                            //{
+                            //    attendanceRecord.OTMin = attendanceRecord.LateOut;
+                            //    attendanceRecord.StatusOT = true;
+                            //    attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                            //}
+                            if (attendanceRecord.Tout1 != null && attendanceRecord.Tin1 != null)
+                            {
+                                TimeSpan ts = (TimeSpan)(attendanceRecord.Tout1 - attendanceRecord.Tin1);
+                                attendanceRecord.OTMin = (short)ts.TotalMinutes;
+                                attendanceRecord.StatusOT = true;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                            }
+                        }
+                        // RoundOff Overtime
+                        if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                        {
+                            if (attendanceRecord.OTMin > 0)
+                            {
+                                float OTmins = (float)attendanceRecord.OTMin;
+                                float remainder = OTmins / 60;
+                                int intpart = (int)remainder;
+                                double fracpart = remainder - intpart;
+                                if (fracpart < 0.5)
+                                {
+                                    attendanceRecord.OTMin = (short)(intpart * 60);
+                                }
+                            }
+                        }
+                        //Mark Absent if less than 4 hours
+                        if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
+                        {
+                            int minMinutes = 0;
+                            //currentday is present
+                            if (shift.MinHrs > 100)
+                            {
+                                minMinutes = (int)attendanceRecord.ShifMin;
+                                minMinutes = minMinutes / 2;
+                            }
+                            else
+                                minMinutes = (int)shift.MinHrs;
+                            if (attendanceRecord.WorkMin < minMinutes)
+                            {
+                                attendanceRecord.StatusAB = true;
+                                attendanceRecord.StatusP = false;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks = "[Absent]";
+                            }
+                            else
+                            {
+                                attendanceRecord.StatusAB = false;
+                                attendanceRecord.StatusP = true;
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public static void SMCalculateOpenShiftTimes(AttData attendanceRecord, Shift shift)
+        {
+            try
+            {
+                attendanceRecord.Remarks = "";
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                //Calculate WorkMin
+                if (attendanceRecord != null)
+                {
+                    if (attendanceRecord.TimeOut != null && attendanceRecord.TimeIn != null)
+                    {
+                        attendanceRecord.Remarks = "";
+                        TimeSpan TotalMins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
+                        TimeSpan mins = (TimeSpan)(attendanceRecord.Tout0 - attendanceRecord.Tin0);
+                        //Check if GZ holiday then place all WorkMin in GZOTMin
+                        if (attendanceRecord.StatusGZ == true)
+                        {
+                            attendanceRecord.GZOTMin = (short)TotalMins.TotalMinutes;
+                            attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                            attendanceRecord.StatusGZOT = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[GZ-OT]";
+                        }
+                        else if (attendanceRecord.StatusDO == true)
+                        {
+                            attendanceRecord.OTMin = (short)TotalMins.TotalMinutes;
+                            attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                            attendanceRecord.StatusOT = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                            // RoundOff Overtime
+                            if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                            {
+                                if (attendanceRecord.OTMin > 0)
+                                {
+                                    float OTmins = (float)attendanceRecord.OTMin;
+                                    float remainder = OTmins / 60;
+                                    int intpart = (int)remainder;
+                                    double fracpart = remainder - intpart;
+                                    if (fracpart < 0.5)
+                                    {
+                                        attendanceRecord.OTMin = (short)(intpart * 60);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (shift.HasBreak == true)
+                            {
+                                attendanceRecord.WorkMin = (short)(mins.TotalMinutes - shift.BreakMin);
+                                attendanceRecord.ShifMin = (short)(ProcessSupportFunc.CalculateShiftMinutes(shift, attendanceRecord.AttDate.Value.DayOfWeek) - (short)shift.BreakMin);
+                            }
+                            else
+                            {
+                                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                                attendanceRecord.StatusAB = false;
+                                attendanceRecord.StatusP = true;
+                                // CalculateShiftEndTime = ShiftStart + DutyHours
+                                //TimeSpan shiftEnd = ProcessSupportFunc.CalculateShiftEndTime(shift, attendanceRecord.AttDate.Value.DayOfWeek);
+                                attendanceRecord.WorkMin = (short)(mins.TotalMinutes);
+                                //Calculate OverTIme, 
+                                if ((mins.TotalMinutes > (attendanceRecord.ShifMin + shift.OverTimeMin)) && attendanceRecord.Emp.HasOT == true)
+                                {
+                                    //attendanceRecord.OTMin = (Int16)(Convert.ToInt16(mins.TotalMinutes) - attendanceRecord.ShifMin);
+                                    //attendanceRecord.WorkMin = (short)((mins.TotalMinutes) - attendanceRecord.OTMin);
+                                    //attendanceRecord.StatusOT = true;
+                                    //attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                                    if (attendanceRecord.Tout1 != null && attendanceRecord.Tin1 != null)
+                                    {
+                                        TimeSpan ts = (TimeSpan)(attendanceRecord.Tout1 - attendanceRecord.Tin1);
+                                        attendanceRecord.OTMin = (short)ts.TotalMinutes;
+                                        attendanceRecord.StatusOT = true;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                                    }
+                                }
+                                //Calculate Early Out
+                                if (mins.TotalMinutes < (attendanceRecord.ShifMin - shift.EarlyOut))
+                                {
+                                    Int16 EarlyoutMin = (Int16)(attendanceRecord.ShifMin - Convert.ToInt16(mins.TotalMinutes));
+                                    if (EarlyoutMin > shift.EarlyOut)
+                                    {
+                                        attendanceRecord.EarlyOut = EarlyoutMin;
+                                        attendanceRecord.StatusEO = true;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[EO]";
+                                    }
+                                    else
+                                    {
+                                        attendanceRecord.StatusEO = null;
+                                        attendanceRecord.EarlyOut = null;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                                    }
+                                }
+                                else
+                                {
+                                    attendanceRecord.StatusEO = null;
+                                    attendanceRecord.EarlyOut = null;
+                                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                                }
+                                // round off work mins if overtime less than shift.OverTimeMin >
+                                if (attendanceRecord.WorkMin > attendanceRecord.ShifMin && (attendanceRecord.WorkMin <= (attendanceRecord.ShifMin + shift.OverTimeMin)))
+                                {
+                                    attendanceRecord.WorkMin = attendanceRecord.ShifMin;
+                                }
+                                // RoundOff Overtime
+                                if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                                {
+                                    if (attendanceRecord.OTMin > 0)
+                                    {
+                                        float OTmins = (float)attendanceRecord.OTMin;
+                                        float remainder = OTmins / 60;
+                                        int intpart = (int)remainder;
+                                        double fracpart = remainder - intpart;
+                                        if (fracpart < 0.5)
+                                        {
+                                            attendanceRecord.OTMin = (short)(intpart * 60);
+                                        }
+                                    }
+                                }
+                                //Mark Absent if less than 4 hours
+                                if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
+                                {
+                                    int minMinutes = 0;
+                                    //currentday is present
+                                    if (shift.MinHrs > 100)
+                                    {
+                                        minMinutes = (int)attendanceRecord.ShifMin;
+                                        minMinutes = minMinutes / 2;
+                                    }
+                                    else
+                                        minMinutes = (int)shift.MinHrs;
+                                    if (attendanceRecord.WorkMin < minMinutes)
+                                    {
+                                        attendanceRecord.StatusAB = true;
+                                        attendanceRecord.StatusP = false;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent]";
+                                    }
+                                    else
+                                    {
+                                        attendanceRecord.StatusAB = false;
+                                        attendanceRecord.StatusP = true;
+                                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public static void SMCalculateRosterTimes(AttData attendanceRecord, WMS.Models.Roster roster, Shift _shift)
+        {
+            try
+            {
+                attendanceRecord.Remarks = "";
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
+                attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                TimeSpan TotalMins = (TimeSpan)(attendanceRecord.TimeOut - attendanceRecord.TimeIn);
+                TimeSpan mins = (TimeSpan)(attendanceRecord.Tout0 - attendanceRecord.Tin0);
+                attendanceRecord.Remarks = "";
+                if (attendanceRecord.StatusGZ == true)
+                {
+                    attendanceRecord.GZOTMin = (short)TotalMins.TotalMinutes;
+                    attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                    attendanceRecord.StatusGZOT = true;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[GZ-OT]";
+                }
+                else if (attendanceRecord.StatusDO == true)
+                {
+                    attendanceRecord.OTMin = (short)TotalMins.TotalMinutes;
+                    attendanceRecord.WorkMin = (short)TotalMins.TotalMinutes;
+                    attendanceRecord.StatusOT = true;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[R-OT]";
+                    // RoundOff Overtime
+                    if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                    {
+                        if (attendanceRecord.OTMin > 0)
+                        {
+                            float OTmins = (float)attendanceRecord.OTMin;
+                            float remainder = OTmins / 60;
+                            int intpart = (int)remainder;
+                            double fracpart = remainder - intpart;
+                            if (fracpart < 0.5)
+                            {
+                                attendanceRecord.OTMin = (short)(intpart * 60);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                    attendanceRecord.StatusAB = false;
+                    attendanceRecord.StatusP = true;
+                    ////------to-do ----------handle shift break time
+                    //Calculate Late IN, Compare margin with Shift Late In
+                    if (attendanceRecord.TimeIn.Value.TimeOfDay > roster.DutyTime)
+                    {
+                        TimeSpan lateMinsSpan = (TimeSpan)(attendanceRecord.TimeIn.Value.TimeOfDay - attendanceRecord.DutyTime);
+                        if (lateMinsSpan.TotalMinutes > _shift.LateIn)
+                        {
+                            attendanceRecord.LateIn = (short)lateMinsSpan.TotalMinutes;
+                            attendanceRecord.StatusLI = true;
+                            attendanceRecord.EarlyIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[LI]";
+                        }
+                        else
+                        {
+                            attendanceRecord.LateIn = null;
+                            attendanceRecord.StatusLI = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.LateIn = null;
+                        attendanceRecord.StatusLI = null;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LI]", "");
+                    }
+
+                    //Calculate Early In, Compare margin with Shift Early In
+                    if (attendanceRecord.TimeIn.Value.TimeOfDay < attendanceRecord.DutyTime)
+                    {
+                        TimeSpan EarlyInMinsSpan = (TimeSpan)(attendanceRecord.DutyTime - attendanceRecord.TimeIn.Value.TimeOfDay);
+                        if (EarlyInMinsSpan.TotalMinutes > _shift.EarlyIn)
+                        {
+                            attendanceRecord.EarlyIn = (short)EarlyInMinsSpan.TotalMinutes;
+                            attendanceRecord.StatusEI = true;
+                            attendanceRecord.LateIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[EI]";
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusEI = null;
+                            attendanceRecord.EarlyIn = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.StatusEI = null;
+                        attendanceRecord.EarlyIn = null;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EI]", "");
+                    }
+
+                    // CalculateShiftEndTime = ShiftStart + DutyHours
+                    TimeSpan shiftEnd = (TimeSpan)attendanceRecord.DutyTime + (new TimeSpan(0, (int)roster.WorkMin, 0));
+
+                    //Calculate Early Out, Compare margin with Shift Early Out
+                    if (attendanceRecord.TimeOut.Value.TimeOfDay < shiftEnd)
+                    {
+                        TimeSpan EarlyOutMinsSpan = (TimeSpan)(shiftEnd - attendanceRecord.TimeOut.Value.TimeOfDay);
+                        if (EarlyOutMinsSpan.TotalMinutes > _shift.EarlyOut)
+                        {
+                            attendanceRecord.EarlyOut = (short)EarlyOutMinsSpan.TotalMinutes;
+                            attendanceRecord.StatusEO = true;
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[EO]";
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusEO = null;
+                            attendanceRecord.EarlyOut = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.StatusEO = null;
+                        attendanceRecord.EarlyOut = null;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[EO]", "");
+                    }
+                    //Calculate Late Out, Compare margin with Shift Late Out
+                    if (attendanceRecord.TimeOut.Value.TimeOfDay > shiftEnd)
+                    {
+                        TimeSpan LateOutMinsSpan = (TimeSpan)(attendanceRecord.TimeOut.Value.TimeOfDay - shiftEnd);
+                        if (LateOutMinsSpan.TotalMinutes > _shift.LateOut)
+                        {
+                            attendanceRecord.LateOut = (short)LateOutMinsSpan.TotalMinutes;
+                            // Late Out cannot have an early out, In case of poll at multiple times before and after shiftend
+                            attendanceRecord.EarlyOut = null;
+                            attendanceRecord.StatusLO = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[LO]";
+                        }
+                        else
+                        {
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.LateOut = null;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                        }
+                    }
+                    else
+                    {
+                        attendanceRecord.LateOut = null;
+                        attendanceRecord.LateOut = null;
+                        attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[LO]", "");
+                    }
+                    attendanceRecord.WorkMin = (short)(mins.TotalMinutes);
+                    if (attendanceRecord.EarlyIn != null && attendanceRecord.EarlyIn > _shift.EarlyIn)
+                    {
+                        attendanceRecord.WorkMin = (short)(attendanceRecord.WorkMin - attendanceRecord.EarlyIn);
+                    }
+                    if (attendanceRecord.LateOut != null && attendanceRecord.LateOut > _shift.LateOut)
+                    {
+                        attendanceRecord.WorkMin = (short)(attendanceRecord.WorkMin - attendanceRecord.LateOut);
+                    }
+                    if (attendanceRecord.EarlyIn == null && attendanceRecord.LateOut == null)
+                    {
+
+                    }
+                    //round off work minutes
+                    if (attendanceRecord.WorkMin > attendanceRecord.ShifMin && (attendanceRecord.WorkMin <= (attendanceRecord.ShifMin + _shift.OverTimeMin)))
+                    {
+                        attendanceRecord.WorkMin = attendanceRecord.ShifMin;
+                    }
+                    // RoundOff Overtime
+                    if ((attendanceRecord.Emp.EmpType.CatID == 2 || attendanceRecord.Emp.EmpType.CatID == 4) && attendanceRecord.Emp.CompanyID == 1)
+                    {
+                        if (attendanceRecord.OTMin > 0)
+                        {
+                            float OTmins = (float)attendanceRecord.OTMin;
+                            float remainder = OTmins / 60;
+                            int intpart = (int)remainder;
+                            double fracpart = remainder - intpart;
+                            if (fracpart < 0.5)
+                            {
+                                attendanceRecord.OTMin = (short)(intpart * 60);
+                            }
+                        }
+                    }
+                    ////Calculate OverTime, Compare margin with Shift OverTime
+                    //if (attendanceRecord.EarlyIn > _shift.EarlyIn || attendanceRecord.LateOut > _shift.LateOut)
+                    //{
+                    //    if (attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true)
+                    //    {
+                    //        short _EarlyIn;
+                    //        short _LateOut;
+                    //        if (attendanceRecord.EarlyIn == null)
+                    //            _EarlyIn = 0;
+                    //        else
+                    //            _EarlyIn = 0;
+
+                    //        if (attendanceRecord.LateOut == null)
+                    //            _LateOut = 0;
+                    //        else
+                    //            _LateOut = (short)attendanceRecord.LateOut;
+
+                    //        attendanceRecord.OTMin = (short)(_EarlyIn + _LateOut);
+                    //        attendanceRecord.StatusOT = true;
+                    //    }
+                    //}
+                    if ((attendanceRecord.StatusGZ != true || attendanceRecord.StatusDO != true) && attendanceRecord.Emp.HasOT == true)
+                    {
+                        if (attendanceRecord.Tout1 != null && attendanceRecord.Tin1 != null)
+                        {
+                            TimeSpan ts = (TimeSpan)(attendanceRecord.Tout1 - attendanceRecord.Tin1);
+                            attendanceRecord.OTMin = (short)ts.TotalMinutes;
+                            attendanceRecord.StatusOT = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                        }
+                        //if (attendanceRecord.LateOut != null)
+                        //{
+
+                        //    attendanceRecord.OTMin = attendanceRecord.LateOut;
+                        //    attendanceRecord.StatusOT = true;
+                        //    attendanceRecord.Remarks = attendanceRecord.Remarks + "[N-OT]";
+                        //}
+                    }
+                    //Mark Absent if less than 4 hours
+                    if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
+                    {
+                        short MinShiftMin = (short)_shift.MinHrs;
+                        if (attendanceRecord.WorkMin < MinShiftMin)
+                        {
+                            attendanceRecord.StatusAB = true;
+                            attendanceRecord.StatusP = false;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent]";
+                        }
+                        else
+                        {
+                            attendanceRecord.StatusAB = false;
+                            attendanceRecord.StatusP = true;
+                            attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[Absent]", "");
+                        }
+
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
+        #endregion
+        private void CalculateInEqualToOut(AttData attendanceRecord)
+        {
+            attendanceRecord.Remarks.Replace("[LI]", "");
+            attendanceRecord.Remarks.Replace("[EI]", "");
+            attendanceRecord.Remarks.Replace("[EO]", "");
+            attendanceRecord.Remarks.Replace("[LO]", "");
+            attendanceRecord.Remarks.Replace("[G-OT]", "");
+            attendanceRecord.Remarks.Replace("[R-OT]", "");
+            attendanceRecord.Remarks.Replace("[N-OT]", "");
+            attendanceRecord.Remarks.Replace("[Manual]", "");
+            switch (attendanceRecord.DutyCode)
+            {
+                case "G":
+                    attendanceRecord.StatusAB = false;
+                    attendanceRecord.StatusGZ = true;
+                    attendanceRecord.WorkMin = 0;
+                    attendanceRecord.EarlyIn = 0;
+                    attendanceRecord.EarlyOut = 0;
+                    attendanceRecord.LateIn = 0;
+                    attendanceRecord.LateOut = 0;
+                    attendanceRecord.OTMin = 0;
+                    attendanceRecord.GZOTMin = 0;
+                    attendanceRecord.StatusGZOT = false;
+                    attendanceRecord.TimeIn = null;
+                    attendanceRecord.TimeOut = null;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[GZ][Manual]";
+                    break;
+                case "R":
+                    attendanceRecord.StatusAB = false;
+                    attendanceRecord.StatusGZ = false;
+                    attendanceRecord.WorkMin = 0;
+                    attendanceRecord.EarlyIn = 0;
+                    attendanceRecord.EarlyOut = 0;
+                    attendanceRecord.LateIn = 0;
+                    attendanceRecord.LateOut = 0;
+                    attendanceRecord.OTMin = 0;
+                    attendanceRecord.GZOTMin = 0;
+                    attendanceRecord.StatusGZOT = false;
+                    attendanceRecord.TimeIn = null;
+                    attendanceRecord.TimeOut = null;
+                    attendanceRecord.StatusDO = true;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[DO][Manual]";
+                    break;
+                case "D":
+                    attendanceRecord.StatusAB = true;
+                    attendanceRecord.StatusGZ = false;
+                    attendanceRecord.WorkMin = 0;
+                    attendanceRecord.EarlyIn = 0;
+                    attendanceRecord.EarlyOut = 0;
+                    attendanceRecord.LateIn = 0;
+                    attendanceRecord.LateOut = 0;
+                    attendanceRecord.OTMin = 0;
+                    attendanceRecord.GZOTMin = 0;
+                    attendanceRecord.StatusGZOT = false;
+                    attendanceRecord.TimeIn = null;
+                    attendanceRecord.TimeOut = null;
+                    attendanceRecord.StatusDO = false;
+                    attendanceRecord.StatusP = false;
+                    attendanceRecord.Remarks = attendanceRecord.Remarks + "[Absent][Manual]";
+                    break;
+            }
+        }
         #region --Helper Functions--
         private string ReturnDayOfWeek(DayOfWeek dayOfWeek)
         {

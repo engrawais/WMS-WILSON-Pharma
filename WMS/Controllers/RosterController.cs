@@ -22,11 +22,21 @@ namespace WMS.Controllers
         public ActionResult Index()
         {
             ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s=>s.Name), "ID", "Name");
-            ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s=>s.ShiftName), "ShiftID", "ShiftName");
+            ViewBag.ShiftList = new SelectList(GetListOfShift(), "ShiftID", "ShiftName");
             ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s=>s.CrewName), "CrewID", "CrewName");
             ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s=>s.SectionName), "SectionID", "SectionName");
             return View();
             //return View();
+        }
+        public List<Shift> GetListOfShift()
+        {
+            User LoggedInUser = Session["LoggedUser"] as User;
+            QueryBuilder qb = new QueryBuilder();
+            string query = qb.QueryForShiftForLinq(LoggedInUser);
+            DataTable dt = qb.GetValuesfromDB("select * from Shift where " + query +" order by ShiftName asc");
+            List<Shift> shift = dt.ToList<Shift>();
+            return shift;
+            //_View = db.Shifts.Where(query).AsQueryable().OrderBy("ShiftName ASC").ToList();
         }
         public ActionResult RosterAppIndex(FormCollection form)
         {
