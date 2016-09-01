@@ -581,29 +581,29 @@ namespace WMS.Controllers
                     switch (jcApp.CardType)
                     {
                         case 1://Day Off
-                            AddJCDayOffToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddJCDayOffToAttData(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                         case 2://GZ Holiday
-                            AddJCGZDayToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddJCGZDayToAttData(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                         case 3://Absent
-                            AddJCAbsentToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddJCAbsentToAttData(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                         case 4://official Duty
-                            AddJCODDayToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddJCODDayToAttData(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                         case 8:// Double Duty
-                            AddDoubleDutyAttData(_empDate, _empID, _Date, _userID, jcApp);
+                            AddDoubleDutyAttData(_empDate, _empID, _Date, (short)jcApp.WorkMin);
                             break;
                         case 9:// Badli Duty
                             AddBadliTableData(_empID, _empDate, _Date, (short)jcApp.OtherValue, jcApp.Remarks);
-                            AddBadliAttData(_empDate, _empID, _Date, _userID, jcApp);
+                            AddBadliAttData(_empDate, _empID, _Date);
                             break;
                         case 10:// Present
-                            AddPresentToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddPresentToAttData(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                         case 11:// Remove Rest
-                            AddSwapRestToAttdata(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddSwapRestToAttdata(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                     }
                 }
@@ -614,60 +614,14 @@ namespace WMS.Controllers
                         case 9:// Present 
                             CreateAttendance ca = new CreateAttendance();
                             ca.CreateAttendanceForEmp(_Date, db.Emps.Where(aa => aa.EmpID == _empID).ToList());
-                            AddPresentToAttData(_empDate, _empID, _Date, _userID, (short)jcApp.CardType);
+                            AddPresentToAttData(_empDate, _empID, _Date, (short)jcApp.CardType);
                             break;
                     }
                 }
                 _Date = _Date.AddDays(1);
             }
             HelperClass.MyHelper.SaveAuditLog(_userID, (byte)MyEnums.FormName.EditAttendance, (byte)MyEnums.Operation.Edit, DateTime.Now);
-        }
-
-        private bool AddSwapRestToAttdata(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
-        {
-            bool check = false;
-            try
-            {
-                //Normal Duty
-                using (var context = new TAS2013Entities())
-                {
-                    AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
-                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
-                    if (_attdata != null)
-                    {
-                        _attdata.DutyCode = "D";
-                        _attdata.StatusAB = true;
-                        _attdata.StatusDO = false;
-                        _attdata.StatusLeave = false;
-                        _attdata.StatusP = false;
-                        _attdata.ShifMin = _jcCard.WorkMin;
-                        _attdata.Remarks = "[Absent]";
-                        _attdata.TimeIn = null;
-                        _attdata.TimeOut = null;
-                        _attdata.EarlyIn = null;
-                        _attdata.EarlyOut = null;
-                        _attdata.LateIn = null;
-                        _attdata.LateOut = null;
-                        _attdata.OTMin = null;
-                        _attdata.StatusEI = null;
-                        _attdata.StatusEO = null;
-                        _attdata.StatusLI = null;
-                        _attdata.StatusLO = null;
-                        _attdata.StatusMN = true;
-                    }
-                    context.SaveChanges();
-                    if (context.SaveChanges() > 0)
-                        check = true;
-                    context.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            return check;
-        }
-
-        
+        }        
 
         private void AddBadliTableData(int _empID, string _empDate, DateTime _Date, short desigID, string remarks)
         {
@@ -717,51 +671,7 @@ namespace WMS.Controllers
         }
 
         #region --Job Cards - AttData --- 
-        private bool AddJCNorrmalDayAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
-        {
-            bool check = false;
-            try{
-            //Normal Duty
-            using (var context = new TAS2013Entities())
-            {
-                AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
-                JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
-                if (_attdata != null)
-                {
-                    _attdata.DutyCode = "D";
-                    _attdata.StatusAB = false;
-                    _attdata.StatusDO = false;
-                    _attdata.StatusLeave = false;
-                    _attdata.StatusP = true;
-                    _attdata.WorkMin = _jcCard.WorkMin;
-                    _attdata.ShifMin = _jcCard.WorkMin;
-                    _attdata.Remarks = "[Present][Manual]";
-                    _attdata.TimeIn = null;
-                    _attdata.TimeOut = null;
-                    _attdata.EarlyIn = null;
-                    _attdata.EarlyOut = null;
-                    _attdata.LateIn = null;
-                    _attdata.LateOut = null;
-                    _attdata.OTMin = null;
-                    _attdata.StatusEI = null;
-                    _attdata.StatusEO = null;
-                    _attdata.StatusLI = null;
-                    _attdata.StatusLO = null;
-                    _attdata.StatusP = true;
-                }
-                context.SaveChanges();
-                if (context.SaveChanges() > 0)
-                    check = true;
-                context.Dispose();
-            }
-            }
-            catch (Exception ex)
-            {
-            }
-            return check;
-        }
-
-        private bool AddDoubleDutyAttData(string _empDate, int _empID, DateTime _Date, int _userID, JobCardApp jcApp)
+        private bool AddJCNorrmalDayAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
             bool check = false;
             try
@@ -770,7 +680,7 @@ namespace WMS.Controllers
                 using (var context = new TAS2013Entities())
                 {
                     AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
-                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == jcApp.CardType);
+                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
                     if (_attdata != null)
                     {
                         _attdata.DutyCode = "D";
@@ -779,16 +689,15 @@ namespace WMS.Controllers
                         _attdata.StatusLeave = false;
                         _attdata.StatusP = true;
                         _attdata.WorkMin = _jcCard.WorkMin;
-                        _attdata.OTMin = _jcCard.WorkMin;
-                        _attdata.Remarks = _attdata.Remarks+"[DD][Manual]";
-                        _attdata.StatusMN = true;
+                        _attdata.ShifMin = _jcCard.WorkMin;
+                        _attdata.Remarks = "[Present][Manual]";
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
                         _attdata.EarlyIn = null;
                         _attdata.EarlyOut = null;
                         _attdata.LateIn = null;
                         _attdata.LateOut = null;
-                        _attdata.StatusOT = true;
+                        _attdata.OTMin = null;
                         _attdata.StatusEI = null;
                         _attdata.StatusEO = null;
                         _attdata.StatusLI = null;
@@ -807,7 +716,7 @@ namespace WMS.Controllers
             return check;
         }
 
-        private bool AddBadliAttData(string _empDate, int _empID, DateTime _Date, int _userID, JobCardApp jcApp)
+        private bool AddDoubleDutyAttData(string _empDate, int _empID, DateTime _Date, short WorkMins)
         {
             bool check = false;
             try
@@ -816,14 +725,62 @@ namespace WMS.Controllers
                 using (var context = new TAS2013Entities())
                 {
                     AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
-                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == jcApp.CardType);
                     if (_attdata != null)
                     {
+                        _attdata.Remarks = "";
+                        _attdata.Remarks = _attdata.Remarks.Replace("[DD][Manual]", "");
+                        _attdata.DutyCode = "D";
+                        _attdata.StatusAB = false;
+                        _attdata.StatusDO = false;
+                        _attdata.StatusLeave = false;
+                        _attdata.StatusP = true;
+                        _attdata.WorkMin = WorkMins;
+                        _attdata.OTMin = WorkMins;
+                        _attdata.Remarks = "[DD][Manual]";
+                        _attdata.StatusMN = true;
+                        _attdata.TimeIn = null;
+                        _attdata.TimeOut = null;
+                        _attdata.EarlyIn = null;
+                        _attdata.EarlyOut = null;
+                        _attdata.LateIn = null;
+                        _attdata.LateOut = null;
+                        _attdata.StatusEI = null;
+                        _attdata.StatusEO = null;
+                        _attdata.StatusLI = null;
+                        _attdata.StatusLO = null;
+                        _attdata.StatusP = true;
+                        _attdata.StatusOT = true;
+                    }
+                    context.SaveChanges();
+                    if (context.SaveChanges() > 0)
+                        check = true;
+                    context.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return check;
+        }
+
+        private bool AddBadliAttData(string _empDate, int _empID, DateTime _Date)
+        {
+            bool check = false;
+            try
+            {
+                //Normal Duty
+                using (var context = new TAS2013Entities())
+                {
+                    AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                    if (_attdata != null)
+                    {
+                        _attdata.Remarks = "";
+                        _attdata.Remarks = _attdata.Remarks.Replace("[Badli][Manual]", "");
                         _attdata.DutyCode = "D";
                         _attdata.StatusAB = false;
                         _attdata.StatusLeave = false;
                         _attdata.StatusP = true;
-                        _attdata.Remarks = _attdata.Remarks+ "[Badli][Manual]";
+                        _attdata.Remarks = _attdata.Remarks + "[Badli][Manual]";
                         _attdata.StatusMN = true;
                     }
                     context.SaveChanges();
@@ -837,7 +794,7 @@ namespace WMS.Controllers
             }
             return check;
         }
-        private bool AddJCODDayToAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        private bool AddJCODDayToAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
 
             bool check = false;
@@ -849,13 +806,15 @@ namespace WMS.Controllers
                     AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
                     if (_attdata != null)
                     {
+                        _attdata.Remarks = "";
+                        _attdata.Remarks = _attdata.Remarks.Replace("[Official Duty][Manual]", "");
                         _attdata.DutyCode = "O";
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = false;
                         _attdata.StatusLeave = false;
                         _attdata.StatusP = true;
                         _attdata.WorkMin = _attdata.ShifMin;
-                        _attdata.Remarks = _attdata.Remarks+"[Official Duty][Manual]";
+                        _attdata.Remarks = "[Official Duty][Manual]";
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
                         _attdata.WorkMin = null;
@@ -884,40 +843,57 @@ namespace WMS.Controllers
             return check;
         }
 
-        private bool AddJCAbsentToAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        private bool AddJCAbsentToAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
             bool check = false;
-            try{
-            //Absent
-            using (var context = new TAS2013Entities())
+            try
             {
-                AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
-                if (_attdata != null)
+                //Absent
+                using (var context = new TAS2013Entities())
                 {
-                    _attdata.DutyCode = "D";
-                    _attdata.StatusAB = true;
-                    _attdata.StatusDO = false;
-                    _attdata.StatusLeave = false;
-                    _attdata.Remarks = "[Absent][Manual]";
-                    _attdata.TimeIn = null;
-                    _attdata.TimeOut = null;
-                    _attdata.WorkMin = null;
-                    _attdata.EarlyIn = null;
-                    _attdata.EarlyOut = null;
-                    _attdata.LateIn = null;
-                    _attdata.LateOut = null;
-                    _attdata.OTMin = null;
-                    _attdata.StatusEI = null;
-                    _attdata.StatusEO = null;
-                    _attdata.StatusLI = null;
-                    _attdata.StatusLO = null;
-                    _attdata.StatusP = null;
+                    AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                    if (_attdata != null)
+                    {
+                        if (_attdata.StatusLeave == true)
+                        {
+
+                        }
+                        else if (_attdata.StatusHL == true)
+                        {
+
+                            _attdata.StatusAB = true;
+                            _attdata.WorkMin = 0;
+                            _attdata.Remarks = _attdata.Remarks + "[Absent][Manual]";
+                        }
+                        else
+                        {
+                            _attdata.Remarks = "";
+                            _attdata.Remarks = _attdata.Remarks.Replace("[Absent][Manual]", "");
+                            _attdata.DutyCode = "D";
+                            _attdata.StatusAB = true;
+                            _attdata.StatusDO = false;
+                            _attdata.StatusLeave = false;
+                            _attdata.Remarks = "[Absent][Manual]";
+                            _attdata.TimeIn = null;
+                            _attdata.TimeOut = null;
+                            _attdata.WorkMin = null;
+                            _attdata.EarlyIn = null;
+                            _attdata.EarlyOut = null;
+                            _attdata.LateIn = null;
+                            _attdata.LateOut = null;
+                            _attdata.OTMin = null;
+                            _attdata.StatusEI = null;
+                            _attdata.StatusEO = null;
+                            _attdata.StatusLI = null;
+                            _attdata.StatusLO = null;
+                            _attdata.StatusP = null;
+                        }
+                    }
+                    context.SaveChanges();
+                    if (context.SaveChanges() > 0)
+                        check = true;
+                    context.Dispose();
                 }
-                context.SaveChanges();
-                if (context.SaveChanges() > 0)
-                    check = true;
-                context.Dispose();
-            }
             }
             catch (Exception ex)
             {
@@ -926,16 +902,19 @@ namespace WMS.Controllers
             return check;
         }
 
-        private bool AddJCGZDayToAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        private bool AddJCGZDayToAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
             bool check = false;
-            try{
-            //GZ Holiday
+            try
+            {
+                //GZ Holiday
                 using (var context = new TAS2013Entities())
                 {
                     AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
                     if (_attdata != null)
                     {
+                        _attdata.Remarks = "";
+                        _attdata.Remarks = _attdata.Remarks.Replace("[GZ][Manual]", "");
                         _attdata.DutyCode = "G";
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = true;
@@ -969,7 +948,7 @@ namespace WMS.Controllers
             return check;
         }
 
-        private bool AddJCDayOffToAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        private bool AddJCDayOffToAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
             bool check = false;
             try
@@ -980,6 +959,8 @@ namespace WMS.Controllers
                     AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
                     if (_attdata != null)
                     {
+                        _attdata.Remarks = "";
+                        _attdata.Remarks = _attdata.Remarks.Replace("[DO][Manual]", "");
                         _attdata.DutyCode = "R";
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = true;
@@ -1011,8 +992,8 @@ namespace WMS.Controllers
             }
             return check;
         }
-        
-        private bool AddLateInMarginAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+
+        private bool AddLateInMarginAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
             bool check = false;
             try
@@ -1024,6 +1005,7 @@ namespace WMS.Controllers
                     AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
                     if (_attdata != null)
                     {
+                        _attdata.Remarks = "";
                         _attdata.StatusAB = false;
                         _attdata.Remarks.Replace("[LI]", "");
                         _attdata.Remarks = _attdata.Remarks + "[LI Job Card]";
@@ -1043,7 +1025,7 @@ namespace WMS.Controllers
             }
             return check;
         }
-        private bool AddPresentToAttData(string _empDate, int _empID, DateTime _Date, int _userID, short _WorkCardID)
+        private bool AddSwapRestToAttdata(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
         {
             bool check = false;
             try
@@ -1051,66 +1033,108 @@ namespace WMS.Controllers
                 //Normal Duty
                 using (var context = new TAS2013Entities())
                 {
-                    AttData _attdata = new AttData();
-                    _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                    AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
                     JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
-                    if (context.AttDatas.Where(aa => aa.EmpDate == _empDate).Count()>0)
+                    if (_attdata != null)
                     {
-                        _attdata.DutyCode = "D";
-                        _attdata.StatusAB = false;
-                        _attdata.StatusDO = false;
-                        _attdata.StatusLeave = false;
-                        _attdata.StatusP = true;
-                        _attdata.WorkMin = _jcCard.WorkMin;
-                        _attdata.ShifMin = _jcCard.WorkMin;
-                        _attdata.Remarks = "[Present]";
-                        _attdata.TimeIn = null;
-                        _attdata.TimeOut = null;
-                        _attdata.EarlyIn = null;
-                        _attdata.EarlyOut = null;
-                        _attdata.LateIn = null;
-                        _attdata.LateOut = null;
-                        _attdata.OTMin = null;
-                        _attdata.StatusEI = null;
-                        _attdata.StatusEO = null;
-                        _attdata.StatusLI = null;
-                        _attdata.StatusLO = null;
-                        _attdata.StatusMN = true;
-                    }
-                    else
-                    {
-                        CreateAttendance ca = new CreateAttendance();
-                        ca.CreateAttendanceForEmp(_Date, context.Emps.Where(aa => aa.EmpID == _empID).ToList());
-                        using (var ctxx = new TAS2013Entities())
+                        if (_attdata.StatusLeave == true)
                         {
-                            AttData _attdata1 = ctxx.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
-                            JobCard _jcCard1 = ctxx.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
-                            if (_attdata != null)
-                            {
-                                _attdata1.DutyCode = "D";
-                                _attdata1.StatusAB = false;
-                                _attdata1.StatusDO = false;
-                                _attdata1.StatusLeave = false;
-                                _attdata1.StatusP = true;
-                                _attdata1.WorkMin = _jcCard1.WorkMin;
-                                _attdata1.ShifMin = _jcCard1.WorkMin;
-                                _attdata1.Remarks = "[Present]";
-                                _attdata1.TimeIn = null;
-                                _attdata1.TimeOut = null;
-                                _attdata1.EarlyIn = null;
-                                _attdata1.EarlyOut = null;
-                                _attdata1.LateIn = null;
-                                _attdata1.LateOut = null;
-                                _attdata1.OTMin = null;
-                                _attdata1.StatusEI = null;
-                                _attdata1.StatusEO = null;
-                                _attdata1.StatusLI = null;
-                                _attdata1.StatusLO = null;
-                                _attdata1.StatusMN = true;
-                            }
-                            ctxx.SaveChanges();
-                        }
 
+                        }
+                        else if (_attdata.StatusHL == true)
+                        {
+                            _attdata.StatusAB = false;
+                            _attdata.WorkMin = 0;
+                            _attdata.ShifMin = _jcCard.WorkMin;
+                        }
+                        else
+                        {
+                            _attdata.Remarks = "";
+                            _attdata.Remarks = _attdata.Remarks.Replace("[Absent]", "");
+                            _attdata.DutyCode = "D";
+                            _attdata.StatusAB = true;
+                            _attdata.StatusDO = false;
+                            _attdata.StatusLeave = false;
+                            _attdata.StatusP = false;
+                            _attdata.ShifMin = _jcCard.WorkMin;
+                            _attdata.Remarks = "[Absent]";
+                            _attdata.TimeIn = null;
+                            _attdata.TimeOut = null;
+                            _attdata.EarlyIn = null;
+                            _attdata.EarlyOut = null;
+                            _attdata.LateIn = null;
+                            _attdata.LateOut = null;
+                            _attdata.OTMin = null;
+                            _attdata.StatusEI = null;
+                            _attdata.StatusEO = null;
+                            _attdata.StatusLI = null;
+                            _attdata.StatusLO = null;
+                            _attdata.StatusMN = true;
+                        }
+                    }
+                    context.SaveChanges();
+                    if (context.SaveChanges() > 0)
+                        check = true;
+                    //ManualProcess mp = new ManualProcess();
+                    //mp.ManualProcessAttendance(_Date,context.Emps.Where(aa=>aa.EmpID==_empID).ToList());
+                    //context.SaveChanges();
+                    context.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return check;
+        }
+
+        private bool AddPresentToAttData(string _empDate, int _empID, DateTime _Date, short _WorkCardID)
+        {
+            bool check = false;
+            try
+            {
+                //Normal Duty
+                using (var context = new TAS2013Entities())
+                {
+                    AttData _attdata = context.AttDatas.FirstOrDefault(aa => aa.EmpDate == _empDate);
+                    JobCard _jcCard = context.JobCards.FirstOrDefault(aa => aa.WorkCardID == _WorkCardID);
+                    if (_attdata != null)
+                    {
+                        if (_attdata.StatusLeave == true)
+                        {
+
+                        }
+                        else if (_attdata.StatusHL == true)
+                        {
+                            _attdata.StatusP = true;
+                            _attdata.StatusAB = false;
+                            _attdata.StatusMN = true;
+                            _attdata.WorkMin = _jcCard.WorkMin;
+                            _attdata.ShifMin = _jcCard.WorkMin;
+                        }
+                        else
+                        {
+                            _attdata.Remarks = "";
+                            _attdata.Remarks = _attdata.Remarks.Replace("[Present]", "");
+                            _attdata.DutyCode = "D";
+                            _attdata.StatusAB = false;
+                            _attdata.StatusDO = false;
+                            _attdata.StatusP = true;
+                            _attdata.WorkMin = _jcCard.WorkMin;
+                            _attdata.ShifMin = _jcCard.WorkMin;
+                            _attdata.Remarks = "[Present]";
+                            _attdata.TimeIn = null;
+                            _attdata.TimeOut = null;
+                            _attdata.EarlyIn = null;
+                            _attdata.EarlyOut = null;
+                            _attdata.LateIn = null;
+                            _attdata.LateOut = null;
+                            _attdata.OTMin = null;
+                            _attdata.StatusEI = null;
+                            _attdata.StatusEO = null;
+                            _attdata.StatusLI = null;
+                            _attdata.StatusLO = null;
+                            _attdata.StatusMN = true;
+                        }
                     }
                     context.SaveChanges();
                     if (context.SaveChanges() > 0)
