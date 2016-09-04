@@ -42,11 +42,12 @@ namespace WMS.Controllers.EditAttendance
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[N-OT]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[G-OT]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[R-OT]", "");
+                            _OldAttData.Remarks = "[Manual]" + _OldAttData.Remarks +"["+ _Remarks+"]";
                         }
                         else
-                            _OldAttData.Remarks = "[Manual]" + _OldAttData.Remarks;
+                            _OldAttData.Remarks = "[Manual]" + "[" + _Remarks + "]";
                        if (_OldAttData.StatusLeave == true)
-                    {
+                        {
                         _OldAttData.DutyCode = "L";
 
                         _OldAttData.StatusAB = false;
@@ -1207,7 +1208,7 @@ namespace WMS.Controllers.EditAttendance
                         attendanceRecord.GZOTMin = 0;
                         attendanceRecord.StatusGZOT = false;
                         attendanceRecord.StatusDO = true;
-                        attendanceRecord.Remarks = "[DO][Manual]";
+                        attendanceRecord.Remarks = "[DO]"+attendanceRecord.Remarks;;
                         break;
                     case "D":
                         attendanceRecord.StatusAB = true;
@@ -1222,7 +1223,7 @@ namespace WMS.Controllers.EditAttendance
                         attendanceRecord.StatusGZOT = false;
                         attendanceRecord.StatusDO = false;
                         attendanceRecord.StatusP = false;
-                        attendanceRecord.Remarks = "[Absent][Manual]";
+                        attendanceRecord.Remarks = "[Absent]"+attendanceRecord.Remarks;
                         break;
                 }
             }

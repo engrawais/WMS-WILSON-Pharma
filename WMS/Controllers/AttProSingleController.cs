@@ -43,9 +43,10 @@ namespace WMS.Controllers
             else
                 searchString = currentFilter;
             DateTime dtS = DateTime.Today.AddDays(-31);
-            DateTime dtE = DateTime.Today.AddDays(1);
+            //DateTime dtE = DateTime.Today.AddDays(1);
             User LoggedInUser = Session["LoggedUser"] as User;
-            List<AttProcessorScheduler> attprocess = context.AttProcessorSchedulers.Where(aa => aa.CreatedDate >= dtS && aa.CreatedDate <= dtE && aa.Criteria=="E" && aa.UserID==LoggedInUser.UserID).ToList();
+            DateTime dtE = DateTime.Now - new TimeSpan(4, 0, 0);
+            List<AttProcessorScheduler> attprocess = context.AttProcessorSchedulers.Where(aa => aa.CreatedDate >= dtE || aa.ProcessingDone == false).OrderByDescending(aa => aa.CreatedDate).ToList();
             switch (sortOrder)
             {
                 case "tag_desc": attprocess = attprocess.OrderByDescending(s => s.PeriodTag).ToList(); break;

@@ -627,14 +627,14 @@ namespace WMS.Controllers
         {
             try
             {
-                BadliRecord br = new BadliRecord();
+                BadliRecordEmp br = new BadliRecordEmp();
                 br.EmpID = _empID;
                 br.EmpDateBadli = _empDate;
-                br.BadliDesgID = desigID;
+                //br.BadliDesgID = desigID;
                 br.Remarks = remarks;
                 br.Date = _Date;
-                db.BadliRecords.Add(br);
-                db.SaveChanges();
+                //db.BadliRecords.Add(br);
+                //db.SaveChanges();
             }
             catch (Exception ex)
             {
