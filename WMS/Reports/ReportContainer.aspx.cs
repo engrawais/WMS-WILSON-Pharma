@@ -3977,9 +3977,8 @@ namespace WMS.Reports
                     + "\t" + item.D11 + "\t" + item.D12 + "\t" + item.D13 + "\t" + item.D14 + "\t" + item.D15 + "\t" + item.D16 + "\t" + item.D17 + "\t" + item.D18 + "\t" + item.D19 + "\t" + item.D20
                     + "\t" + item.D21 + "\t" + item.D22 + "\t" + item.D23 + "\t" + item.D24 + "\t" + item.D25 + "\t" + item.D26 + "\t" + item.D27 + "\t" + item.D28 + "\t" + item.D29 + "\t" + item.D30 + "\t" + item.D31;
                 string TotalsDays = GetDaysTotal(item);
-                string TotalHours = getTotalHours(item);
                 string OTLine = GetOTLine(item);
-                sw.WriteLine(Personal + "\t" + DaysInfo + "\t" + TotalsDays + "\t" + TotalHours);
+                sw.WriteLine(Personal + "\t" + DaysInfo + "\t" + TotalsDays);
                 sw.WriteLine("\t\t\t\t\t\t" + OTLine);
             }
             sw.Close();

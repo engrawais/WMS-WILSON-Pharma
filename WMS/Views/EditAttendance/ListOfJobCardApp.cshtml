@@ -46,10 +46,13 @@
             @item.CardType
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.JCCriteria)
+            @ViewBag.EmpNo
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CriteriaData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User)
