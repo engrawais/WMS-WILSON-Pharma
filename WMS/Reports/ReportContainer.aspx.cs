@@ -4369,27 +4369,37 @@ namespace WMS.Reports
             if (item.TNOT > 0)
             {
                 tsNOT = new TimeSpan(0, (int)item.TNOT, 0);
-                not = tsNOT.Hours.ToString("000") + ":" + tsNOT.Minutes.ToString("00");
+                int hours = (int)tsNOT.TotalHours;
+                int min = (int)(item.TNOT - (hours * 60));
+                    not = hours.ToString()+":"+min.ToString();
             }
             if (item.TGZOT > 0)
             {
                 tsGOT = new TimeSpan(0, (int)item.TGZOT, 0);
-                got = tsGOT.Hours.ToString("000") + ":" + tsGOT.Minutes.ToString("00");
+                int hours = (int)tsGOT.TotalHours;
+                int min = (int)(item.TGZOT - (hours * 60));
+                got = hours.ToString() + ":" + min.ToString();
             }
             if (item.TEarlyIn > 0)
             {
                 tsEI = new TimeSpan(0, (int)item.TEarlyIn, 0);
-                ei = tsEI.Hours.ToString("000") + ":" + tsEI.Minutes.ToString("00");
+                int hours = (int)tsEI.TotalHours;
+                int min = (int)(item.TEarlyIn - (hours * 60));
+                ei = hours.ToString() + ":" + min.ToString();
             }
             if (item.TEarlyOut > 0)
             {
                 tsEO = new TimeSpan(0, (int)item.TEarlyOut, 0);
-                eo = tsEO.Hours.ToString("000") + ":" + tsEO.Minutes.ToString("00");
+                int hours = (int)tsEO.TotalHours;
+                int min = (int)(item.TEarlyOut - (hours * 60));
+                eo = hours.ToString() + ":" + min.ToString();
             }
             if (item.TLateIn > 0)
             {
                 tsLI = new TimeSpan(0, (int)item.TLateIn, 0);
-                li = tsLI.Hours.ToString("000") + ":" + tsLI.Minutes.ToString("00");
+                int hours = (int)tsLI.TotalHours;
+                int min = (int)(item.TLateIn - (hours * 60));
+                li = hours.ToString() + ":" + min.ToString();
             }
 
             string val = "";
