@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WMS.Controllers;
 using WMS.CustomClass;
 using WMS.HelperClass;
 using WMS.Models;
@@ -48,28 +49,18 @@ namespace WMS.Reports
 
                            break;
                     case "badli_report":
-                        DataTable badlidt = qb.GetValuesfromDB("select * from ViewBadli where (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
-                        List<ViewBadli> _BadliList = badlidt.ToList<ViewBadli>();
-                        List<ViewBadli> _TempBadliList = new List<ViewBadli>();
+
+                           DataTable badlidt = qb.GetValuesfromDB("select * from BadliRecordEmp where (Date >= " + "'" + _dateFrom + "'" + " and Date <= " + "'" + _dateTo + "'" + " )");
+                           List<BadliRecordEmp> _BadliList = badlidt.ToList<BadliRecordEmp>();
+                        
                         title = "Badli Report";
                         if (GlobalVariables.DeploymentType == false)
                             PathString = "/Reports/RDLC/BadliReport.rdlc";
                         else
                             PathString = "/WMS/Reports/RDLC/BadliReport.rdlc";
-                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempBadliList, _BadliList), _dateFrom + " TO " + _dateTo);
+                        
+                        LoadReport(PathString, GetBadliValue(_BadliList), _dateFrom + " TO " + _dateTo);
                         break;
-                    ////please modify the first case 
-                    //case "summarized_monthly_report":
-                    //    List<TASReportDataSet.SummarizedMonthlyReportDataTable> AttDeptdummy = new List<TASReportDataSet.SummarizedMonthlyReportDataTable>().ToList();
-                    //    title = "Department Attendace Summary";
-                    //    if (GlobalVariables.DeploymentType == false)
-                    //        PathString = "/Reports/RDLC/SummarizedMonthlyReport.rdlc";
-                    //    else
-                    //        PathString = "/WMS/Reports/RDLC/SummarizedMonthlyReport.rdlc";
-
-                    //    LoadReport(PathString, AttDeptdummy, _dateFrom + " TO " + _dateTo);
-
-                    //    break;
                     case "Employee_Att_Summary_New_report": DataTable dt4  = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1" + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'" + _dateTo + "'" + " )");
                         List<ViewAttData> ListOfAttDate = new List<ViewAttData>();
                         List<ViewAttData> TempList = new List<ViewAttData>();
@@ -839,6 +830,56 @@ namespace WMS.Reports
             }
         }
 
+        private void LoadReport(string PathString, List<VMBadliRecord> list, string date)
+        {
+            string _Header = title;
+            this.ReportViewer1.LocalReport.DisplayName = title;
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            ReportViewer1.LocalReport.ReportPath = Server.MapPath(PathString);
+            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            IEnumerable<VMBadliRecord> ie;
+            ie = list.AsQueryable();
+            IEnumerable<EmpPhoto> companyImage;
+            companyImage = companyimage.AsQueryable();
+            ReportDataSource datasource1 = new ReportDataSource("DataSet1", ie);
+
+            ReportDataSource datasource2 = new ReportDataSource("DataSet2", companyImage);
+            ReportViewer1.LocalReport.DataSources.Clear();
+            ReportViewer1.LocalReport.EnableExternalImages = true;
+            ReportViewer1.LocalReport.DataSources.Add(datasource1); 
+            ReportViewer1.LocalReport.DataSources.Add(datasource2);
+            ReportParameter rp = new ReportParameter("Date", date, false);
+            ReportParameter rp1 = new ReportParameter("Header", _Header, false);
+            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp, rp1 });
+            ReportViewer1.LocalReport.Refresh();
+        }
+
+        private List<VMBadliRecord> GetBadliValue(List<BadliRecordEmp> _BadliList)
+        {
+            TAS2013Entities db =new TAS2013Entities();
+            List<VMBadliRecord> brs = new List<VMBadliRecord>();
+            List<Emp> emps = new List<Emp>();
+            emps = db.Emps.Where(aa => aa.Status == true).ToList();
+            foreach (var item in _BadliList)
+            {
+                Emp OEmp = emps.First(aa => aa.EmpID == item.EmpID);
+                Emp BEmp = emps.First(aa => aa.EmpID == item.BadliEmpID);
+                VMBadliRecord br = new VMBadliRecord();
+                br.BadliID = item.BadliID;
+                br.BDesignation = BEmp.Designation.DesignationName;
+                br.BEmpID = (int)item.BadliEmpID;
+                br.BEmpName = BEmp.EmpName;
+                br.BEmpNo = BEmp.EmpNo;
+                br.Dated = (DateTime)item.Date;
+                br.Designation = OEmp.Designation.DesignationName;
+                br.EmpID = (int)item.EmpID;
+                br.EmpName = OEmp.EmpName;
+                br.EmpNo = OEmp.EmpNo;
+                brs.Add(br);
+            }
+            return brs;
+        }
         private void DownloadReport(List<ViewMonthlyData> list, string p, int UserID)
         {
             string val = "";

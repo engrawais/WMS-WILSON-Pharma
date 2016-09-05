@@ -21,6 +21,8 @@ namespace WMS.Models
             this.AttMnDatas = new HashSet<AttMnData>();
             this.AttMnDataPers = new HashSet<AttMnDataPer>();
             this.BadliRecords = new HashSet<BadliRecord>();
+            this.BadliRecordEmps = new HashSet<BadliRecordEmp>();
+            this.BadliRecordEmps1 = new HashSet<BadliRecordEmp>();
             this.Cards = new HashSet<Card>();
             this.EmergencyDetails = new HashSet<EmergencyDetail>();
             this.EmpAccesses = new HashSet<EmpAccess>();
@@ -79,6 +81,8 @@ namespace WMS.Models
         public virtual ICollection<AttMnData> AttMnDatas { get; set; }
         public virtual ICollection<AttMnDataPer> AttMnDataPers { get; set; }
         public virtual ICollection<BadliRecord> BadliRecords { get; set; }
+        public virtual ICollection<BadliRecordEmp> BadliRecordEmps { get; set; }
+        public virtual ICollection<BadliRecordEmp> BadliRecordEmps1 { get; set; }
         public virtual ICollection<Card> Cards { get; set; }
         public virtual Company Company { get; set; }
         public virtual Crew Crew { get; set; }

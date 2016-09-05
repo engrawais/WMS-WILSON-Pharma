@@ -406,6 +406,8 @@
     <Content Include="Views\AttProSingle\Index.cshtml" />
     <Content Include="Views\AttProSingle\Create.cshtml" />
     <Content Include="Views\EditAttendance\ListOfJobCardApp.cshtml" />
+    <Content Include="Views\Badli\Index.cshtml" />
+    <Content Include="Views\Badli\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -427,6 +429,7 @@
     <Compile Include="Bootstrap Html Helpers\HelperMethods.cs" />
     <Compile Include="Controllers\AttProcessorsController.cs" />
     <Compile Include="Controllers\AttProSingleController.cs" />
+    <Compile Include="Controllers\BadliController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CrewController.cs" />
@@ -446,6 +449,7 @@
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HolidayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HRMEntities.cs" />
     <Compile Include="Controllers\JobCardAppRController.cs" />
     <Compile Include="Controllers\JobCardEmpRController.cs" />
     <Compile Include="Controllers\JobTitleController.cs" />
@@ -525,6 +529,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BadliRecord.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BadliRecordEmp.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Card.cs">

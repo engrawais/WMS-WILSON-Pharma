@@ -41,6 +41,7 @@ namespace WMS.Models
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<AuditOperation> AuditOperations { get; set; }
         public DbSet<BadliRecord> BadliRecords { get; set; }
+        public DbSet<BadliRecordEmp> BadliRecordEmps { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardType> CardTypes { get; set; }
         public DbSet<Category> Categories { get; set; }
