@@ -31,9 +31,14 @@ namespace WMS.Controllers.EditAttendance
                         _OldAttData.DutyCode = NewDutyCode;
                         _OldAttData.DutyTime = _NewDutyTime;
                         _OldAttData.ShifMin = _ShiftMins;
+                        string rem = "";
+                        if (_Remarks != null)
+                        {
+                            if (_Remarks != "")
+                                rem = "[" + _Remarks + "]";
+                        }
                         if (_OldAttData.Remarks != null)
                         {
-                            _OldAttData.Remarks = _OldAttData.Remarks.Replace("[Absent]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[Manual]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[LO]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[LI]", "");
@@ -42,15 +47,15 @@ namespace WMS.Controllers.EditAttendance
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[N-OT]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[G-OT]", "");
                             _OldAttData.Remarks = _OldAttData.Remarks.Replace("[R-OT]", "");
-                            _OldAttData.Remarks = "[Manual]" + _OldAttData.Remarks +"["+ _Remarks+"]";
+                            _OldAttData.Remarks = "[Manual]" + _OldAttData.Remarks + rem;
                         }
                         else
-                            _OldAttData.Remarks = "[Manual]" + "[" + _Remarks + "]";
+                            _OldAttData.Remarks = "[Manual]" + rem;
                        if (_OldAttData.StatusLeave == true)
                         {
                         _OldAttData.DutyCode = "L";
 
-                        _OldAttData.StatusAB = false;
+                        _OldAttData.StatusAB = true;
                         _OldAttData.StatusP = false;
                         _OldAttData.StatusOT = false;
                         _OldAttData.OTMin = null;
@@ -60,6 +65,8 @@ namespace WMS.Controllers.EditAttendance
                         _OldAttData.LateOut = null;
                         _OldAttData.WorkMin = null;
                         _OldAttData.GZOTMin = null;
+                        _OldAttData.Remarks = _OldAttData.Remarks.Replace("[Absent]", "");
+
                     }
                        else if (_OldAttData.StatusHL == true)
                        {
@@ -109,6 +116,7 @@ namespace WMS.Controllers.EditAttendance
                                    _OldAttData.LateOut = null;
                                    _OldAttData.WorkMin = null;
                                    _OldAttData.GZOTMin = null;
+                        _OldAttData.Remarks = _OldAttData.Remarks.Replace("[Absent]", "");
                                    break;
                                case "R":
                                    _OldAttData.StatusAB = false;
@@ -125,6 +133,7 @@ namespace WMS.Controllers.EditAttendance
                                    _OldAttData.LateOut = null;
                                    _OldAttData.WorkMin = null;
                                    _OldAttData.GZOTMin = null;
+                        _OldAttData.Remarks = _OldAttData.Remarks.Replace("[Absent]", "");
                                    break;
                            }
                        }
@@ -143,7 +152,13 @@ namespace WMS.Controllers.EditAttendance
             _ManualEditData.NewDutyCode = _NewDutyCode;
             _ManualEditData.EditDateTime = DateTime.Now;
             _ManualEditData.NewDutyTime = _NewDutyTime;
-            _ManualEditData.NewRemarks = "[" + _remarks + "]";
+            string rem = "";
+            if (_remarks != null)
+            {
+                if (_remarks != "")
+                    rem = "[" + _remarks + "]";
+            }
+            _ManualEditData.NewRemarks = rem;
             _ManualEditData.NewShiftMin = _ShiftMins;
             try
             {
@@ -244,6 +259,7 @@ namespace WMS.Controllers.EditAttendance
                     attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[N-OT]", "");
                     attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[G-OT]", "");
                     attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[R-OT]", "");
+                    attendanceRecord.Remarks = attendanceRecord.Remarks.Replace("[]", "");
                 }
                 else
                     attendanceRecord.Remarks = "";
@@ -479,13 +495,6 @@ namespace WMS.Controllers.EditAttendance
                         if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
                         {
                             int minMinutes = 0;
-                            //currentday is present
-                            if (shift.MinHrs > 100)
-                            {
-                                minMinutes = (int)attendanceRecord.ShifMin;
-                                minMinutes = minMinutes / 2;
-                            }
-                            else
                                 minMinutes = (int)shift.MinHrs;
                             if (attendanceRecord.StatusHL == true || attendanceRecord.Remarks.Contains("H-"))
                             {
@@ -645,13 +654,6 @@ namespace WMS.Controllers.EditAttendance
                                 if (attendanceRecord.AttDate.Value.DayOfWeek != DayOfWeek.Friday && attendanceRecord.StatusDO != true && attendanceRecord.StatusGZ != true)
                                 {
                                     int minMinutes = 0;
-                                    //currentday is present
-                                    if (shift.MinHrs > 100)
-                                    {
-                                        minMinutes = (int)attendanceRecord.ShifMin;
-                                        minMinutes = minMinutes / 2;
-                                    }
-                                    else
                                         minMinutes = (int)shift.MinHrs;
                                     if (attendanceRecord.StatusHL == true || attendanceRecord.Remarks.Contains("H-"))
                                     {
@@ -1177,7 +1179,7 @@ namespace WMS.Controllers.EditAttendance
                 attendanceRecord.StatusGZOT = false;
                 attendanceRecord.StatusDO = false;
                 attendanceRecord.StatusP = false;
-                attendanceRecord.Remarks = "[Absent][Manual]";
+                attendanceRecord.Remarks = "[Absent][Manual]" + attendanceRecord.Remarks;
             }
             else
             {
