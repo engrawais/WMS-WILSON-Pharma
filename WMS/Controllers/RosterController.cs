@@ -65,7 +65,7 @@ namespace WMS.Controllers
                     switch (item.RosterCriteria)
                     {
                         case "S":
-                            _RosterApplication.CriteriaData = item.Shift.ShiftName;
+                            _RosterApplication.CriteriaData = shifts.First(aa=>aa.ShiftID==item.CriteriaData).ShiftName;
                             break;
                         case "C":
                             short CrewID = (short)item.CriteriaData;

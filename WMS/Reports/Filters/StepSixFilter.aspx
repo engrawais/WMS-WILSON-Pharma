@@ -108,6 +108,7 @@
                                     <h5>Yearly</h5>
                                     <ul>
                                         <li><a href="../ReportContainer.aspx?reportname=lv_quota">Leave Quota</a></li>
+                                        <li><a href="../ReportContainer.aspx?reportname=edit_Attendance">Audit Report - Edit Attendance</a></li>
                                         <%--<li><a href="../SummaryReports.aspx?reportname=">Summary</a></li>--%>
                                     </ul>
                                 </li>

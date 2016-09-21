@@ -771,7 +771,16 @@
       [ViewEditAttendance].[EmpID] AS [EmpID], 
       [ViewEditAttendance].[CompanyID] AS [CompanyID], 
       [ViewEditAttendance].[TypeID] AS [TypeID], 
-      [ViewEditAttendance].[CatID] AS [CatID]
+      [ViewEditAttendance].[CatID] AS [CatID], 
+      [ViewEditAttendance].[SecID] AS [SecID], 
+      [ViewEditAttendance].[ShiftID] AS [ShiftID], 
+      [ViewEditAttendance].[LocID] AS [LocID], 
+      [ViewEditAttendance].[GradeID] AS [GradeID], 
+      [ViewEditAttendance].[CrewID] AS [CrewID], 
+      [ViewEditAttendance].[Expr1] AS [Expr1], 
+      [ViewEditAttendance].[CityID] AS [CityID], 
+      [ViewEditAttendance].[DeptID] AS [DeptID], 
+      [ViewEditAttendance].[DivID] AS [DivID]
       FROM [dbo].[ViewEditAttendance] AS [ViewEditAttendance]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEmergencyDetail" EntityType="TAS2013Model.Store.ViewEmergencyDetail" store:Type="Views" store:Schema="dbo" store:Name="ViewEmergencyDetail">
@@ -4592,6 +4601,15 @@
           <Property Name="CompanyID" Type="smallint" />
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="CatID" Type="smallint" />
+          <Property Name="SecID" Type="smallint" />
+          <Property Name="ShiftID" Type="tinyint" />
+          <Property Name="LocID" Type="smallint" />
+          <Property Name="GradeID" Type="smallint" />
+          <Property Name="CrewID" Type="smallint" />
+          <Property Name="Expr1" Type="int" />
+          <Property Name="CityID" Type="smallint" />
+          <Property Name="DeptID" Type="smallint" />
+          <Property Name="DivID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'TAS2013.dbo.ViewEmergencyDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -9723,6 +9741,15 @@
           <Property Type="Int16" Name="CompanyID" />
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="CatID" />
+          <Property Type="Int16" Name="SecID" />
+          <Property Type="Byte" Name="ShiftID" />
+          <Property Type="Int16" Name="LocID" />
+          <Property Type="Int16" Name="GradeID" />
+          <Property Type="Int16" Name="CrewID" />
+          <Property Type="Int32" Name="Expr1" />
+          <Property Type="Int16" Name="CityID" />
+          <Property Type="Int16" Name="DeptID" />
+          <Property Type="Int16" Name="DivID" />
         </EntityType>
         <EntityType Name="ViewEmergencyDetail">
           <Key>
@@ -14195,6 +14222,15 @@
           <EntitySetMapping Name="ViewEditAttendances">
             <EntityTypeMapping TypeName="TAS2013Model.ViewEditAttendance">
               <MappingFragment StoreEntitySet="ViewEditAttendance">
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="CrewID" ColumnName="CrewID" />
+                <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+                <ScalarProperty Name="LocID" ColumnName="LocID" />
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
                 <ScalarProperty Name="CatID" ColumnName="CatID" />
                 <ScalarProperty Name="TypeID" ColumnName="TypeID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
