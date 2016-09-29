@@ -32,7 +32,7 @@ namespace WMS.Controllers
             ViewBag.JobCardType = new SelectList(db.JobCards, "WorkCardID", "WorkCardName");
             ViewBag.ShiftList = new SelectList(db.Shifts, "ShiftID", "ShiftName");
 
-            string _EmpNo = Request.Form["EmpNo"].ToString();
+           // string _EmpNo = Request.Form["EmpNo"].ToString();
             ViewBag.CompanyID = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
             ViewBag.CompanyIDJobCard = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
             ViewBag.CrewList = new SelectList(db.Crews, "CrewID", "CrewName");

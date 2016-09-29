@@ -105,7 +105,7 @@ namespace WMS.Controllers
             List<BadliRecordEmp> badli = new List<BadliRecordEmp>();
             badli = db.BadliRecordEmps.ToList();
             List<Emp> emps = new List<Emp>();
-            emps = db.Emps.Where(aa => aa.Status == true).ToList();
+            emps = db.Emps.ToList();
             foreach (var item in badli)
             {
                 Emp OEmp = emps.First(aa => aa.EmpID == item.EmpID);
