@@ -46,13 +46,10 @@
             @item.CardType
         </td>
         <td>
-            @ViewBag.EmpNo
+            @Html.DisplayFor(modelItem => item.JCCriteria)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CriteriaData)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User)
@@ -66,7 +63,7 @@
 </table>
 <script type="text/javascript">
     $(function () {
-            $(".urlddl").on('change',function(){
+        $(".urlddl").on('change', function () {
             var url = $(this).val();
             if (url != null && url != '') {
                 window.location.href = url;
