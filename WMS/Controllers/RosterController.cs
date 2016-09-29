@@ -65,7 +65,7 @@ namespace WMS.Controllers
                     switch (item.RosterCriteria)
                     {
                         case "S":
-                            _RosterApplication.CriteriaData = item.Shift.ShiftName;
+                            _RosterApplication.CriteriaData = shifts.First(aa=>aa.ShiftID==item.CriteriaData).ShiftName;
                             break;
                         case "C":
                             short CrewID = (short)item.CriteriaData;
@@ -562,25 +562,22 @@ namespace WMS.Controllers
             RosterApp RApp = new RosterApp();
             //User uid = new User();
             RApp = db.RosterApps.First(rr => rr.RotaApplD == RosterAppID);
-            if (RApp.UserID == LoggedUserID)
+            try
             {
-                try
+                List<RosterDetail> RAppDetail = new List<Models.RosterDetail>();
+                RAppDetail = db.RosterDetails.Where(aa => aa.RosterAppID == RosterAppID).ToList();
+                foreach (var item in RAppDetail)
                 {
-                    List<RosterDetail> RAppDetail = new List<Models.RosterDetail>();
-                    RAppDetail = db.RosterDetails.Where(aa => aa.RosterAppID == RosterAppID).ToList();
-                    foreach (var item in RAppDetail)
-                    {
-                        db.RosterDetails.Remove(item);
-                    }
+                    db.RosterDetails.Remove(item);
                 }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                db.RosterApps.Remove(RApp);
-                db.SaveChanges();
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            db.RosterApps.Remove(RApp);
+            db.SaveChanges();
 
             return true;
         }

@@ -825,11 +825,53 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _dateFrom, _dateTo, "E"), _dateFrom + " TO " + _dateTo, "Section Work Times Summary");
                         break;
                     #endregion
+                    case "edit_Attendance":
+                        string dtF = _dateFrom + " 00:00:01";
+                        string dtT = _dateTo + " 23:59:59";
+                        datatable = qb.GetValuesfromDB("select * from ViewEditAttendance " + query + "" + " and (NewTimeIn >= " + "'" + _dateFrom + "'" + " and NewTimeIn <= " + "'"
+                                                 + _dateTo + "'" + " )");
+                        List<ViewEditAttendance> _ViewList15 = datatable.ToList<ViewEditAttendance>();
+                        List<ViewEditAttendance> _TempViewList15 = new List<ViewEditAttendance>();
+                        title = "Edit Attendance Report";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/REditAttendance.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/REditAttendance.rdlc";
+
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList15, _ViewList15), _dateFrom + " TO " + _dateTo);
+
+                        break;
                 }
 
             }
         }
 
+        private void LoadReport(string PathString, List<ViewEditAttendance> list, string date)
+        {
+            string _Header = title;
+            this.ReportViewer1.LocalReport.DisplayName = title;
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
+            ReportViewer1.LocalReport.ReportPath = Server.MapPath(PathString);
+            System.Security.PermissionSet sec = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            ReportViewer1.LocalReport.SetBasePermissionsForSandboxAppDomain(sec);
+            IEnumerable<ViewEditAttendance> ie;
+            ie = list.AsQueryable();
+            IEnumerable<EmpPhoto> companyImage;
+            companyImage = companyimage.AsQueryable();
+            ReportDataSource datasource1 = new ReportDataSource("DataSet1", ie);
+
+            ReportDataSource datasource2 = new ReportDataSource("DataSet2", companyImage);
+            ReportViewer1.LocalReport.DataSources.Clear();
+            ReportViewer1.LocalReport.EnableExternalImages = true;
+            ReportViewer1.LocalReport.DataSources.Add(datasource1);
+            ReportViewer1.LocalReport.DataSources.Add(datasource2);
+            ReportParameter rp = new ReportParameter("Date", date, false);
+            ReportParameter rp1 = new ReportParameter("Header", _Header, false);
+            this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp, rp1 });
+            ReportViewer1.LocalReport.Refresh();
+        }
+
+        
         private void LoadReport(string PathString, List<VMBadliRecord> list, string date)
         {
             string _Header = title;
@@ -2802,7 +2844,146 @@ namespace WMS.Reports
 
             return _ViewList;
         }
-        
+        private List<ViewEditAttendance> ReportsFilterImplementation(FiltersModel fm, List<ViewEditAttendance> _TempViewList, List<ViewEditAttendance> _ViewList)
+        {
+            //for company
+            if (fm.CompanyFilter.Count > 0)
+            {
+                foreach (var comp in fm.CompanyFilter)
+                {
+                    short _compID = Convert.ToInt16(comp.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.CompanyID == _compID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+
+
+            //for location
+            if (fm.LocationFilter.Count > 0)
+            {
+                foreach (var loc in fm.LocationFilter)
+                {
+                    short _locID = Convert.ToInt16(loc.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.LocID == _locID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for shifts
+            if (fm.ShiftFilter.Count > 0)
+            {
+                foreach (var shift in fm.ShiftFilter)
+                {
+                    short _shiftID = Convert.ToInt16(shift.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.ShiftID == _shiftID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+
+
+            _TempViewList.Clear();
+
+            //for type
+            if (fm.TypeFilter.Count > 0)
+            {
+                foreach (var type in fm.TypeFilter)
+                {
+                    short _typeID = Convert.ToInt16(type.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.TypeID == _typeID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for crews
+            if (fm.CrewFilter.Count > 0)
+            {
+                foreach (var cre in fm.CrewFilter)
+                {
+                    short _crewID = Convert.ToInt16(cre.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.CrewID == _crewID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+
+
+
+
+            //for division
+            if (fm.DivisionFilter.Count > 0)
+            {
+                foreach (var div in fm.DivisionFilter)
+                {
+                    short _divID = Convert.ToInt16(div.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.DivID == _divID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for department
+            if (fm.DepartmentFilter.Count > 0)
+            {
+                foreach (var dept in fm.DepartmentFilter)
+                {
+                    short _deptID = Convert.ToInt16(dept.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.DeptID == _deptID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //for sections
+            if (fm.SectionFilter.Count > 0)
+            {
+                foreach (var sec in fm.SectionFilter)
+                {
+                    short _secID = Convert.ToInt16(sec.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.SecID == _secID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+            //Employee
+            if (fm.EmployeeFilter.Count > 0)
+            {
+                foreach (var emp in fm.EmployeeFilter)
+                {
+                    int _empID = Convert.ToInt32(emp.ID);
+                    _TempViewList.AddRange(_ViewList.Where(aa => aa.EmpID == _empID).ToList());
+                }
+                _ViewList = _TempViewList.ToList();
+            }
+            else
+                _TempViewList = _ViewList.ToList();
+            _TempViewList.Clear();
+
+
+            return _ViewList;
+        }
+
         #endregion
 
         private DataTable GYL(List<EmpView> _Emp,DateTime dateTimeLv)
@@ -4368,27 +4549,37 @@ namespace WMS.Reports
             if (item.TNOT > 0)
             {
                 tsNOT = new TimeSpan(0, (int)item.TNOT, 0);
-                not = tsNOT.Hours.ToString("000") + ":" + tsNOT.Minutes.ToString("00");
+                int hours = (int)tsNOT.TotalHours;
+                int min = (int)(item.TNOT - (hours * 60));
+                    not = hours.ToString()+":"+min.ToString();
             }
             if (item.TGZOT > 0)
             {
                 tsGOT = new TimeSpan(0, (int)item.TGZOT, 0);
-                got = tsGOT.Hours.ToString("000") + ":" + tsGOT.Minutes.ToString("00");
+                int hours = (int)tsGOT.TotalHours;
+                int min = (int)(item.TGZOT - (hours * 60));
+                got = hours.ToString() + ":" + min.ToString();
             }
             if (item.TEarlyIn > 0)
             {
                 tsEI = new TimeSpan(0, (int)item.TEarlyIn, 0);
-                ei = tsEI.Hours.ToString("000") + ":" + tsEI.Minutes.ToString("00");
+                int hours = (int)tsEI.TotalHours;
+                int min = (int)(item.TEarlyIn - (hours * 60));
+                ei = hours.ToString() + ":" + min.ToString();
             }
             if (item.TEarlyOut > 0)
             {
                 tsEO = new TimeSpan(0, (int)item.TEarlyOut, 0);
-                eo = tsEO.Hours.ToString("000") + ":" + tsEO.Minutes.ToString("00");
+                int hours = (int)tsEO.TotalHours;
+                int min = (int)(item.TEarlyOut - (hours * 60));
+                eo = hours.ToString() + ":" + min.ToString();
             }
             if (item.TLateIn > 0)
             {
                 tsLI = new TimeSpan(0, (int)item.TLateIn, 0);
-                li = tsLI.Hours.ToString("000") + ":" + tsLI.Minutes.ToString("00");
+                int hours = (int)tsLI.TotalHours;
+                int min = (int)(item.TLateIn - (hours * 60));
+                li = hours.ToString() + ":" + min.ToString();
             }
 
             string val = "";
