@@ -902,7 +902,7 @@ namespace WMS.Reports
             TAS2013Entities db =new TAS2013Entities();
             List<VMBadliRecord> brs = new List<VMBadliRecord>();
             List<Emp> emps = new List<Emp>();
-            emps = db.Emps.Where(aa => aa.Status == true).ToList();
+            emps = db.Emps.ToList();
             foreach (var item in _BadliList)
             {
                 Emp OEmp = emps.First(aa => aa.EmpID == item.EmpID);
