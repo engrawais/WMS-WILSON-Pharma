@@ -25,6 +25,7 @@ namespace WMS.Controllers
             }
             ViewBag.CurrentFilter = searchString;
             brecords = GetBadliValue();
+            brecords = brecords.OrderByDescending(aa => aa.BadliID).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
 
@@ -66,7 +67,14 @@ namespace WMS.Controllers
             ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName", LoggedInUser.CompanyID);
             return View();
         }
-
+        public ActionResult Delete(int? id)
+        {
+            BadliRecordEmp be = new BadliRecordEmp();
+            be = db.BadliRecordEmps.First(aa => aa.BadliID == id);
+            db.BadliRecordEmps.Remove(be);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         private bool AddBadliAttData(string _empDate, int _empID, DateTime _Date)
         {
             bool check = false;

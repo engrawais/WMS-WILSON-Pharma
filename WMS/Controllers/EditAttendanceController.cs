@@ -685,13 +685,14 @@ namespace WMS.Controllers
                     if (_attdata != null)
                     {
                         _attdata.DutyCode = "D";
+                        _attdata.Remarks = _attdata.Remarks.Replace("[Present][JC]", "");
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = false;
                         _attdata.StatusLeave = false;
                         _attdata.StatusP = true;
                         _attdata.WorkMin = _jcCard.WorkMin;
                         _attdata.ShifMin = _jcCard.WorkMin;
-                        _attdata.Remarks = "[Present][Manual]";
+                        _attdata.Remarks = "[Present][JC]";
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
                         _attdata.EarlyIn = null;
@@ -737,7 +738,7 @@ namespace WMS.Controllers
                         _attdata.StatusP = true;
                         _attdata.WorkMin = WorkMins;
                         _attdata.OTMin = WorkMins;
-                        _attdata.Remarks = "[DD][Manual]";
+                        _attdata.Remarks = "[DD][JC]";
                         _attdata.StatusMN = true;
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
@@ -808,14 +809,14 @@ namespace WMS.Controllers
                     if (_attdata != null)
                     {
                         _attdata.Remarks = "";
-                        _attdata.Remarks = _attdata.Remarks.Replace("[Official Duty][Manual]", "");
+                        _attdata.Remarks = _attdata.Remarks.Replace("[Official Duty][JC]", "");
                         _attdata.DutyCode = "O";
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = false;
                         _attdata.StatusLeave = false;
                         _attdata.StatusP = true;
                         _attdata.WorkMin = _attdata.ShifMin;
-                        _attdata.Remarks = "[Official Duty][Manual]";
+                        _attdata.Remarks = "[Official Duty][JC]";
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
                         _attdata.WorkMin = null;
@@ -864,17 +865,17 @@ namespace WMS.Controllers
 
                             _attdata.StatusAB = true;
                             _attdata.WorkMin = 0;
-                            _attdata.Remarks = _attdata.Remarks + "[Absent][Manual]";
+                            _attdata.Remarks = _attdata.Remarks + "[Absent][JC]";
                         }
                         else
                         {
                             _attdata.Remarks = "";
-                            _attdata.Remarks = _attdata.Remarks.Replace("[Absent][Manual]", "");
+                            _attdata.Remarks = _attdata.Remarks.Replace("[Absent][JC]", "");
                             _attdata.DutyCode = "D";
                             _attdata.StatusAB = true;
                             _attdata.StatusDO = false;
                             _attdata.StatusLeave = false;
-                            _attdata.Remarks = "[Absent][Manual]";
+                            _attdata.Remarks = "[Absent][JC]";
                             _attdata.TimeIn = null;
                             _attdata.TimeOut = null;
                             _attdata.WorkMin = null;
@@ -915,13 +916,13 @@ namespace WMS.Controllers
                     if (_attdata != null)
                     {
                         _attdata.Remarks = "";
-                        _attdata.Remarks = _attdata.Remarks.Replace("[GZ][Manual]", "");
+                        _attdata.Remarks = _attdata.Remarks.Replace("[GZ][JC]", "");
                         _attdata.DutyCode = "G";
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = true;
                         _attdata.StatusLeave = false;
                         _attdata.StatusGZ = true;
-                        _attdata.Remarks = "[GZ][Manual]";
+                        _attdata.Remarks = "[GZ][JC]";
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
                         _attdata.WorkMin = null;
@@ -961,12 +962,12 @@ namespace WMS.Controllers
                     if (_attdata != null)
                     {
                         _attdata.Remarks = "";
-                        _attdata.Remarks = _attdata.Remarks.Replace("[DO][Manual]", "");
+                        _attdata.Remarks = _attdata.Remarks.Replace("[DO][JC]", "");
                         _attdata.DutyCode = "R";
                         _attdata.StatusAB = false;
                         _attdata.StatusDO = true;
                         _attdata.StatusLeave = false;
-                        _attdata.Remarks = "[DO][Manual]";
+                        _attdata.Remarks = "[DO][JC]";
                         _attdata.TimeIn = null;
                         _attdata.TimeOut = null;
                         _attdata.WorkMin = null;
@@ -1051,14 +1052,14 @@ namespace WMS.Controllers
                         else
                         {
                             _attdata.Remarks = "";
-                            _attdata.Remarks = _attdata.Remarks.Replace("[Absent]", "");
+                            _attdata.Remarks = _attdata.Remarks.Replace("[Absent][JC]", "");
                             _attdata.DutyCode = "D";
                             _attdata.StatusAB = true;
                             _attdata.StatusDO = false;
                             _attdata.StatusLeave = false;
                             _attdata.StatusP = false;
                             _attdata.ShifMin = _jcCard.WorkMin;
-                            _attdata.Remarks = "[Absent]";
+                            _attdata.Remarks = "[Absent][JC]";
                             _attdata.TimeIn = null;
                             _attdata.TimeOut = null;
                             _attdata.EarlyIn = null;
@@ -1115,14 +1116,14 @@ namespace WMS.Controllers
                         else
                         {
                             _attdata.Remarks = "";
-                            _attdata.Remarks = _attdata.Remarks.Replace("[Present]", "");
+                            _attdata.Remarks = _attdata.Remarks.Replace("[Present][JC]", "");
                             _attdata.DutyCode = "D";
                             _attdata.StatusAB = false;
                             _attdata.StatusDO = false;
                             _attdata.StatusP = true;
                             _attdata.WorkMin = _jcCard.WorkMin;
                             _attdata.ShifMin = _jcCard.WorkMin;
-                            _attdata.Remarks = "[Present]";
+                            _attdata.Remarks = "[Present][JC]";
                             _attdata.TimeIn = null;
                             _attdata.TimeOut = null;
                             _attdata.EarlyIn = null;

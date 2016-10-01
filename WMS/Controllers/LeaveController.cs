@@ -99,7 +99,7 @@ namespace WMS.Controllers
                     string _EmpDate = lvappl.EmpID + datetime.Date.ToString("yyMMdd");
                     using (var context = new TAS2013Entities())
                     {
-                        if (context.AttProcesses.Where(aa => aa.ProcessDate == datetime).Count() > 0)
+                        if (context.AttDatas.Where(aa => aa.EmpDate == _EmpDate).Count() > 0)
                         {
                             AttData _EmpAttData = new AttData();
                             _EmpAttData = context.AttDatas.First(aa => aa.EmpDate == _EmpDate);
@@ -108,6 +108,7 @@ namespace WMS.Controllers
                             _EmpAttData.WorkMin = null;
                             _EmpAttData.LateIn = null;
                             _EmpAttData.LateOut = null;
+                            _EmpAttData.DutyCode = "L";
                             _EmpAttData.EarlyIn = null;
                             _EmpAttData.EarlyOut = null;
                             _EmpAttData.StatusAB= false;
@@ -122,12 +123,7 @@ namespace WMS.Controllers
                             _EmpAttData.StatusGZOT = null;
                             _EmpAttData.StatusMN = null;
                             _EmpAttData.StatusOD = null;
-                            if (lvappl.LvType == "A")//Casual Leave
-                                _EmpAttData.Remarks = "[CL]";
-                            if (lvappl.LvType == "B")//Anual Leave
-                                _EmpAttData.Remarks = "[AL]";
-                            if (lvappl.LvType == "C")//Sick Leave
-                                _EmpAttData.Remarks = "[SL]";
+                            _EmpAttData.Remarks = lvappl.LvType1.FldName;
                             _EmpAttData.StatusAB = false;
                             _EmpAttData.StatusLeave = true;
                             context.SaveChanges();
@@ -503,23 +499,21 @@ namespace WMS.Controllers
             string _EmpDate = lvappl.EmpID + datetime.Date.ToString("yyMMdd");
             using (var db = new TAS2013Entities())
             {
-                if (db.AttProcesses.Where(aa => aa.ProcessDate == datetime).Count() > 0)
+                if (db.AttDatas.Where(aa => aa.EmpDate == _EmpDate).Count() > 0)
                 {
                     AttData _EmpAttData = new AttData();
                     _EmpAttData = db.AttDatas.First(aa => aa.EmpDate == _EmpDate);
-                    if (lvappl.LvType == "A")//Casual Leave
-                        _EmpAttData.Remarks = _EmpAttData.Remarks+"[H-CL]";
-                    if (lvappl.LvType == "B")//Anual Leave
-                        _EmpAttData.Remarks = _EmpAttData.Remarks+"[H-AL]";
-                    if (lvappl.LvType == "C")//Sick Leave
-                        _EmpAttData.Remarks = _EmpAttData.Remarks+"[H-SL]";
-
+                    _EmpAttData.DutyCode = "L";
+                    if(_EmpAttData.WorkMin>0)
+                        _EmpAttData.Remarks = _EmpAttData.Remarks + lvappl.LvType1.HalfLvCode;
+                    else
+                        _EmpAttData.Remarks = "HA" + lvappl.LvType1.HalfLvCode;
                     if (_EmpAttData.Remarks.Contains("[Absent]"))
-                        _EmpAttData.Remarks.Replace("[Abesnt]", "");
+                        _EmpAttData.Remarks=_EmpAttData.Remarks.Replace("[Abesnt]", "");
                     if (_EmpAttData.Remarks.Contains("[EO]"))
-                        _EmpAttData.Remarks.Replace("[EO]", "-");
+                        _EmpAttData.Remarks = _EmpAttData.Remarks.Replace("[EO]", "");
                     if (_EmpAttData.Remarks.Contains("[LI]"))
-                        _EmpAttData.Remarks.Replace("[LI]", "");
+                        _EmpAttData.Remarks = _EmpAttData.Remarks.Replace("[LI]", "");
                     _EmpAttData.StatusHL = true;
                     if (lvappl.FirstHalf == true)
                     {
