@@ -11,6 +11,10 @@ namespace WMS.Models
 {
     using System;
     using System.Collections.Generic;
+
+    using WMS.Models.DataValidation;
+    using System.ComponentModel.DataAnnotations;
+    [MetadataType(typeof(EmployeeDate))]
     
     public partial class Emp
     {

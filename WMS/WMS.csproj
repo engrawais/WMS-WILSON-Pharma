@@ -558,6 +558,7 @@
     <Compile Include="Models\DailySummary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataValidation\EmployeeDate.cs" />
     <Compile Include="Models\DaysName.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
