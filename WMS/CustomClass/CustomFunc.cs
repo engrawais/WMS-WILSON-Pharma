@@ -38,13 +38,13 @@ namespace WMS.CustomClass
                 case 1: 
                     break;
                 case 2:
-                    list.Where(aa=>aa.CompID==1 || aa.CompID==2);
+                    list = list.Where(aa=>aa.CompID==1 || aa.CompID==2).ToList();
                     break;
                 case 3:
-                    list.Where(aa => aa.CompID>=3);
+                  list=  list.Where(aa => aa.CompID>=3).ToList();
                     break;
                 case 4:
-                    list.Where(aa => aa.CompID ==LoggedInUser.CompanyID);
+                  list=  list.Where(aa => aa.CompID ==LoggedInUser.CompanyID).ToList();
                     break;
                 case 5:
                     break;

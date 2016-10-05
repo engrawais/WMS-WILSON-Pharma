@@ -116,17 +116,17 @@ namespace WMS.Controllers
             }, "Value", "Text", 1);
             if (LoggedInUser.RoleID == 1)
             {
-                ViewBag.CompanyID = new SelectList(db.Companies.Where(query).OrderBy(s => s.CompName), "CompID", "CompName");
-                ViewBag.CompanyIDForEmp = new SelectList(db.Companies.Where(query).OrderBy(s => s.CompName), "CompID", "CompName");
+                ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyIDForEmp = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);          
                 query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
-                ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s => s.LocName), "LocID", "LocName");
-            }
+                ViewBag.LocationID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");           
+              }
             else
             {
-                ViewBag.CompanyID = new SelectList(db.Companies.Where(aa => aa.CompID == LoggedInUser.CompanyID).OrderBy(s => s.CompName), "CompID", "CompName");
-                ViewBag.CompanyIDForEmp = new SelectList(db.Companies.Where(aa => aa.CompID == LoggedInUser.CompanyID).OrderBy(s => s.CompName), "CompID", "CompName");
+                ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyIDForEmp = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
                 query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
-                ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s => s.LocName), "LocID", "LocName");
+                ViewBag.LocationID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");
             }
 
             

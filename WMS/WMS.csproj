@@ -1420,6 +1420,7 @@
     <EmbeddedResource Include="Reports\RDLC\MYLeaveSummary.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\RAuditLog.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\REditAttendance.rdlc" />
+    <EmbeddedResource Include="Reports\RDLC\DASheet.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\RLeaveQuota.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\RShortLeave.rdlc" />
     <EmbeddedResource Include="Reports\RDLC\SummarizedMonthlyReport.rdlc" />

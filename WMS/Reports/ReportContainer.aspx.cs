@@ -182,6 +182,19 @@ namespace WMS.Reports
                         LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList2, _ViewList2), _dateFrom + " TO " + _dateTo);
 
                         break;
+                    case "da_sheet": DataTable dt12 = qb.GetValuesfromDB("select * from ViewDetailAttData " + query + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
+                                                + _dateTo + "'" + " )");
+                        List<ViewDetailAttData> _ViewList12 = dt12.ToList<ViewDetailAttData>();
+                        List<ViewDetailAttData> _TempViewList12 = new List<ViewDetailAttData>();
+                        title = "Daily Attendance Sheet";
+                        if (GlobalVariables.DeploymentType == false)
+                            PathString = "/Reports/RDLC/DASheet.rdlc";
+                        else
+                            PathString = "/WMS/Reports/RDLC/DASheet.rdlc";
+
+                        LoadReport(PathString, ReportsFilterImplementation(fm, _TempViewList12, _ViewList12), _dateFrom + " TO " + _dateTo);
+
+                        break;
                     case "consolidated_att": DataTable dt3 = qb.GetValuesfromDB("select * from ViewAttData " + query + " and Status=1 " + " and (AttDate >= " + "'" + _dateFrom + "'" + " and AttDate <= " + "'"
                                                      + _dateTo + "'" + " )");
                         List<ViewAttData> _ViewList3 = dt3.ToList<ViewAttData>();

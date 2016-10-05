@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WMS.Controllers.EditAttendance;
 using WMS.Controllers.Filters;
+using WMS.CustomClass;
 using WMS.HelperClass;
 using WMS.Models;
 
@@ -33,8 +34,8 @@ namespace WMS.Controllers
             ViewBag.ShiftList = new SelectList(db.Shifts, "ShiftID", "ShiftName");
 
            // string _EmpNo = Request.Form["EmpNo"].ToString();
-            ViewBag.CompanyID = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
-            ViewBag.CompanyIDJobCard = new SelectList(CompanyListAccordToRole(LoggedInUser.RoleID, LoggedInUser.CompanyID), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDJobCard = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
             ViewBag.CrewList = new SelectList(db.Crews, "CrewID", "CrewName");
             ViewBag.SectionList = new SelectList(db.Sections, "SectionID", "SectionName");
             ViewBag.DesignationID = new SelectList(db.Designations.Where(aa=>aa.CompanyID==LoggedInUser.CompanyID), "DesignationID", "DesignationName");
@@ -79,9 +80,9 @@ namespace WMS.Controllers
                 ViewBag.JobCardType = new SelectList(db.JobCards.OrderBy(s=>s.WorkCardName), "WorkCardID", "WorkCardName");
                 ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s=>s.ShiftName), "ShiftID", "ShiftName");
                 ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s=>s.CrewName), "CrewID", "CrewName");
-                ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName",LoggedInUser.CompanyID);
-                ViewBag.CompanyIDJobCard = new SelectList(db.Companies, "CompID", "CompName");
-                ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s=>s.SectionName), "SectionID", "SectionName");
+                ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.CompanyIDJobCard = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+                ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s => s.SectionName), "SectionID", "SectionName");
                 ViewData["datef"] = Convert.ToDateTime(Request.Form["DateFrom"].ToString()).ToString("yyyy-MM-dd"); 
                 ViewBag.DesignationID = new SelectList(db.Designations.OrderBy(s=>s.DesignationName), "DesignationID", "DesignationName");
                 //ViewData["datef"] = Request.Form["DateFrom"].ToString();
@@ -151,9 +152,9 @@ namespace WMS.Controllers
             ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s=>s.ShiftName), "ShiftID", "ShiftName");
             ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s=>s.CrewName), "CrewID", "CrewName");
             ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s=>s.SectionName), "SectionID", "SectionName");
-            ViewBag.CompanyID = new SelectList(db.Companies, "CompID", "CompName", LoggedInUser.CompanyID);
-            ViewBag.CompanyIDJobCard = new SelectList(db.Companies, "CompID", "CompName", LoggedInUser.CompanyID);
-            ViewBag.DesignationID = new SelectList(db.Designations.OrderBy(s => s.DesignationName), "DesignationID", "DesignationName");
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDJobCard = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);         
+             ViewBag.DesignationID = new SelectList(db.Designations.OrderBy(s => s.DesignationName), "DesignationID", "DesignationName");
             try
             {
                 string STimeIn = form["Inhours"].ToString();

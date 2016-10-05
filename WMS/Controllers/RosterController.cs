@@ -147,7 +147,7 @@ namespace WMS.Controllers
             else
             {
                 ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s => s.Name), "ID", "Name");
-                ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s => s.ShiftName), "ShiftID", "ShiftName");
+                ViewBag.ShiftList = new SelectList(GetListOfShift(), "ShiftID", "ShiftName");
                 ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s => s.CrewName), "CrewID", "CrewName");
                 ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s => s.SectionName), "SectionID", "SectionName");
                 return View("Index");
@@ -181,7 +181,7 @@ namespace WMS.Controllers
 
 
             ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s => s.Name), "ID", "Name");
-            ViewBag.ShiftList = new SelectList(db.Shifts.OrderBy(s => s.ShiftName), "ShiftID", "ShiftName");
+            ViewBag.ShiftList = new SelectList(GetListOfShift(), "ShiftID", "ShiftName");
             ViewBag.CrewList = new SelectList(db.Crews.OrderBy(s => s.CrewName), "CrewID", "CrewName");
             ViewBag.SectionList = new SelectList(db.Sections.OrderBy(s => s.SectionName), "SectionID", "SectionName");
             return View("Index");

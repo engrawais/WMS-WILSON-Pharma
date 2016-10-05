@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WMS.Models;
 using PagedList;
 using System.Globalization;
+using WMS.CustomClass;
 namespace WMS.Controllers
 {
     public class LeaveSettingsController : Controller
@@ -17,8 +18,9 @@ namespace WMS.Controllers
         TAS2013Entities db = new TAS2013Entities();
         public ActionResult Index()
         {
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.CompanyIDEmp = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
+            User LoggedInUser = Session["LoggedUser"] as User;
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDEmp = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);          
             ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s=>s.LocName), "LocID", "LocName");
             ViewBag.CatID = new SelectList(db.Categories.OrderBy(s=>s.CatName), "CatID", "CatName");
             
@@ -67,9 +69,9 @@ namespace WMS.Controllers
                 ViewBag.CMessage = "Employee No "+Request.Form["EmpNo"].ToString()+" not found";
                 
             }
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.CompanyIDEmp = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s=>s.LocName), "LocID", "LocName");
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDEmp = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s => s.LocName), "LocID", "LocName");
             ViewBag.CatID = new SelectList(db.Categories.OrderBy(s=>s.CatName), "CatID", "CatName");
             return View("Index");
         }
@@ -138,9 +140,9 @@ namespace WMS.Controllers
                 ViewBag.CMessage = "Employee No " + Request.Form["EmpNo"].ToString() + " not found";
 
             }
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.CompanyIDEmp = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
-            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s=>s.LocName), "LocID", "LocName");
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDEmp = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s => s.LocName), "LocID", "LocName");
             ViewBag.CatID = new SelectList(db.Categories.OrderBy(s=>s.CatName), "CatID", "CatName");
             return View("Index");
         }
@@ -312,8 +314,9 @@ namespace WMS.Controllers
                 db.LvConsumeds.Add(lvConsumed);
                 db.SaveChanges();
             }
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName");
-            ViewBag.CompanyIDEmp = new SelectList(db.Companies.OrderBy(s => s.CompName), "CompID", "CompName");
+            User LoggedInUser = Session["LoggedUser"] as User;
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.CompanyIDEmp = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
             ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s => s.LocName), "LocID", "LocName");
             ViewBag.CatID = new SelectList(db.Categories.OrderBy(s => s.CatName), "CatID", "CatName");
             return View("Index");

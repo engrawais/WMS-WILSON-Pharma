@@ -88,8 +88,7 @@ namespace WMS.Controllers
             QueryBuilder qb = new QueryBuilder();
             User LoggedInUser = Session["LoggedUser"] as User;
             string query = qb.QueryForLocationTableSegerationForLinq(LoggedInUser);
-          
-            ViewBag.LocationID = new SelectList(db.Locations.Where(query).OrderBy(s=>s.LocName), "LocID", "LocName");
+            ViewBag.LocationID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");
             ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s=>s.Name), "ID", "Name");
             return View();
         }
@@ -146,10 +145,11 @@ namespace WMS.Controllers
                     ModelState.AddModelError("MinHrs", "Required");
                 }
             }
+            User LoggedInUser = Session["LoggedUser"] as User;
             if (ModelState.IsValid)
             {
                 var aaa = form["HasBreak"];
-                User LoggedInUser = Session["LoggedUser"] as User;
+               
                 if (shift.OpenShift == true)
                     shift.StartTime = TimeSpan.Zero;
                 //shift.OpenShift = false;
@@ -163,7 +163,7 @@ namespace WMS.Controllers
                 return RedirectToAction("Index");
                 
             }
-            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s=>s.LocName), "LocID", "LocName");
+            ViewBag.LocationID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");          
             ViewBag.DayOff1 = new SelectList(db.DaysNames.OrderBy(s=>s.Name), "ID", "Name", shift.DayOff1);
             ViewBag.DayOff2 = new SelectList(db.DaysNames.OrderBy(s=>s.Name), "ID", "Name", shift.DayOff2);
             ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s=>s.Name), "ID", "Name", shift.RosterType);
@@ -183,7 +183,8 @@ namespace WMS.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(s=>s.LocName), "LocID", "LocName",shift.LocationID);
+            User LoggedInUser = Session["LoggedUser"] as User;
+            ViewBag.LocationID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");           
             ViewBag.DayOff1 = new SelectList(db.DaysNames.OrderBy(s=>s.Name), "ID", "Name", shift.DayOff1);
             ViewBag.DayOff2 = new SelectList(db.DaysNames.OrderBy(s=>s.Name), "ID", "Name", shift.DayOff2);
             ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s=>s.Name), "ID", "Name", shift.RosterType);
@@ -220,9 +221,10 @@ namespace WMS.Controllers
             {
                 ModelState.AddModelError("LateIn","Required");
             }
+            User LoggedInUser = Session["LoggedUser"] as User;
             if (ModelState.IsValid)
             {
-                User LoggedInUser = Session["LoggedUser"] as User;
+                
                 shift.CompanyID = LoggedInUser.CompanyID;
                 shift.GZDays = shift.Holiday;
                 db.Entry(shift).State = EntityState.Modified;
@@ -231,6 +233,7 @@ namespace WMS.Controllers
                 HelperClass.MyHelper.SaveAuditLog(_userID, (byte)MyEnums.FormName.Shift, (byte)MyEnums.Operation.Edit, DateTime.Now);
                 return RedirectToAction("Index");
             }
+            ViewBag.LocationID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");                       
             ViewBag.DayOff1 = new SelectList(db.DaysNames.OrderBy(s=>s.Name), "ID", "Name", shift.DayOff1);
             ViewBag.DayOff2 = new SelectList(db.DaysNames.OrderBy(s=>s.Name), "ID", "Name", shift.DayOff2);
             ViewBag.RosterType = new SelectList(db.RosterTypes.OrderBy(s=>s.Name), "ID", "Name", shift.RosterType);

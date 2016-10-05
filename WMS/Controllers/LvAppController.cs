@@ -102,8 +102,8 @@ namespace WMS.Controllers
 
             User LoggedInUser = Session["LoggedUser"] as User;
             ViewBag.EmpID = new SelectList(db.Emps.OrderBy(s=>s.EmpName), "EmpID", "EmpNo");
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName",LoggedInUser.CompanyID);
-            ViewBag.LvType = new SelectList(db.LvTypes.Where(aa=>aa.Enable==true).OrderBy(s=>s.LvType1).ToList(), "LvType1", "LvDesc");
+            ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
+            ViewBag.LvType = new SelectList(db.LvTypes.Where(aa => aa.Enable == true).OrderBy(s => s.LvType1).ToList(), "LvType1", "LvDesc");
             return View();
         }
         
