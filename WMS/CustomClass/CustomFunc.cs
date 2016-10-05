@@ -28,4 +28,39 @@ namespace WMS.CustomClass
         
        
     }
+    public class CustomFunction
+    {
+
+        internal static List<Models.Company> GetCompanies(List<Models.Company> list, Models.User LoggedInUser)
+        {
+            switch (LoggedInUser.RoleID)
+            {
+                case 1: 
+                    break;
+                case 2:
+                    list.Where(aa=>aa.CompID==1 || aa.CompID==2);
+                    break;
+                case 3:
+                    list.Where(aa => aa.CompID>=3);
+                    break;
+                case 4:
+                    list.Where(aa => aa.CompID ==LoggedInUser.CompanyID);
+                    break;
+                case 5:
+                    break;
+            }
+            return list;
+        }
+
+        internal static System.Collections.IEnumerable GetLocations(List<Models.Location> locations, List<Models.UserLocation> userLocations)
+        {
+            List<Models.Location> tempLocs = new List<Models.Location>();
+            foreach (var item in userLocations)
+            {
+                tempLocs.AddRange(locations.Where(aa => aa.LocID == item.LocationID).ToList());
+            }
+
+            return tempLocs;
+        }
+    }
 }
