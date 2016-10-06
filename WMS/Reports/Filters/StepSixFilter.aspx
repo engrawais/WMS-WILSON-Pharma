@@ -55,7 +55,7 @@
                                 <li>
                                     <h5>Daily</h5>
                                     <ul>
-                                         <li><a href="../ReportContainer.aspx?reportname=da_sheet">Daily Attendance Sheet</a></li>
+                                         <li><a href="../ReportContainer.aspx?reportname=detailed_att">Detailed Attendance</a></li>                                      
                                         <li><a href="../ReportContainer.aspx?reportname=polldata_out">Device Data Out</a></li>
                                          <li><a href="../ReportContainer.aspx?reportname=consolidated_att">Consolidated Attendance</a></li>
                                          <li><a href="../ReportContainer.aspx?reportname=present">Present</a></li>
@@ -75,6 +75,7 @@
                                         <li><a href="../ReportContainer.aspx?reportname=badli_report">Badli Report</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=polldata_in">Device Data In</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=polldata_out">Device Data Out</a></li>
+                                        <li><a href="../ReportContainer.aspx?reportname=da_sheet">Daily Attendance Sheet</a></li>
                                     </ul>
                                     
                                 </li>
