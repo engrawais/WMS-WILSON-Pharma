@@ -125,6 +125,7 @@ namespace WMS.Controllers
                 if (item.RegionName.ToUpper() == _Name.ToUpper())
                     return true;
             }
+            _regions = null;
             return false;
         }
         // GET: /Region/Edit/5
@@ -166,7 +167,9 @@ namespace WMS.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.Entry(region).State = EntityState.Modified;
+                db.Regions.Attach(region);
+                //db.SaveChanges();
+               //db.Entry(region).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

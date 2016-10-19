@@ -48,7 +48,7 @@
                                         <li><a href="../ReportContainer.aspx?reportname=emp_record_active">Active Employees Record</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=emp_record_inactive">Inactive Employees Record</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=emp_detail_excel">Employee Detail (Only for Excel)</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=department_attendance_summary">Department Attendance Summary</a></li>
+                                       <%-- <li><a href="../ReportContainer.aspx?reportname=department_attendance_summary">Department Attendance Summary</a></li>--%>
                                        <%-- <li><a href="../ReportContainer.aspx?reportname=summarized_monthly_report">Summarized Monthly Report</a></li>--%>
                                     </ul>
                                 </li>
@@ -64,7 +64,7 @@
                                         <li><a href="../ReportContainer.aspx?reportname=lv_application">Leave Application</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=lv_applicationCPL">Leave Application (CPL)</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=lv_applicationLWOP">Leave Application (LWOP)</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=short_lv">Short Leave</a></li>
+                                       <%-- <li><a href="../ReportContainer.aspx?reportname=short_lv">Short Leave</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=late_in">Late In</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=late_out">Late Out</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=early_in">Early In</a></li>
@@ -72,7 +72,7 @@
                                         <li><a href="../ReportContainer.aspx?reportname=overtime">Overtime</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=missing_attendance">Missing Attendance</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=multiple_in_out">Multiple In/Out</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=badli_report">Badli Report</a></li>
+                                       <%-- <li><a href="../ReportContainer.aspx?reportname=badli_report">Badli Report</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=polldata_in">Device Data In</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=polldata_out">Device Data Out</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=da_sheet">Daily Attendance Sheet</a></li>
@@ -82,14 +82,14 @@
                                 <li>
                                     <h5>Monthly Attendance Sheets</h5>
                                     <ul>
-                                        <li><a href="../ReportContainer.aspx?reportname=monthly_21-20">Monthly Sheet (21th to 20th)</a></li>
+                                       <%-- <li><a href="../ReportContainer.aspx?reportname=monthly_21-20">Monthly Sheet (21th to 20th)</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_1-31">Monthly Sheet (1st to 31th)</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=monthlysummary_21-20">Monthly Summary (21th to 20th)</a></li>
+                                       <%-- <li><a href="../ReportContainer.aspx?reportname=monthlysummary_21-20">Monthly Summary (21th to 20th)</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=monthlysummary_1-31">Monthly Summary (1st to 31th)</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=monthly_21-20_excel">Monthly Sheet (21th to 20th)(Excel)</a></li>
+                                        <%--<li><a href="../ReportContainer.aspx?reportname=monthly_21-20_excel">Monthly Sheet (21th to 20th)(Excel)</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_1-31_consolidated">Monthly Consolidated (1st to 31th)</a><a href="../ReportContainer.aspx?reportname=monthlyConDownload">: Click here to Download in Excel</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_21-20_consolidated">Monthly Consolidated (21th to 20th)(Excel)</a></li>
-                                         <li><a href="../ReportContainer.aspx?reportname=monthly_21-20_flexy">Monthly Flexy (21th to 20th)(Excel)</a></li>
+                                         <%--<li><a href="../ReportContainer.aspx?reportname=monthly_21-20_flexy">Monthly Flexy (21th to 20th)(Excel)</a></li>--%>
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_productivity">Monthly Productivity</a></li>
                                         <li><a href="../ReportContainer.aspx?reportname=monthly_1-31_overtime">Monthly Overtime (1st to 31th)</a></li>
                                     </ul>
@@ -111,7 +111,7 @@
                                     <h5>Yearly</h5>
                                     <ul>
                                         <li><a href="../ReportContainer.aspx?reportname=lv_quota">Leave Quota</a></li>
-                                        <li><a href="../ReportContainer.aspx?reportname=edit_Attendance">Audit Report - Edit Attendance</a></li>
+                                       <%-- <li><a href="../ReportContainer.aspx?reportname=edit_Attendance">Audit Report - Edit Attendance</a></li>--%>
                                         <%--<li><a href="../SummaryReports.aspx?reportname=">Summary</a></li>--%>
                                     </ul>
                                 </li>

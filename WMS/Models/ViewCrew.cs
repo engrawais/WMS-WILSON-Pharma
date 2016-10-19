@@ -14,7 +14,7 @@ namespace WMS.Models
     
     public partial class ViewCrew
     {
-        public Nullable<short> CompanyID { get; set; }
+        public short CompanyID { get; set; }
         public string CrewName { get; set; }
         public short CrewID { get; set; }
         public string CompName { get; set; }

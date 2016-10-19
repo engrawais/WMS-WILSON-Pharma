@@ -109,7 +109,6 @@
           <EntitySet Name="setDateTime" EntityType="TAS2013Model.Store.setDateTime" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Shift" EntityType="TAS2013Model.Store.Shift" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Site" EntityType="TAS2013Model.Store.Site" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="sysdiagrams" EntityType="TAS2013Model.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TestTable" EntityType="TAS2013Model.Store.TestTable" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="TAS2013Model.Store.User" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserLocation" EntityType="TAS2013Model.Store.UserLocation" store:Type="Tables" Schema="dbo" />
@@ -1232,6 +1231,25 @@
       [ViewLvConsumed].[EmpLvTypeYear] AS [EmpLvTypeYear], 
       [ViewLvConsumed].[Year] AS [Year]
       FROM [dbo].[ViewLvConsumed] AS [ViewLvConsumed]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewLvDataDetail" EntityType="TAS2013Model.Store.ViewLvDataDetail" store:Type="Views" store:Schema="dbo" store:Name="ViewLvDataDetail">
+            <DefiningQuery>SELECT 
+      [ViewLvDataDetail].[EmpID] AS [EmpID], 
+      [ViewLvDataDetail].[EmpDate] AS [EmpDate], 
+      [ViewLvDataDetail].[LvID] AS [LvID], 
+      [ViewLvDataDetail].[Expr1] AS [Expr1], 
+      [ViewLvDataDetail].[AttDate] AS [AttDate], 
+      [ViewLvDataDetail].[LvCode] AS [LvCode], 
+      [ViewLvDataDetail].[LvStatus] AS [LvStatus], 
+      [ViewLvDataDetail].[Remarks] AS [Remarks], 
+      [ViewLvDataDetail].[Processed] AS [Processed], 
+      [ViewLvDataDetail].[HalfLeave] AS [HalfLeave], 
+      [ViewLvDataDetail].[FirstHalf] AS [FirstHalf], 
+      [ViewLvDataDetail].[CompanyID] AS [CompanyID], 
+      [ViewLvDataDetail].[Active] AS [Active], 
+      [ViewLvDataDetail].[ShiftName] AS [ShiftName], 
+      [ViewLvDataDetail].[ShiftID] AS [ShiftID]
+      FROM [dbo].[ViewLvDataDetail] AS [ViewLvDataDetail]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewMissingAtt" EntityType="TAS2013Model.Store.ViewMissingAtt" store:Type="Views" store:Schema="dbo" store:Name="ViewMissingAtt">
             <DefiningQuery>SELECT 
@@ -2798,7 +2816,7 @@
           <Property Name="OperationID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.AuditOperation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.AuditOperation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="AuditOperation">
           <Key>
@@ -3038,9 +3056,13 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="smallint" Nullable="false" />
+          <Property Name="EmpID" Type="int" />
           <Property Name="T1" Type="datetime" Nullable="false" />
+          <Property Name="EmpID2" Type="int" />
           <Property Name="T2" Type="datetime" />
+          <Property Name="EmpID3" Type="int" />
           <Property Name="T3" Type="datetime" />
+          <Property Name="EmpID4" Type="int" />
           <Property Name="T4" Type="datetime" />
           <Property Name="IsEmergency" Type="bit" />
           <Property Name="EmailSend" Type="bit" />
@@ -3647,7 +3669,7 @@
           <Property Name="Repeat" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.SampleTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.SampleTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="SampleTable">
           <Key>
@@ -3735,16 +3757,6 @@
           <Property Name="SiteID" Type="smallint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SiteName" Type="nvarchar" MaxLength="50" />
           <Property Name="CityID" Type="smallint" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TestTable">
           <Key>
@@ -3840,7 +3852,7 @@
           <Property Name="EmpNo" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.EmergencyView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.EmergencyView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="EmergencyView">
           <Key>
@@ -3848,8 +3860,11 @@
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="RdrName" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
           </Key>
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="EmpNo" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -3860,28 +3875,34 @@
           <Property Name="RdrName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ReaderID" Type="smallint" />
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="TypeName" Type="varchar" Nullable="false" MaxLength="30" />
           <Property Name="ShiftName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.EmpView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.EmpView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="EmpView">
           <Key>
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="ProcessAtt" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="DeptID" />
             <PropertyRef Name="Expr1" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="CityName" Type="nvarchar" MaxLength="50" />
@@ -3918,25 +3939,25 @@
           <Property Name="FlagFP" Type="bit" />
           <Property Name="FlagFace" Type="bit" />
           <Property Name="FlagCard" Type="bit" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CompanyID" Type="smallint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="SecID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="LocID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="CityID" Type="smallint" />
-          <Property Name="DeptID" Type="smallint" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
           <Property Name="Expr1" Type="smallint" Nullable="false" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.TestPollData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.TestPollData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="TestPollData">
           <Key>
@@ -3971,7 +3992,7 @@
           <Property Name="CompanyID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.TestView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.TestView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="TestView">
           <Key>
@@ -3984,8 +4005,8 @@
           <Property Name="TypeName" Type="varchar" Nullable="false" MaxLength="30" />
           <Property Name="CatName" Type="nvarchar" MaxLength="50" />
           <Property Name="ShiftName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="EmpNo" Type="varchar" Nullable="false" MaxLength="15" />
-          <Property Name="EmpName" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="EmpNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmpName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Status" Type="bit" />
           <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="15" />
           <Property Name="EmpID" Type="int" />
@@ -4010,7 +4031,7 @@
           <Property Name="AttDate" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewAbsent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewAbsent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewAbsent">
           <Key>
@@ -4054,7 +4075,7 @@
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="DeptID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
@@ -4062,7 +4083,7 @@
           <Property Name="SecID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewAttData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewAttData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewAttData">
           <Key>
@@ -4140,7 +4161,7 @@
           <Property Name="FatherName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewAuditLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewAuditLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewAuditLog">
           <Key>
@@ -4160,20 +4181,27 @@
           <Property Name="OperationName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewBadli' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewBadli' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewBadli">
           <Key>
+            <PropertyRef Name="DesignationName" />
             <PropertyRef Name="BadliID" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DeptID" />
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="SectionName" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="Expr2" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="LocName" />
+            <PropertyRef Name="GradeName" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Name="BadliDesgID" Type="int" />
-          <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DesignationName" Type="nvarchar" Nullable="false" MaxLength="200" />
           <Property Name="DutyCode" Type="char" MaxLength="1" />
           <Property Name="DutyTime" Type="time" />
           <Property Name="TimeIn" Type="datetime" />
@@ -4192,20 +4220,20 @@
           <Property Name="BadliID" Type="int" Nullable="false" />
           <Property Name="AttDate" Type="date" />
           <Property Name="EmpDateBadli" Type="nvarchar" MaxLength="15" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DeptID" Type="smallint" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
           <Property Name="CityID" Type="smallint" />
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="SecID" Type="smallint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="CompanyID" Type="smallint" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="EmpName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Expr2" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ShiftName" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -4216,19 +4244,21 @@
           <Property Name="RegionName" Type="nvarchar" MaxLength="50" />
           <Property Name="CityName" Type="nvarchar" MaxLength="50" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="Expr3" Type="nvarchar" MaxLength="200" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
           <Property Name="Remarks" Type="varchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewCards' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewCards' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewCards">
           <Key>
             <PropertyRef Name="EmpID" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="SectionName" />
           </Key>
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="EmpNo" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -4240,7 +4270,7 @@
           <Property Name="DateOfExpiry" Type="datetime" />
           <Property Name="DateOfIssue" Type="datetime" />
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="NicNo" Type="nvarchar" MaxLength="50" />
           <Property Name="FatherName" Type="nvarchar" MaxLength="50" />
           <Property Name="JoinDate" Type="date" />
@@ -4250,7 +4280,7 @@
           <Property Name="Status" Type="bit" />
           <Property Name="CellNo" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ReasonName" Type="nvarchar" MaxLength="50" />
           <Property Name="EmpPic" Type="image" />
           <Property Name="CardNo" Type="nvarchar" MaxLength="50" />
@@ -4258,43 +4288,53 @@
           <Property Name="TypeID" Type="tinyint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewCrew">
           <Key>
+            <PropertyRef Name="CompanyID" />
+            <PropertyRef Name="CrewName" />
             <PropertyRef Name="CrewID" />
           </Key>
-          <Property Name="CompanyID" Type="smallint" />
-          <Property Name="CrewName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyID" Type="smallint" Nullable="false" />
+          <Property Name="CrewName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CrewID" Type="smallint" Nullable="false" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewDepartment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewDepartment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewDepartment">
           <Key>
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivID" />
             <PropertyRef Name="DeptID" />
           </Key>
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
           <Property Name="DeptID" Type="smallint" Nullable="false" />
           <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="CompID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewDetailAttData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewDetailAttData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewDetailAttData">
           <Key>
             <PropertyRef Name="EmpDate" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="ProcessAtt" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="DeptID" />
+            <PropertyRef Name="DivID" />
             <PropertyRef Name="EmpID" />
           </Key>
           <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="15" />
@@ -4344,7 +4384,7 @@
           <Property Name="Tin6" Type="datetime" />
           <Property Name="Tout6" Type="datetime" />
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="CityName" Type="nvarchar" MaxLength="50" />
@@ -4381,37 +4421,38 @@
           <Property Name="FlagFP" Type="bit" />
           <Property Name="FlagFace" Type="bit" />
           <Property Name="FlagCard" Type="bit" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CompanyID" Type="smallint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="SecID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="LocID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
-          <Property Name="DeptID" Type="smallint" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="GradeID" Type="smallint" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="CityID" Type="smallint" />
           <Property Name="EmpID" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewDivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewDivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewDivision">
           <Key>
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="DivisionID" />
             <PropertyRef Name="CompID" />
           </Key>
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="DivisionID" Type="smallint" Nullable="false" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="CompID" Type="smallint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewEarlyIN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewEarlyIN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewEarlyIN">
           <Key>
@@ -4471,7 +4512,7 @@
           <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="DeptID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CatID" Type="smallint" />
@@ -4482,7 +4523,7 @@
           <Property Name="DesigID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewEarlyOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewEarlyOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewEarlyOut">
           <Key>
@@ -4538,7 +4579,7 @@
           <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="DeptID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CatID" Type="smallint" />
@@ -4549,7 +4590,7 @@
           <Property Name="DesigID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewEditAttendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewEditAttendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewEditAttendance">
           <Key>
@@ -4612,7 +4653,7 @@
           <Property Name="DivID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewEmergencyDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewEmergencyDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewEmergencyDetail">
           <Key>
@@ -4657,7 +4698,7 @@
           <Property Name="CardNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewEmpPic' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewEmpPic' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewEmpPic">
           <Key>
@@ -4667,11 +4708,11 @@
           </Key>
           <Property Name="EmpPic" Type="image" />
           <Property Name="EmpID" Type="int" Nullable="false" />
-          <Property Name="EmpName" Type="varchar" Nullable="false" MaxLength="40" />
-          <Property Name="EmpNo" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="EmpName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmpNo" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewEmpType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewEmpType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewEmpType">
           <Key>
@@ -4686,7 +4727,7 @@
           <Property Name="CatName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewJobCardEmp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewJobCardEmp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewJobCardEmp">
           <Key>
@@ -4745,7 +4786,7 @@
           <Property Name="JobID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewLateComer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLateComer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewLateComer">
           <Key>
@@ -4801,7 +4842,7 @@
           <Property Name="CatID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="DeptID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="DivID" Type="smallint" />
@@ -4809,7 +4850,7 @@
           <Property Name="DesigID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewLateOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLateOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewLateOut">
           <Key>
@@ -4867,7 +4908,7 @@
           <Property Name="CatID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="DeptID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="DivID" Type="smallint" />
@@ -4875,16 +4916,20 @@
           <Property Name="DesigID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewLeaveData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLeaveData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewLeaveData">
           <Key>
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="EmpNo" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="SectionName" />
             <PropertyRef Name="LvID" />
             <PropertyRef Name="LvDate" />
             <PropertyRef Name="FromDate" />
@@ -4892,10 +4937,12 @@
             <PropertyRef Name="NoOfDays" />
             <PropertyRef Name="LvDesc" />
             <PropertyRef Name="FldName" />
+            <PropertyRef Name="DeptID" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="CityName" Type="nvarchar" MaxLength="50" />
@@ -4909,9 +4956,9 @@
           <Property Name="EmpNo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Gender" Type="tinyint" />
           <Property Name="Status" Type="bit" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="LvID" Type="int" Nullable="false" />
           <Property Name="LvDate" Type="date" Nullable="false" />
           <Property Name="FromDate" Type="date" Nullable="false" />
@@ -4930,30 +4977,36 @@
           <Property Name="SecID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
-          <Property Name="GradeID" Type="tinyint" />
-          <Property Name="DeptID" Type="smallint" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="GradeID" Type="smallint" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
           <Property Name="CrewID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewLeaveQuota' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLeaveQuota' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewLeaveQuota">
           <Key>
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="Expr1" />
             <PropertyRef Name="B" />
             <PropertyRef Name="C" />
             <PropertyRef Name="A" />
+            <PropertyRef Name="DivID" />
+            <PropertyRef Name="DeptID" />
           </Key>
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="CityName" Type="nvarchar" MaxLength="50" />
@@ -4967,9 +5020,9 @@
           <Property Name="EmpName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Gender" Type="tinyint" />
           <Property Name="Status" Type="bit" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Expr1" Type="int" Nullable="false" />
           <Property Name="B" Type="float" Nullable="false" />
           <Property Name="C" Type="float" Nullable="false" />
@@ -5000,15 +5053,15 @@
           <Property Name="CatID" Type="smallint" />
           <Property Name="DesigID" Type="int" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="DivID" Type="smallint" />
-          <Property Name="DeptID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="SecID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewLvApplication' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLvApplication' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewLvApplication">
           <Key>
@@ -5048,7 +5101,7 @@
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="LocID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="DeptID" Type="smallint" />
           <Property Name="DivID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
@@ -5072,7 +5125,7 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewLvConsumed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLvConsumed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewLvConsumed">
           <Key>
@@ -5157,7 +5210,36 @@
           <Property Name="Year" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewMissingAtt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewLvDataDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="ViewLvDataDetail">
+          <Key>
+            <PropertyRef Name="EmpID" />
+            <PropertyRef Name="EmpDate" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="AttDate" />
+            <PropertyRef Name="LvCode" />
+            <PropertyRef Name="LvStatus" />
+            <PropertyRef Name="ShiftName" />
+          </Key>
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="LvID" Type="int" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="AttDate" Type="date" Nullable="false" />
+          <Property Name="LvCode" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="LvStatus" Type="tinyint" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="500" />
+          <Property Name="Processed" Type="bit" />
+          <Property Name="HalfLeave" Type="bit" />
+          <Property Name="FirstHalf" Type="bit" />
+          <Property Name="CompanyID" Type="smallint" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="ShiftName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ShiftID" Type="tinyint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewMissingAtt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewMissingAtt">
           <Key>
@@ -5168,6 +5250,12 @@
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="ShiftName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="GradeName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="DeptID" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="15" />
           <Property Name="EmpID" Type="int" Nullable="false" />
@@ -5181,7 +5269,7 @@
           <Property Name="LocName" Type="varchar" Nullable="false" MaxLength="30" />
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
           <Property Name="ShiftName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CrewName" Type="nvarchar" MaxLength="50" />
           <Property Name="FpID" Type="int" />
           <Property Name="PinCode" Type="char" MaxLength="4" />
@@ -5189,30 +5277,30 @@
           <Property Name="CardNo" Type="char" MaxLength="10" />
           <Property Name="JoinDate" Type="date" />
           <Property Name="Status" Type="bit" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="AttDate" Type="date" />
           <Property Name="DutyCode" Type="char" MaxLength="1" />
           <Property Name="DutyTime" Type="time" />
           <Property Name="TimeOut" Type="datetime" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Remarks" Type="varchar" MaxLength="100" />
           <Property Name="TimeIn" Type="datetime" />
           <Property Name="CompanyID" Type="smallint" />
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
-          <Property Name="DeptID" Type="smallint" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="GradeID" Type="smallint" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
           <Property Name="SecID" Type="smallint" />
           <Property Name="DesigID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewMonthlyData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewMonthlyData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewMonthlyData">
           <Key>
@@ -5383,7 +5471,7 @@
           <Property Name="GradeID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewMonthlyDataPer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewMonthlyDataPer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewMonthlyDataPer">
           <Key>
@@ -5493,7 +5581,7 @@
           <Property Name="CatID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="DeptID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="DivID" Type="smallint" />
@@ -5503,7 +5591,7 @@
           <Property Name="EndDate" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewMultipleInOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewMultipleInOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewMultipleInOut">
           <Key>
@@ -5590,14 +5678,14 @@
           <Property Name="JobID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="DeptID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="SecID" Type="smallint" />
           <Property Name="DivID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewOverTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewOverTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewOverTime">
           <Key>
@@ -5657,7 +5745,7 @@
           <Property Name="CatID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="DeptID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="DivID" Type="smallint" />
@@ -5665,7 +5753,7 @@
           <Property Name="DesigID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewPayRoll' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewPayRoll' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewPayRoll">
           <Key>
@@ -5704,7 +5792,7 @@
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewPayrollData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewPayrollData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewPayrollData">
           <Key>
@@ -5726,13 +5814,13 @@
           <Property Name="EndDate" Type="date" />
           <Property Name="EmpNo" Type="nvarchar" MaxLength="50" />
           <Property Name="TotalDays" Type="smallint" />
-          <Property Name="EarnedDays" Type="smallint" />
-          <Property Name="RestDays" Type="smallint" />
-          <Property Name="AbsentDays" Type="smallint" />
-          <Property Name="AnnualLeaveDays" Type="smallint" />
-          <Property Name="SickLeaveDays" Type="smallint" />
-          <Property Name="CasualDays" Type="smallint" />
-          <Property Name="OtherLeaveDays" Type="smallint" />
+          <Property Name="EarnedDays" Type="float" />
+          <Property Name="RestDays" Type="float" />
+          <Property Name="AbsentDays" Type="float" />
+          <Property Name="AnnualLeaveDays" Type="float" />
+          <Property Name="SickLeaveDays" Type="float" />
+          <Property Name="CasualDays" Type="float" />
+          <Property Name="OtherLeaveDays" Type="float" />
           <Property Name="LateInMins" Type="smallint" />
           <Property Name="OverTimeMins" Type="smallint" />
           <Property Name="EmpID" Type="int" />
@@ -5787,7 +5875,7 @@
           <Property Name="DivID" Type="smallint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewPollData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewPollData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewPollData">
           <Key>
@@ -5842,7 +5930,7 @@
           <Property Name="FatherName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewPresentEmp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewPresentEmp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewPresentEmp">
           <Key>
@@ -5901,20 +5989,22 @@
           <Property Name="CompanyID" Type="smallint" />
           <Property Name="LocID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
+          <Property Name="GradeID" Type="smallint" />
           <Property Name="DeptID" Type="smallint" />
           <Property Name="ShiftID" Type="tinyint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewSection' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewSection' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewSection">
           <Key>
             <PropertyRef Name="SectionID" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptID" />
           </Key>
           <Property Name="SectionID" Type="smallint" Nullable="false" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptID" Type="smallint" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
           <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
           <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
           <Property Name="DivID" Type="smallint" />
@@ -5922,20 +6012,26 @@
           <Property Name="CompID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewSLData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewSLData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewSLData">
           <Key>
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="SectionName" />
             <PropertyRef Name="SlID" />
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="DivID" />
+            <PropertyRef Name="DeptID" />
           </Key>
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="CityName" Type="nvarchar" MaxLength="50" />
@@ -5949,9 +6045,9 @@
           <Property Name="EmpName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CardNo" Type="char" MaxLength="10" />
           <Property Name="Status" Type="bit" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="SlID" Type="int" Nullable="false" />
           <Property Name="EmpID" Type="int" Nullable="false" />
           <Property Name="DutyDate" Type="date" />
@@ -5968,29 +6064,33 @@
           <Property Name="TypeID" Type="tinyint" />
           <Property Name="CatID" Type="smallint" />
           <Property Name="CrewID" Type="smallint" />
-          <Property Name="DivID" Type="smallint" />
+          <Property Name="DivID" Type="smallint" Nullable="false" />
           <Property Name="LocID" Type="smallint" />
-          <Property Name="GradeID" Type="tinyint" />
-          <Property Name="DeptID" Type="smallint" />
+          <Property Name="GradeID" Type="smallint" />
+          <Property Name="DeptID" Type="smallint" Nullable="false" />
           <Property Name="ShiftID" Type="tinyint" />
           <Property Name="SecID" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'TAS2013.dbo.ViewSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TAS_Wilsons.dbo.ViewSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ViewSummary">
           <Key>
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="EmpDate" />
           </Key>
           <Property Name="DesignationName" Type="nvarchar" MaxLength="200" />
           <Property Name="EmpID" Type="int" Nullable="false" />
-          <Property Name="GradeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="GradeName" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="CompName" Type="nvarchar" MaxLength="50" />
           <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="RegionName" Type="nvarchar" MaxLength="50" />
@@ -6004,9 +6104,9 @@
           <Property Name="EmpName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CardNo" Type="char" MaxLength="10" />
           <Property Name="Status" Type="bit" />
-          <Property Name="SectionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeptName" Type="nvarchar" MaxLength="100" />
-          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SectionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DeptName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DivisionName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="EmpDate" Type="nvarchar" Nullable="false" MaxLength="15" />
           <Property Name="AttDate" Type="date" />
           <Property Name="DutyCode" Type="char" MaxLength="1" />
@@ -6899,7 +6999,7 @@
           </ReferentialConstraint>
         </Association>
         <!--Errors Found During Generation:
-      warning 6013: The table/view 'TAS2013.dbo.ViewLeave' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+      warning 6013: The table/view 'TAS_Wilsons.dbo.ViewLeave' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
       
       <EntityType Name="ViewLeave">
         <Property Name="EmpNo" Type="nvarchar" MaxLength="50" />
@@ -6937,7 +7037,7 @@
         <Property Name="ShiftID" Type="tinyint" />
         <Property Name="TypeID" Type="tinyint" />
         <Property Name="LocID" Type="smallint" />
-        <Property Name="GradeID" Type="tinyint" />
+        <Property Name="GradeID" Type="smallint" />
         <Property Name="DeptID" Type="smallint" />
         <Property Name="DivID" Type="smallint" />
         <Property Name="CrewID" Type="smallint" />
@@ -7036,7 +7136,6 @@
           <EntitySet Name="setDateTimes" EntityType="TAS2013Model.setDateTime" />
           <EntitySet Name="Shifts" EntityType="TAS2013Model.Shift" />
           <EntitySet Name="Sites" EntityType="TAS2013Model.Site" />
-          <EntitySet Name="sysdiagrams" EntityType="TAS2013Model.sysdiagram" />
           <EntitySet Name="TestTables" EntityType="TAS2013Model.TestTable" />
           <EntitySet Name="Users" EntityType="TAS2013Model.User" />
           <EntitySet Name="UserLocations" EntityType="TAS2013Model.UserLocation" />
@@ -7070,6 +7169,7 @@
           <EntitySet Name="ViewLeaveQuotas" EntityType="TAS2013Model.ViewLeaveQuota" />
           <EntitySet Name="ViewLvApplications" EntityType="TAS2013Model.ViewLvApplication" />
           <EntitySet Name="ViewLvConsumeds" EntityType="TAS2013Model.ViewLvConsumed" />
+          <EntitySet Name="ViewLvDataDetails" EntityType="TAS2013Model.ViewLvDataDetail" />
           <EntitySet Name="ViewMissingAtts" EntityType="TAS2013Model.ViewMissingAtt" />
           <EntitySet Name="ViewMonthlyDatas" EntityType="TAS2013Model.ViewMonthlyData" />
           <EntitySet Name="ViewMonthlyDataPers" EntityType="TAS2013Model.ViewMonthlyDataPer" />
@@ -8140,9 +8240,13 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="EmpID" />
           <Property Type="DateTime" Name="T1" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="EmpID2" />
           <Property Type="DateTime" Name="T2" Precision="3" />
+          <Property Type="Int32" Name="EmpID3" />
           <Property Type="DateTime" Name="T3" Precision="3" />
+          <Property Type="Int32" Name="EmpID4" />
           <Property Type="DateTime" Name="T4" Precision="3" />
           <Property Type="Boolean" Name="IsEmergency" />
           <Property Type="Boolean" Name="EmailSend" />
@@ -8918,16 +9022,6 @@
           <Property Type="Int16" Name="CityID" />
           <NavigationProperty Name="City" Relationship="TAS2013Model.FK_Site_City" FromRole="Site" ToRole="City" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="principal_id" Nullable="false" />
-          <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="version" />
-          <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="TestTable">
           <Key>
             <PropertyRef Name="ID" />
@@ -9033,8 +9127,11 @@
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="RdrName" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
           </Key>
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9045,25 +9142,31 @@
           <Property Type="String" Name="RdrName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="ReaderID" />
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TypeName" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ShiftName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EmpView">
           <Key>
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="ProcessAtt" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="DeptID" />
             <PropertyRef Name="Expr1" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="JobTitle" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9100,22 +9203,22 @@
           <Property Type="Boolean" Name="FlagFP" />
           <Property Type="Boolean" Name="FlagFace" />
           <Property Type="Boolean" Name="FlagCard" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="CompanyID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="SecID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="LocID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="Int16" Name="CityID" />
-          <Property Type="Int16" Name="DeptID" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
           <Property Type="Int16" Name="Expr1" Nullable="false" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
         </EntityType>
         <EntityType Name="TestPollData">
           <Key>
@@ -9160,8 +9263,8 @@
           <Property Type="String" Name="TypeName" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="CatName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ShiftName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EmpName" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EmpName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="Status" />
           <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="EmpID" />
@@ -9227,7 +9330,7 @@
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="DeptID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Byte" Name="ShiftID" />
@@ -9328,16 +9431,23 @@
         </EntityType>
         <EntityType Name="ViewBadli">
           <Key>
+            <PropertyRef Name="DesignationName" />
             <PropertyRef Name="BadliID" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DeptID" />
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="SectionName" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="Expr2" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="LocName" />
+            <PropertyRef Name="GradeName" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Type="Int32" Name="BadliDesgID" />
-          <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DesignationName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DutyCode" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Type="Time" Name="DutyTime" Precision="7" />
           <Property Type="DateTime" Name="TimeIn" Precision="3" />
@@ -9356,20 +9466,20 @@
           <Property Type="Int32" Name="BadliID" Nullable="false" />
           <Property Type="DateTime" Name="AttDate" Precision="0" />
           <Property Type="String" Name="EmpDateBadli" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="Int16" Name="DeptID" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
           <Property Type="Int16" Name="CityID" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="SecID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="CompanyID" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="EmpName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Expr2" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ShiftName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9380,9 +9490,9 @@
           <Property Type="String" Name="RegionName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Expr3" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
           <Property Type="String" Name="Remarks" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ViewCard">
@@ -9390,6 +9500,8 @@
             <PropertyRef Name="EmpID" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="SectionName" />
           </Key>
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9401,7 +9513,7 @@
           <Property Type="DateTime" Name="DateOfExpiry" Precision="3" />
           <Property Type="DateTime" Name="DateOfIssue" Precision="3" />
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="NicNo" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FatherName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="JoinDate" Precision="0" />
@@ -9411,7 +9523,7 @@
           <Property Type="Boolean" Name="Status" />
           <Property Type="String" Name="CellNo" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ReasonName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Binary" Name="EmpPic" MaxLength="Max" FixedLength="false" />
           <Property Type="String" Name="CardNo" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9420,19 +9532,23 @@
         </EntityType>
         <EntityType Name="ViewCrew">
           <Key>
+            <PropertyRef Name="CompanyID" />
+            <PropertyRef Name="CrewName" />
             <PropertyRef Name="CrewID" />
           </Key>
-          <Property Type="Int16" Name="CompanyID" />
-          <Property Type="String" Name="CrewName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="CrewName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="CrewID" Nullable="false" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViewDepartment">
           <Key>
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivID" />
             <PropertyRef Name="DeptID" />
           </Key>
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
           <Property Type="Int16" Name="DeptID" Nullable="false" />
           <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9441,12 +9557,18 @@
         <EntityType Name="ViewDetailAttData">
           <Key>
             <PropertyRef Name="EmpDate" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="ProcessAtt" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="DeptID" />
+            <PropertyRef Name="DivID" />
             <PropertyRef Name="EmpID" />
           </Key>
           <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
@@ -9496,7 +9618,7 @@
           <Property Type="DateTime" Name="Tin6" Precision="3" />
           <Property Type="DateTime" Name="Tout6" Precision="3" />
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="JobTitle" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -9533,28 +9655,29 @@
           <Property Type="Boolean" Name="FlagFP" />
           <Property Type="Boolean" Name="FlagFace" />
           <Property Type="Boolean" Name="FlagCard" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="CompanyID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="SecID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="LocID" />
-          <Property Type="Byte" Name="GradeID" />
-          <Property Type="Int16" Name="DeptID" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="Int16" Name="GradeID" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int16" Name="CityID" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
         </EntityType>
         <EntityType Name="ViewDivision">
           <Key>
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="DivisionID" />
             <PropertyRef Name="CompID" />
           </Key>
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="DivisionID" Nullable="false" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="CompID" Nullable="false" />
@@ -9617,7 +9740,7 @@
           <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="DeptID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CatID" />
@@ -9681,7 +9804,7 @@
           <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="DeptID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CatID" />
@@ -9801,8 +9924,8 @@
           </Key>
           <Property Type="Binary" Name="EmpPic" MaxLength="Max" FixedLength="false" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
-          <Property Type="String" Name="EmpName" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EmpName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViewEmpType">
           <Key>
@@ -9926,7 +10049,7 @@
           <Property Type="Int16" Name="CatID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="DeptID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="DivID" />
@@ -9989,7 +10112,7 @@
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="DeptID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="DivID" />
@@ -9999,11 +10122,15 @@
         <EntityType Name="ViewLeaveData">
           <Key>
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpName" />
             <PropertyRef Name="EmpNo" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="SectionName" />
             <PropertyRef Name="LvID" />
             <PropertyRef Name="LvDate" />
             <PropertyRef Name="FromDate" />
@@ -10011,10 +10138,12 @@
             <PropertyRef Name="NoOfDays" />
             <PropertyRef Name="LvDesc" />
             <PropertyRef Name="FldName" />
+            <PropertyRef Name="DeptID" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="JobTitle" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -10028,9 +10157,9 @@
           <Property Type="String" Name="EmpNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Byte" Name="Gender" />
           <Property Type="Boolean" Name="Status" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="LvID" Nullable="false" />
           <Property Type="DateTime" Name="LvDate" Nullable="false" Precision="0" />
           <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="0" />
@@ -10049,27 +10178,33 @@
           <Property Type="Int16" Name="SecID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Byte" Name="ShiftID" />
-          <Property Type="Byte" Name="GradeID" />
-          <Property Type="Int16" Name="DeptID" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="Int16" Name="GradeID" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
           <Property Type="Int16" Name="CrewID" />
         </EntityType>
         <EntityType Name="ViewLeaveQuota">
           <Key>
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="Expr1" />
             <PropertyRef Name="B" />
             <PropertyRef Name="C" />
             <PropertyRef Name="A" />
+            <PropertyRef Name="DivID" />
+            <PropertyRef Name="DeptID" />
           </Key>
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="JobTitle" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -10083,9 +10218,9 @@
           <Property Type="String" Name="EmpName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Byte" Name="Gender" />
           <Property Type="Boolean" Name="Status" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Expr1" Nullable="false" />
           <Property Type="Double" Name="B" Nullable="false" />
           <Property Type="Double" Name="C" Nullable="false" />
@@ -10116,9 +10251,9 @@
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int32" Name="DesigID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Int16" Name="DivID" />
-          <Property Type="Int16" Name="DeptID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="SecID" />
@@ -10161,7 +10296,7 @@
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="LocID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="DeptID" />
           <Property Type="Int16" Name="DivID" />
           <Property Type="Int16" Name="CrewID" />
@@ -10266,6 +10401,32 @@
           <Property Type="String" Name="EmpLvTypeYear" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Year" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ViewLvDataDetail">
+          <Key>
+            <PropertyRef Name="EmpID" />
+            <PropertyRef Name="EmpDate" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="AttDate" />
+            <PropertyRef Name="LvCode" />
+            <PropertyRef Name="LvStatus" />
+            <PropertyRef Name="ShiftName" />
+          </Key>
+          <Property Type="Int32" Name="EmpID" Nullable="false" />
+          <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="LvID" />
+          <Property Type="Int32" Name="Expr1" Nullable="false" />
+          <Property Type="DateTime" Name="AttDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="LvCode" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="Byte" Name="LvStatus" Nullable="false" />
+          <Property Type="String" Name="Remarks" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Processed" />
+          <Property Type="Boolean" Name="HalfLeave" />
+          <Property Type="Boolean" Name="FirstHalf" />
+          <Property Type="Int16" Name="CompanyID" />
+          <Property Type="Boolean" Name="Active" />
+          <Property Type="String" Name="ShiftName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Byte" Name="ShiftID" />
+        </EntityType>
         <EntityType Name="ViewMissingAtt">
           <Key>
             <PropertyRef Name="EmpDate" />
@@ -10275,6 +10436,12 @@
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="ShiftName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="GradeName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="DeptID" />
+            <PropertyRef Name="DivID" />
           </Key>
           <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
@@ -10288,7 +10455,7 @@
           <Property Type="String" Name="LocName" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ShiftName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CrewName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="FpID" />
           <Property Type="String" Name="PinCode" MaxLength="4" FixedLength="true" Unicode="false" />
@@ -10296,25 +10463,25 @@
           <Property Type="String" Name="CardNo" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Type="DateTime" Name="JoinDate" Precision="0" />
           <Property Type="Boolean" Name="Status" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="AttDate" Precision="0" />
           <Property Type="String" Name="DutyCode" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Type="Time" Name="DutyTime" Precision="7" />
           <Property Type="DateTime" Name="TimeOut" Precision="3" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Remarks" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="TimeIn" Precision="3" />
           <Property Type="Int16" Name="CompanyID" />
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Byte" Name="ShiftID" />
-          <Property Type="Int16" Name="DeptID" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Byte" Name="GradeID" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="Int16" Name="GradeID" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
           <Property Type="Int16" Name="SecID" />
           <Property Type="Int32" Name="DesigID" />
         </EntityType>
@@ -10594,7 +10761,7 @@
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="DeptID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="DivID" />
@@ -10688,7 +10855,7 @@
           <Property Type="Int16" Name="JobID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="DeptID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="SecID" />
@@ -10752,7 +10919,7 @@
           <Property Type="Int16" Name="CatID" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="DeptID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="CrewID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="DivID" />
@@ -10815,13 +10982,13 @@
           <Property Type="DateTime" Name="EndDate" Precision="0" />
           <Property Type="String" Name="EmpNo" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="TotalDays" />
-          <Property Type="Int16" Name="EarnedDays" />
-          <Property Type="Int16" Name="RestDays" />
-          <Property Type="Int16" Name="AbsentDays" />
-          <Property Type="Int16" Name="AnnualLeaveDays" />
-          <Property Type="Int16" Name="SickLeaveDays" />
-          <Property Type="Int16" Name="CasualDays" />
-          <Property Type="Int16" Name="OtherLeaveDays" />
+          <Property Type="Double" Name="EarnedDays" />
+          <Property Type="Double" Name="RestDays" />
+          <Property Type="Double" Name="AbsentDays" />
+          <Property Type="Double" Name="AnnualLeaveDays" />
+          <Property Type="Double" Name="SickLeaveDays" />
+          <Property Type="Double" Name="CasualDays" />
+          <Property Type="Double" Name="OtherLeaveDays" />
           <Property Type="Int16" Name="LateInMins" />
           <Property Type="Int16" Name="OverTimeMins" />
           <Property Type="Int32" Name="EmpID" />
@@ -10984,17 +11151,19 @@
           <Property Type="Int16" Name="CompanyID" />
           <Property Type="Int16" Name="LocID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Byte" Name="GradeID" />
+          <Property Type="Int16" Name="GradeID" />
           <Property Type="Int16" Name="DeptID" />
           <Property Type="Byte" Name="ShiftID" />
         </EntityType>
         <EntityType Name="ViewSection">
           <Key>
             <PropertyRef Name="SectionID" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptID" />
           </Key>
           <Property Type="Int16" Name="SectionID" Nullable="false" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int16" Name="DeptID" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
           <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int16" Name="DivID" />
@@ -11003,16 +11172,22 @@
         </EntityType>
         <EntityType Name="ViewSLData">
           <Key>
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="SectionName" />
             <PropertyRef Name="SlID" />
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="DivID" />
+            <PropertyRef Name="DeptID" />
           </Key>
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="JobTitle" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -11026,9 +11201,9 @@
           <Property Type="String" Name="EmpName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CardNo" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Type="Boolean" Name="Status" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="SlID" Nullable="false" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
           <Property Type="DateTime" Name="DutyDate" Precision="0" />
@@ -11045,26 +11220,30 @@
           <Property Type="Byte" Name="TypeID" />
           <Property Type="Int16" Name="CatID" />
           <Property Type="Int16" Name="CrewID" />
-          <Property Type="Int16" Name="DivID" />
+          <Property Type="Int16" Name="DivID" Nullable="false" />
           <Property Type="Int16" Name="LocID" />
-          <Property Type="Byte" Name="GradeID" />
-          <Property Type="Int16" Name="DeptID" />
+          <Property Type="Int16" Name="GradeID" />
+          <Property Type="Int16" Name="DeptID" Nullable="false" />
           <Property Type="Byte" Name="ShiftID" />
           <Property Type="Int16" Name="SecID" />
         </EntityType>
         <EntityType Name="ViewSummary">
           <Key>
             <PropertyRef Name="EmpID" />
+            <PropertyRef Name="GradeName" />
             <PropertyRef Name="LocName" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="ShiftName" />
             <PropertyRef Name="EmpNo" />
             <PropertyRef Name="EmpName" />
+            <PropertyRef Name="SectionName" />
+            <PropertyRef Name="DeptName" />
+            <PropertyRef Name="DivisionName" />
             <PropertyRef Name="EmpDate" />
           </Key>
           <Property Type="String" Name="DesignationName" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="EmpID" Nullable="false" />
-          <Property Type="String" Name="GradeName" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="JobTitle" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="RegionName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -11078,9 +11257,9 @@
           <Property Type="String" Name="EmpName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CardNo" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Type="Boolean" Name="Status" />
-          <Property Type="String" Name="SectionName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeptName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DivisionName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DeptName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="EmpDate" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="AttDate" Precision="0" />
           <Property Type="String" Name="DutyCode" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -12734,9 +12913,13 @@
                 <ScalarProperty Name="EmailSend" ColumnName="EmailSend" />
                 <ScalarProperty Name="IsEmergency" ColumnName="IsEmergency" />
                 <ScalarProperty Name="T4" ColumnName="T4" />
+                <ScalarProperty Name="EmpID4" ColumnName="EmpID4" />
                 <ScalarProperty Name="T3" ColumnName="T3" />
+                <ScalarProperty Name="EmpID3" ColumnName="EmpID3" />
                 <ScalarProperty Name="T2" ColumnName="T2" />
+                <ScalarProperty Name="EmpID2" ColumnName="EmpID2" />
                 <ScalarProperty Name="T1" ColumnName="T1" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -13468,17 +13651,6 @@
                 <ScalarProperty Name="CityID" ColumnName="CityID" />
                 <ScalarProperty Name="SiteName" ColumnName="SiteName" />
                 <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TAS2013Model.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -14747,6 +14919,27 @@
                 <ScalarProperty Name="GradeName" ColumnName="GradeName" />
                 <ScalarProperty Name="DesignationName" ColumnName="DesignationName" />
                 <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewLvDataDetails">
+            <EntityTypeMapping TypeName="TAS2013Model.ViewLvDataDetail">
+              <MappingFragment StoreEntitySet="ViewLvDataDetail">
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="ShiftName" ColumnName="ShiftName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="FirstHalf" ColumnName="FirstHalf" />
+                <ScalarProperty Name="HalfLeave" ColumnName="HalfLeave" />
+                <ScalarProperty Name="Processed" ColumnName="Processed" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="LvStatus" ColumnName="LvStatus" />
+                <ScalarProperty Name="LvCode" ColumnName="LvCode" />
+                <ScalarProperty Name="AttDate" ColumnName="AttDate" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="LvID" ColumnName="LvID" />
+                <ScalarProperty Name="EmpDate" ColumnName="EmpDate" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

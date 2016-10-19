@@ -158,7 +158,6 @@ namespace WMS.Controllers
 
             User LoggedInUser = Session["LoggedUser"] as User;
             ViewBag.CompanyID = new SelectList(CustomFunction.GetCompanies(db.Companies.ToList(), LoggedInUser), "CompID", "CompName", LoggedInUser.CompanyID);
-            ViewBag.LocID = new SelectList(CustomFunction.GetLocations(db.Locations.ToList(), db.UserLocations.Where(aa => aa.UserID == LoggedInUser.UserID).ToList()), "LocID", "LocName");
             ViewBag.CrewID = new SelectList(db.Crews.OrderBy(s => s.CrewName), "CrewID", "CrewName");
             ViewBag.DesigID = new SelectList(db.Designations.OrderBy(s => s.DesignationName), "DesignationID", "DesignationName");
             ViewBag.GradeID = new SelectList(db.Grades.OrderBy(s=>s.GradeName), "GradeID", "GradeName");

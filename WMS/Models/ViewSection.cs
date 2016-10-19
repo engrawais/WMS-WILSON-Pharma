@@ -16,7 +16,7 @@ namespace WMS.Models
     {
         public short SectionID { get; set; }
         public string SectionName { get; set; }
-        public Nullable<short> DeptID { get; set; }
+        public short DeptID { get; set; }
         public string DeptName { get; set; }
         public string DivisionName { get; set; }
         public Nullable<short> DivID { get; set; }

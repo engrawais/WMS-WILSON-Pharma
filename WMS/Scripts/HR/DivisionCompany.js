@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
 
     $('#DivID').empty();
-    var URL = '/WMS/Division/DivisionList';
-    //var URL = '/Division/DivisionList';
+    //var URL = '/WMS/Division/DivisionList';
+    var URL = '/Division/DivisionList';
     $.getJSON(URL + '/' + $('#CompanyID').val(), function (data) {
        // var selectedItemID = document.getElementById("selectedDeptIDHidden").value;
         var items;
@@ -16,8 +16,8 @@
 
     $('#CompanyID').change(function () {
         $('#DivID').empty();
-        var URL = '/WMS/Division/DivisionList';
-        //var URL = '/Division/DivisionList';
+    //    var URL = '/WMS/Division/DivisionList';
+        var URL = '/Division/DivisionList';
         $.getJSON(URL + '/' + $('#CompanyID').val(), function (data) {
          //   var selectedItemID = document.getElementById("selectedDeptIDHidden").value;
             var items;

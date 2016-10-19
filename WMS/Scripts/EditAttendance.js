@@ -67,8 +67,8 @@ $(document).ready(function () {
     });
 
     $('#DesignationID').empty();
-    var URL = '/WMS/EditAttendance/CompanyIDJobCardList';
-    //var URL = '/EditAttendance/CompanyIDJobCardList';
+    //var URL = '/WMS/EditAttendance/CompanyIDJobCardList';
+    var URL = '/EditAttendance/CompanyIDJobCardList';
     $.getJSON(URL + '/' + $('#CompanyIDJobCard').val(), function (data) {
         var items;
         $.each(data, function (i, state) {
@@ -81,8 +81,8 @@ $(document).ready(function () {
 
     $('#CompanyIDJobCard').change(function () {
         $('#DesignationID').empty();
-        var URL = '/WMS/EditAttendance/CompanyIDJobCardList';
-        //var URL = '/EditAttendance/CompanyIDJobCardList';
+        //var URL = '/WMS/EditAttendance/CompanyIDJobCardList';
+        var URL = '/EditAttendance/CompanyIDJobCardList';
         $.getJSON(URL + '/' + $('#CompanyIDJobCard').val(), function (data) {
             var items;
             $.each(data, function (i, state) {
