@@ -16,7 +16,7 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     // init function
     $scope.initFunction = function () {
-        $http.get('/WMS/User/UserLocationList').success(function (res) {
+        $http.get('/User/UserLocationList').success(function (res) {
             $scope.AllLocations = res;
             console.log(res);
         });

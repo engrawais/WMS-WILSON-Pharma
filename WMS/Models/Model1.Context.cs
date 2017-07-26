@@ -108,7 +108,6 @@ namespace WMS.Models
         public DbSet<setDateTime> setDateTimes { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Site> Sites { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<TestTable> TestTables { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserLocation> UserLocations { get; set; }
@@ -142,6 +141,7 @@ namespace WMS.Models
         public DbSet<ViewLeaveQuota> ViewLeaveQuotas { get; set; }
         public DbSet<ViewLvApplication> ViewLvApplications { get; set; }
         public DbSet<ViewLvConsumed> ViewLvConsumeds { get; set; }
+        public DbSet<ViewLvDataDetail> ViewLvDataDetails { get; set; }
         public DbSet<ViewMissingAtt> ViewMissingAtts { get; set; }
         public DbSet<ViewMonthlyData> ViewMonthlyDatas { get; set; }
         public DbSet<ViewMonthlyDataPer> ViewMonthlyDataPers { get; set; }

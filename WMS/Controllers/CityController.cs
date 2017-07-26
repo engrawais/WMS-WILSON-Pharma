@@ -43,6 +43,11 @@ namespace WMS.Controllers
             List<City> ct = new List<City>();
             foreach (var loc in locations)
                 ct.Add(loc.City);
+            foreach (var city in db.Cities.ToList())
+            {
+                if (db.Locations.Where(aa => aa.CityID == city.CityID).Count() == 0)
+                    ct.Add(city);
+            }
             var cities = ct.AsEnumerable<City>();
              if (!String.IsNullOrEmpty(searchString))
             {

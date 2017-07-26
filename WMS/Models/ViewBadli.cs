@@ -35,11 +35,11 @@ namespace WMS.Models
         public Nullable<System.DateTime> AttDate { get; set; }
         public string EmpDateBadli { get; set; }
         public string DeptName { get; set; }
-        public Nullable<short> DeptID { get; set; }
+        public short DeptID { get; set; }
         public Nullable<short> CityID { get; set; }
         public int EmpID { get; set; }
         public Nullable<short> CrewID { get; set; }
-        public Nullable<byte> GradeID { get; set; }
+        public Nullable<short> GradeID { get; set; }
         public Nullable<short> LocID { get; set; }
         public Nullable<byte> TypeID { get; set; }
         public Nullable<byte> ShiftID { get; set; }
@@ -60,7 +60,7 @@ namespace WMS.Models
         public string CompName { get; set; }
         public string GradeName { get; set; }
         public string Expr3 { get; set; }
-        public Nullable<short> DivID { get; set; }
+        public short DivID { get; set; }
         public string Remarks { get; set; }
     }
 }

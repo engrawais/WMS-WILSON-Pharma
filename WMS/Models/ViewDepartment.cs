@@ -15,7 +15,7 @@ namespace WMS.Models
     public partial class ViewDepartment
     {
         public string DeptName { get; set; }
-        public Nullable<short> DivID { get; set; }
+        public short DivID { get; set; }
         public short DeptID { get; set; }
         public string DivisionName { get; set; }
         public string CompName { get; set; }

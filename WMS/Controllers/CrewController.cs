@@ -118,7 +118,7 @@ namespace WMS.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName");
+            ViewBag.CompanyID = new SelectList(db.Companies.OrderBy(s=>s.CompName), "CompID", "CompName", crew.CompanyID);
             return View(crew);
         }
 

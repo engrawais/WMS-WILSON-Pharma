@@ -57,7 +57,7 @@ namespace WMS.Controllers
             ViewBag.CompanyID = new SelectList(db.Companies, "CompID", "CompName");
             ViewBag.EmpID = new SelectList(db.Emps, "EmpID", "EmpNo");
             ViewBag.LocationID = new SelectList(db.Locations, "LocID", "LocName");
-            ViewBag.RoleID = new SelectList(db.UserRoles, "RoleID", "RoleName");
+            ViewBag.RoleID = new SelectList(db.UserRoles.Where(aa=>aa.RoleID!=2 && aa.RoleID!=3), "RoleID", "RoleName");
             return View();
         }
 
@@ -239,12 +239,13 @@ namespace WMS.Controllers
 
                 if (check == false)
                 {
-                    string _dpName = FindADUser(user.UserName);
-                    if (_dpName != "No")
-                    {
-                        user.Name = _dpName;
+                    //string _dpName = FindADUser(user.UserName);
+                    //if (_dpName != "No")
+                    //{
+                        //user.Name = 
                         user.DateCreated = DateTime.Today;
                         user.EmpID = _emp.FirstOrDefault().EmpID;
+                        user.Name = _emp.FirstOrDefault().EmpName;
                         db.Users.Add(user);
                         db.SaveChanges();
                         //Save UserLoc
@@ -262,7 +263,7 @@ namespace WMS.Controllers
                             db.SaveChanges();
                         }
                         return RedirectToAction("Index");
-                    }
+                    //}
                 }
             }
             ViewBag.CompanyID = new SelectList(db.Companies, "CompID", "CompName", user.CompanyID);
@@ -272,19 +273,19 @@ namespace WMS.Controllers
             return View(user);
         }
 
-        private string FindADUser(string adUserName)
-        {
-            string displayName = "No";
-            ADUsersModel adModel = GetADUsers();
-            foreach (var item in adModel._ADUsersAttributes)
-            {
-                if (item.SAMName.ToUpper() == adUserName.ToUpper())
-                {
-                    displayName = item.DisplayName;
-                }
-            }
-            return displayName;
-        }
+        //private string FindADUser(string adUserName)
+        //{
+        //    string displayName = "No";
+        //    ADUsersModel adModel = GetADUsers();
+        //    foreach (var item in adModel._ADUsersAttributes)
+        //    {
+        //        if (item.SAMName.ToUpper() == adUserName.ToUpper())
+        //        {
+        //            displayName = item.DisplayName;
+        //        }
+        //    }
+        //    return displayName;
+        //}
 
 
         // GET: /User/Edit/5
