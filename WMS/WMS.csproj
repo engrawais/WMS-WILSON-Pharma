@@ -305,6 +305,7 @@
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\a.pubxml" />
     <None Include="Properties\PublishProfiles\FatimaPublish.pubxml" />
+    <None Include="Properties\PublishProfiles\Wilson WMS.pubxml" />
     <None Include="Properties\PublishProfiles\WMSFatima.pubxml" />
     <Content Include="ReportingEngine.Master" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />

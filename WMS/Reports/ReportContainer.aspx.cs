@@ -2274,7 +2274,7 @@ namespace WMS.Reports
             companyimage = new List<EmpPhoto>();
             if (fm.CompanyFilter.Count > 1)
             {
-                companyimage.Add(ctx.EmpPhotoes.Where(aa => aa.PhotoID == 4785).First());
+                companyimage.Add(ctx.EmpPhotoes.FirstOrDefault());
             }
             else
             {
@@ -2286,7 +2286,7 @@ namespace WMS.Reports
                 }
                 else
                 {
-                    companyimage.Add(ctx.EmpPhotoes.Where(aa => aa.PhotoID == 4785).First());
+                    companyimage.Add(ctx.EmpPhotoes.FirstOrDefault());
                 }
             }
 

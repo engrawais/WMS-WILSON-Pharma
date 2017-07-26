@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
 
     $('#DesigID').empty();
-     var URL = '/WMS/Emp/DesignationList';
-    //var URL = '/Emp/DesignationList';
+     //var URL = '/TAS_Wilsons/Emp/DesignationList';
+    var URL = '/Emp/DesignationList';
     $.getJSON(URL + '/' + $('#CompanyID').val(), function (data) {
         var selectedItemID = document.getElementById("selectedDesigIDHidden").value;
         var items;
@@ -19,8 +19,8 @@
 
     $('#CompanyID').change(function () {
         $('#DesigID').empty();
-        var URL = '/WMS/Emp/DesignationList';
-        // var URL = '/Emp/DesignationList';
+       // var URL = '/TAS_Wilsons/Emp/DesignationList';
+        var URL = '/Emp/DesignationList';
         $.getJSON(URL + '/' + $('#CompanyID').val(), function (data) {
             var selectedItemID = document.getElementById("selectedDesigIDHidden").value;
             var items;

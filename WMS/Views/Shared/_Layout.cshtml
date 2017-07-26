@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Fatima Group | WMS</title>
+    <title>@ViewBag.Title - Wilson's Pharmaceuticals| WMS</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/toastr.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -77,17 +77,17 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-phone"></i>  Attendance <b class="caret"></b></a>
                       <ul class="dropdown-menu">
                         <li><a href="~/EditAttendance">Edit</a></li>
-                          <li><a href="~/Badli">Badli</a></li>
-                          <li><a href="~/AttProSingle">Process Employee Attendance</a></li>
+                          @*<li><a href="~/Badli">Badli</a></li>
+                          <li><a href="~/AttProSingle">Process Employee Attendance</a></li>*@
                           @if(Session["MProcess"].ToString() == "1")
                         {
                          <li><a href="~/AttProcessors">Process Attendance</a></li>
                           }
-                          <li><a href="~/Payroll">Payroll</a></li>
+                         @* <li><a href="~/Payroll">Payroll</a></li>*@
                       </ul>
                     </li>
                   }
-                @if (Session["MEmail"].ToString() == "1")
+              @*  @if (Session["MEmail"].ToString() == "1")
                    {
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-phone"></i> Email <b class="caret"></b></a>
@@ -95,7 +95,7 @@
                         <li><a href="~/EmailForm">Email Form</a></li>
                       </ul>
                     </li>
-                  }
+                  }*@
                   @if (Session["MDevice"].ToString() == "1")
                    {
                     <li class="dropdown">
@@ -137,7 +137,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Fatima Group of Companies  <b>Workforce Management System</b> - <span style="color: Background"><a href="http://www.cns.com.pk">powered by CNS</a></span></p>
+            <p>&copy; @DateTime.Now.Year - Wilson's Pharmaceuticals  <b>Workforce Management System</b> - <span style="color: Background"><a href="http://www.cns.com.pk">powered by CNS</a></span></p>
         </footer>
     </div>
 @*  <script src="~/Scripts/toastr.js"></script>
